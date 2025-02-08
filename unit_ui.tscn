@@ -1,0 +1,71 @@
+[gd_scene load_steps=7 format=3 uid="uid://cniipby2quw4p"]
+
+[ext_resource type="Script" path="res://unit_ui.gd" id="1_ldpir"]
+[ext_resource type="Texture2D" uid="uid://nb7t8xgq5g1s" path="res://assets/s1spritesheet.png" id="2_1lepc"]
+[ext_resource type="PackedScene" uid="uid://coukqm0vo3xxs" path="res://main_stats.tscn" id="2_74bky"]
+[ext_resource type="Texture2D" uid="uid://bht6ck5fmq3n" path="res://assets/s2spritesheet.png" id="3_ubtui"]
+[ext_resource type="PackedScene" uid="uid://c5j6yc30a0sip" path="res://cost.tscn" id="5_o7k3r"]
+
+[sub_resource type="SystemFont" id="SystemFont_0fti5"]
+font_names = PackedStringArray("Cambria")
+
+[node name="unit_ui" type="HBoxContainer"]
+offset_right = 70.0
+offset_bottom = 49.0
+mouse_filter = 2
+script = ExtResource("1_ldpir")
+
+[node name="v" type="VBoxContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = -1
+
+[node name="title" type="PanelContainer" parent="v"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="m" type="MarginContainer" parent="v/title"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 2
+
+[node name="name" type="Label" parent="v/title/m"]
+layout_mode = 2
+theme_override_fonts/font = SubResource("SystemFont_0fti5")
+theme_override_font_sizes/font_size = 12
+text = "Legionnaire"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="sprite" type="MarginContainer" parent="v"]
+custom_minimum_size = Vector2(70, 50)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="sprite1" type="Sprite2D" parent="v/sprite"]
+visible = false
+texture = ExtResource("2_1lepc")
+hframes = 7
+vframes = 3
+
+[node name="sprite2" type="Sprite2D" parent="v/sprite"]
+visible = false
+texture = ExtResource("3_ubtui")
+hframes = 3
+vframes = 2
+
+[node name="stats" parent="v" instance=ExtResource("2_74bky")]
+layout_mode = 2
+
+[node name="cost" parent="v" instance=ExtResource("5_o7k3r")]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/v_separation = -5
+columns = 6
+override_visible = 15
+simplified = true
+flip_colors = true
+font_size_override = 16

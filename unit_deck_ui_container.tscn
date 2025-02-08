@@ -1,0 +1,48 @@
+[gd_scene load_steps=4 format=3 uid="uid://eof6hlbwlg72"]
+
+[ext_resource type="Texture2D" uid="uid://bt1bl2fs4vata" path="res://assets/bg20x20.png" id="1_3um17"]
+[ext_resource type="Script" path="res://unit_deck_ui_container.gd" id="1_4md8x"]
+[ext_resource type="Texture2D" uid="uid://nb7t8xgq5g1s" path="res://assets/s1spritesheet.png" id="2_jdtkv"]
+
+[node name="unit_container" type="MarginContainer"]
+mouse_filter = 2
+script = ExtResource("1_4md8x")
+
+[node name="empty" type="TextureRect" parent="."]
+modulate = Color(0.1, 0.1, 0.1, 0.6)
+layout_mode = 2
+texture = ExtResource("1_3um17")
+stretch_mode = 3
+
+[node name="m" type="MarginContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 1
+theme_override_constants/margin_top = -4
+theme_override_constants/margin_bottom = -4
+
+[node name="question_mark" type="Label" parent="m"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 19
+text = "?"
+
+[node name="unit" type="Sprite2D" parent="m"]
+visible = false
+position = Vector2(10, 10)
+scale = Vector2(0.35, 0.35)
+texture = ExtResource("2_jdtkv")
+hframes = 7
+vframes = 3
+
+[node name="wreck" type="Sprite2D" parent="m"]
+visible = false
+position = Vector2(10, 9)
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("2_jdtkv")
+hframes = 7
+vframes = 3
+frame = 20
+
+[connection signal="mouse_entered" from="empty" to="." method="_on_empty_mouse_entered"]
+[connection signal="mouse_exited" from="empty" to="." method="_on_empty_mouse_exited"]

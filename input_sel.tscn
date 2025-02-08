@@ -1,0 +1,306 @@
+[gd_scene load_steps=8 format=3 uid="uid://shu0vnbq4irp"]
+
+[ext_resource type="Script" path="res://input_sel_butt.gd" id="1_lsmxf"]
+[ext_resource type="Texture2D" uid="uid://r45jq88lvljk" path="res://assets/mouse.png" id="2_xeqn4"]
+[ext_resource type="Texture2D" uid="uid://cj3jvrny5bxqe" path="res://assets/keyboard.png" id="3_t25ak"]
+[ext_resource type="Texture2D" uid="uid://8yt58n2iidrh" path="res://assets/keyboardNmouse.png" id="4_737cg"]
+[ext_resource type="Texture2D" uid="uid://dj6n5cqggekg6" path="res://assets/console-controller.png" id="5_dgiro"]
+[ext_resource type="Texture2D" uid="uid://u1swaff2e5ug" path="res://godot_sucks_ass/option_menu_pip_empty.png" id="6_h36nc"]
+[ext_resource type="Texture2D" uid="uid://7pgdpnluv8j5" path="res://godot_sucks_ass/option_menu_pip_filled.png" id="6_wltnn"]
+
+[node name="input_sel_butt" type="PanelContainer"]
+offset_right = 102.0
+offset_bottom = 62.0
+mouse_filter = 2
+script = ExtResource("1_lsmxf")
+
+[node name="list" type="GridContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+columns = 2
+
+[node name="m" type="MarginContainer" parent="list"]
+custom_minimum_size = Vector2(0, 18)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="m" type="Button" parent="list/m"]
+layout_mode = 2
+flat = true
+icon_alignment = 1
+
+[node name="h" type="HBoxContainer" parent="list/m"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="sel" type="TextureRect" parent="list/m/h"]
+custom_minimum_size = Vector2(12, 0)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("6_h36nc")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="m" type="MarginContainer" parent="list/m/h"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_constants/margin_left = -2
+theme_override_constants/margin_top = -3
+theme_override_constants/margin_right = -3
+theme_override_constants/margin_bottom = -6
+
+[node name="tex" type="TextureRect" parent="list/m/h/m"]
+custom_minimum_size = Vector2(0, 27)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("2_xeqn4")
+stretch_mode = 5
+
+[node name="g1" type="MarginContainer" parent="list"]
+custom_minimum_size = Vector2(0, 18)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="butt" type="Button" parent="list/g1"]
+layout_mode = 2
+flat = true
+icon_alignment = 1
+
+[node name="h" type="HBoxContainer" parent="list/g1"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 3
+alignment = 1
+
+[node name="sel" type="TextureRect" parent="list/g1/h"]
+custom_minimum_size = Vector2(12, 0)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("6_h36nc")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="m" type="MarginContainer" parent="list/g1/h"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_constants/margin_left = -4
+theme_override_constants/margin_top = -6
+theme_override_constants/margin_bottom = -5
+
+[node name="tex" type="TextureRect" parent="list/g1/h/m"]
+custom_minimum_size = Vector2(0, 27)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("5_dgiro")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="m2" type="MarginContainer" parent="list/g1/h"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = -1
+theme_override_constants/margin_top = -4
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = -4
+
+[node name="Label" type="Label" parent="list/g1/h/m2"]
+layout_mode = 2
+text = "1"
+
+[node name="k" type="MarginContainer" parent="list"]
+custom_minimum_size = Vector2(0, 18)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="k" type="Button" parent="list/k"]
+layout_mode = 2
+flat = true
+icon_alignment = 1
+
+[node name="h" type="HBoxContainer" parent="list/k"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="sel" type="TextureRect" parent="list/k/h"]
+custom_minimum_size = Vector2(12, 0)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("6_h36nc")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="m" type="MarginContainer" parent="list/k/h"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_constants/margin_left = -1
+theme_override_constants/margin_top = -6
+theme_override_constants/margin_right = -1
+theme_override_constants/margin_bottom = -7
+
+[node name="tex" type="TextureRect" parent="list/k/h/m"]
+custom_minimum_size = Vector2(0, 27)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("3_t25ak")
+stretch_mode = 5
+
+[node name="g2" type="MarginContainer" parent="list"]
+custom_minimum_size = Vector2(0, 18)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="butt" type="Button" parent="list/g2"]
+layout_mode = 2
+flat = true
+icon_alignment = 1
+
+[node name="h" type="HBoxContainer" parent="list/g2"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 3
+alignment = 1
+
+[node name="sel" type="TextureRect" parent="list/g2/h"]
+custom_minimum_size = Vector2(12, 0)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("6_h36nc")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="m" type="MarginContainer" parent="list/g2/h"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_constants/margin_left = -4
+theme_override_constants/margin_top = -6
+theme_override_constants/margin_bottom = -5
+
+[node name="tex" type="TextureRect" parent="list/g2/h/m"]
+custom_minimum_size = Vector2(0, 27)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("5_dgiro")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="m2" type="MarginContainer" parent="list/g2/h"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = -1
+theme_override_constants/margin_top = -4
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = -4
+
+[node name="Label" type="Label" parent="list/g2/h/m2"]
+layout_mode = 2
+text = "2"
+
+[node name="mk" type="MarginContainer" parent="list"]
+custom_minimum_size = Vector2(0, 18)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="mk" type="Button" parent="list/mk"]
+layout_mode = 2
+flat = true
+icon_alignment = 1
+
+[node name="h" type="HBoxContainer" parent="list/mk"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="sel" type="TextureRect" parent="list/mk/h"]
+custom_minimum_size = Vector2(12, 0)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("6_wltnn")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="m" type="MarginContainer" parent="list/mk/h"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_constants/margin_left = -1
+theme_override_constants/margin_top = -5
+theme_override_constants/margin_right = -1
+theme_override_constants/margin_bottom = -5
+
+[node name="tex" type="TextureRect" parent="list/mk/h/m"]
+custom_minimum_size = Vector2(0, 27)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("4_737cg")
+stretch_mode = 3
+
+[node name="g3" type="MarginContainer" parent="list"]
+custom_minimum_size = Vector2(0, 18)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="butt" type="Button" parent="list/g3"]
+layout_mode = 2
+flat = true
+icon_alignment = 1
+
+[node name="h" type="HBoxContainer" parent="list/g3"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 3
+alignment = 1
+
+[node name="sel" type="TextureRect" parent="list/g3/h"]
+custom_minimum_size = Vector2(12, 0)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("6_h36nc")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="m" type="MarginContainer" parent="list/g3/h"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_constants/margin_left = -4
+theme_override_constants/margin_top = -6
+theme_override_constants/margin_bottom = -5
+
+[node name="tex" type="TextureRect" parent="list/g3/h/m"]
+custom_minimum_size = Vector2(0, 27)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("5_dgiro")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="m2" type="MarginContainer" parent="list/g3/h"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = -1
+theme_override_constants/margin_top = -4
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = -4
+
+[node name="Label" type="Label" parent="list/g3/h/m2"]
+layout_mode = 2
+text = "3"
+
+[connection signal="pressed" from="list/m/m" to="." method="_on_m_pressed"]
+[connection signal="pressed" from="list/g1/butt" to="." method="_on_g_1_pressed"]
+[connection signal="pressed" from="list/k/k" to="." method="_on_k_pressed"]
+[connection signal="pressed" from="list/g2/butt" to="." method="_on_g_2_pressed"]
+[connection signal="pressed" from="list/mk/mk" to="." method="_on_mk_pressed"]
+[connection signal="pressed" from="list/g3/butt" to="." method="_on_g_3_pressed"]

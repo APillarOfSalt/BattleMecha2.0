@@ -1,0 +1,150 @@
+[gd_scene load_steps=4 format=3 uid="uid://bo0i0rlvc8vl8"]
+
+[ext_resource type="Script" path="res://helper_modules/colors/palette_customizer.gd" id="1_7daqg"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_61myd"]
+bg_color = Color(0, 0, 0, 0.294118)
+border_width_top = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vcaiv"]
+bg_color = Color(0, 0, 0, 0.294118)
+border_width_right = 2
+
+[node name="PaletteCustomizer" type="VBoxContainer"]
+offset_right = 248.0
+offset_bottom = 118.0
+script = ExtResource("1_7daqg")
+
+[node name="h" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="p_l" type="Label" parent="h"]
+layout_mode = 2
+text = "Palette :"
+horizontal_alignment = 2
+
+[node name="palette" type="OptionButton" parent="h"]
+custom_minimum_size = Vector2(0, 31)
+layout_mode = 2
+size_flags_horizontal = 3
+item_count = 1
+popup/item_0/text = "Tricolor_Adjacent"
+popup/item_0/id = 0
+
+[node name="g" type="GridContainer" parent="."]
+layout_mode = 2
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+columns = 2
+
+[node name="base_l" type="Label" parent="g"]
+layout_mode = 2
+text = "Base Color :"
+horizontal_alignment = 2
+
+[node name="base" type="HBoxContainer" parent="g"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="color" type="ColorPickerButton" parent="g/base"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="g/base"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "MEDIUM_AQUAMARINE"
+
+[node name="vis_lims" type="Node2D" parent="g/base"]
+visible = false
+
+[node name="PanelContainer" type="PanelContainer" parent="g/base/vis_lims"]
+offset_left = 264.0
+offset_top = 131.0
+offset_right = 294.0
+offset_bottom = 260.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_61myd")
+
+[node name="PanelContainer2" type="PanelContainer" parent="g/base/vis_lims"]
+offset_left = 21.0
+offset_top = 345.0
+offset_right = 115.0
+offset_bottom = 361.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_vcaiv")
+
+[node name="HSeparator" type="HSeparator" parent="g"]
+layout_mode = 2
+
+[node name="vals" type="HBoxContainer" parent="g"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="g/vals"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = " Generated Values"
+
+[node name="HSeparator" type="HSeparator" parent="g/vals"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="sec_l" type="Label" parent="g"]
+layout_mode = 2
+text = "Secondary :"
+horizontal_alignment = 2
+
+[node name="sec" type="HBoxContainer" parent="g"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="p" type="PanelContainer" parent="g/sec"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="m" type="MarginContainer" parent="g/sec/p"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="rect" type="ColorRect" parent="g/sec/p/m"]
+layout_mode = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Label" type="Label" parent="g/sec"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "MEDIUM_AQUAMARINE"
+
+[node name="ter_l" type="Label" parent="g"]
+layout_mode = 2
+text = "Tertiary :"
+horizontal_alignment = 2
+
+[node name="ter" type="HBoxContainer" parent="g"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="p" type="PanelContainer" parent="g/ter"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="m" type="MarginContainer" parent="g/ter/p"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="rect" type="ColorRect" parent="g/ter/p/m"]
+layout_mode = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Label" type="Label" parent="g/ter"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "MEDIUM_AQUAMARINE"
+
+[connection signal="item_selected" from="h/palette" to="." method="_on_palette_item_selected"]
+[connection signal="color_changed" from="g/base/color" to="." method="_on_color_color_changed"]

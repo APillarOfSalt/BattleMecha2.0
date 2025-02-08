@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://drkjqp1bx1cf"]
+
+[ext_resource type="Texture2D" uid="uid://nb7t8xgq5g1s" path="res://assets/s1spritesheet.png" id="1_1qexg"]
+[ext_resource type="Script" path="res://unit_sel_disp.gd" id="1_kdayo"]
+
+[node name="unit_sel_disp" type="MarginContainer"]
+custom_minimum_size = Vector2(48, 48)
+script = ExtResource("1_kdayo")
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_1qexg")
+centered = false
+hframes = 7
+vframes = 3
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

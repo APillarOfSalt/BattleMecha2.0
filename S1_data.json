@@ -1,0 +1,752 @@
+{
+	"type": "table",
+	"database": null,
+	"name": "s1",
+	"withoutRowId": false,
+	"strict": false,
+	"ddl": "CREATE TABLE s1 (id INTEGER PRIMARY KEY ASC AUTOINCREMENT UNIQUE NOT NULL, name TEXT, category TEXT REFERENCES unit_types (name) ON UPDATE CASCADE, flys INTEGER DEFAULT (- 1) NOT NULL, spr_x INTEGER NOT NULL, spr_y INTEGER NOT NULL, hp INTEGER NOT NULL, armor INTEGER NOT NULL, shields INTEGER NOT NULL, ti INTEGER NOT NULL DEFAULT (0), ga INTEGER DEFAULT (0) NOT NULL, al INTEGER NOT NULL DEFAULT (0), co INTEGER NOT NULL DEFAULT (0), m_0 INTEGER, m_1 INTEGER, m_2 INTEGER, m_3 INTEGER, m_4 INTEGER, m_5 INTEGER, p_a INTEGER, p_r INTEGER, v_a INTEGER, v_r INTEGER, c_a INTEGER, c_r INTEGER);",
+	"columns": [
+		{
+			"name": "id",
+			"type": "INTEGER",
+			"constraints": [
+				{
+					"type": "PRIMARY KEY",
+					"definition": "PRIMARY KEY ASC AUTOINCREMENT "
+				},
+				{
+					"type": "UNIQUE",
+					"definition": "UNIQUE "
+				},
+				{
+					"type": "NOT NULL",
+					"definition": "NOT NULL"
+				}
+			]
+		},
+		{
+			"name": "name",
+			"type": "TEXT"
+		},
+		{
+			"name": "category",
+			"type": "TEXT",
+			"constraints": [
+				{
+					"type": "FOREIGN KEY",
+					"definition": "REFERENCES unit_types (name) ON UPDATE CASCADE"
+				}
+			]
+		},
+		{
+			"name": "flys",
+			"type": "INTEGER",
+			"constraints": [
+				{
+					"type": "DEFAULT",
+					"definition": "DEFAULT (- 1) "
+				},
+				{
+					"type": "NOT NULL",
+					"definition": "NOT NULL"
+				}
+			]
+		},
+		{
+			"name": "spr_x",
+			"type": "INTEGER",
+			"constraints": [
+				{
+					"type": "NOT NULL",
+					"definition": "NOT NULL"
+				}
+			]
+		},
+		{
+			"name": "spr_y",
+			"type": "INTEGER",
+			"constraints": [
+				{
+					"type": "NOT NULL",
+					"definition": "NOT NULL"
+				}
+			]
+		},
+		{
+			"name": "hp",
+			"type": "INTEGER",
+			"constraints": [
+				{
+					"type": "NOT NULL",
+					"definition": "NOT NULL"
+				}
+			]
+		},
+		{
+			"name": "armor",
+			"type": "INTEGER",
+			"constraints": [
+				{
+					"type": "NOT NULL",
+					"definition": "NOT NULL"
+				}
+			]
+		},
+		{
+			"name": "shields",
+			"type": "INTEGER",
+			"constraints": [
+				{
+					"type": "NOT NULL",
+					"definition": "NOT NULL"
+				}
+			]
+		},
+		{
+			"name": "ti",
+			"type": "INTEGER",
+			"constraints": [
+				{
+					"type": "NOT NULL",
+					"definition": "NOT NULL "
+				},
+				{
+					"type": "DEFAULT",
+					"definition": "DEFAULT (0)"
+				}
+			]
+		},
+		{
+			"name": "ga",
+			"type": "INTEGER",
+			"constraints": [
+				{
+					"type": "DEFAULT",
+					"definition": "DEFAULT (0) "
+				},
+				{
+					"type": "NOT NULL",
+					"definition": "NOT NULL"
+				}
+			]
+		},
+		{
+			"name": "al",
+			"type": "INTEGER",
+			"constraints": [
+				{
+					"type": "NOT NULL",
+					"definition": "NOT NULL "
+				},
+				{
+					"type": "DEFAULT",
+					"definition": "DEFAULT (0)"
+				}
+			]
+		},
+		{
+			"name": "co",
+			"type": "INTEGER",
+			"constraints": [
+				{
+					"type": "NOT NULL",
+					"definition": "NOT NULL "
+				},
+				{
+					"type": "DEFAULT",
+					"definition": "DEFAULT (0)"
+				}
+			]
+		},
+		{
+			"name": "m_0",
+			"type": "INTEGER"
+		},
+		{
+			"name": "m_1",
+			"type": "INTEGER"
+		},
+		{
+			"name": "m_2",
+			"type": "INTEGER"
+		},
+		{
+			"name": "m_3",
+			"type": "INTEGER"
+		},
+		{
+			"name": "m_4",
+			"type": "INTEGER"
+		},
+		{
+			"name": "m_5",
+			"type": "INTEGER"
+		},
+		{
+			"name": "p_a",
+			"type": "INTEGER"
+		},
+		{
+			"name": "p_r",
+			"type": "INTEGER"
+		},
+		{
+			"name": "v_a",
+			"type": "INTEGER"
+		},
+		{
+			"name": "v_r",
+			"type": "INTEGER"
+		},
+		{
+			"name": "c_a",
+			"type": "INTEGER"
+		},
+		{
+			"name": "c_r",
+			"type": "INTEGER"
+		}
+	],
+	"rows": [
+		[
+			1,
+			"Falcon",
+			"Striker",
+			1,
+			0,
+			0,
+			5,
+			0,
+			0,
+			1,
+			1,
+			2,
+			0,
+			2,
+			1,
+			0,
+			1,
+			0,
+			1,
+			0,
+			1,
+			0,
+			0,
+			0,
+			1
+		],
+		[
+			2,
+			"Sniper",
+			"Ordinance",
+			-1,
+			1,
+			0,
+			8,
+			0,
+			0,
+			1,
+			2,
+			0,
+			1,
+			1,
+			1,
+			0,
+			1,
+			0,
+			1,
+			1,
+			0,
+			0,
+			0,
+			0,
+			0
+		],
+		[
+			3,
+			"Fencer",
+			"Tactician",
+			0,
+			2,
+			0,
+			7,
+			0,
+			0,
+			1,
+			0,
+			3,
+			1,
+			0,
+			1,
+			0,
+			1,
+			0,
+			1,
+			0,
+			0,
+			1,
+			1,
+			0,
+			0
+		],
+		[
+			4,
+			"Enforcer",
+			"Vanguard",
+			-1,
+			3,
+			0,
+			8,
+			0,
+			0,
+			3,
+			1,
+			0,
+			0,
+			1,
+			1,
+			1,
+			0,
+			1,
+			1,
+			1,
+			1,
+			0,
+			0,
+			0,
+			0
+		],
+		[
+			5,
+			"Reaper",
+			"Striker",
+			-1,
+			4,
+			0,
+			6,
+			0,
+			0,
+			2,
+			1,
+			0,
+			1,
+			2,
+			1,
+			0,
+			0,
+			0,
+			1,
+			1,
+			0,
+			0,
+			0,
+			0,
+			1
+		],
+		[
+			6,
+			"Legionnaire",
+			"Ordinance",
+			-1,
+			5,
+			0,
+			5,
+			0,
+			0,
+			1,
+			3,
+			0,
+			0,
+			0,
+			1,
+			0,
+			1,
+			1,
+			0,
+			0,
+			0,
+			0,
+			0,
+			1,
+			1
+		],
+		[
+			7,
+			"Blitzer",
+			"Vanguard",
+			-1,
+			6,
+			0,
+			9,
+			0,
+			0,
+			1,
+			2,
+			1,
+			0,
+			1,
+			0,
+			0,
+			1,
+			0,
+			0,
+			0,
+			0,
+			0,
+			1,
+			1,
+			0
+		],
+		[
+			8,
+			"Dragoon",
+			"Vanguard",
+			-1,
+			0,
+			1,
+			7,
+			0,
+			0,
+			2,
+			2,
+			0,
+			0,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			1,
+			0,
+			0,
+			1,
+			0,
+			0
+		],
+		[
+			9,
+			"Evoker",
+			"Tactician",
+			0,
+			1,
+			1,
+			10,
+			0,
+			0,
+			0,
+			1,
+			2,
+			1,
+			0,
+			0,
+			1,
+			0,
+			0,
+			1,
+			0,
+			0,
+			1,
+			0,
+			0,
+			1
+		],
+		[
+			10,
+			"Dragonfly",
+			"Auxiliary",
+			1,
+			2,
+			1,
+			8,
+			0,
+			0,
+			0,
+			0,
+			3,
+			1,
+			0,
+			2,
+			1,
+			0,
+			1,
+			2,
+			0,
+			1,
+			1,
+			0,
+			0,
+			0
+		],
+		[
+			11,
+			"Mite",
+			"Auxiliary",
+			-1,
+			3,
+			1,
+			5,
+			0,
+			0,
+			1,
+			1,
+			1,
+			1,
+			0,
+			1,
+			1,
+			0,
+			1,
+			1,
+			0,
+			0,
+			1,
+			1,
+			0,
+			0
+		],
+		[
+			12,
+			"Silencer",
+			"Tactician",
+			-1,
+			4,
+			1,
+			5,
+			0,
+			0,
+			0,
+			2,
+			0,
+			2,
+			0,
+			1,
+			0,
+			1,
+			0,
+			1,
+			0,
+			0,
+			1,
+			0,
+			1,
+			0
+		],
+		[
+			13,
+			"Technician",
+			"Auxiliary",
+			0,
+			5,
+			1,
+			5,
+			0,
+			0,
+			1,
+			0,
+			2,
+			1,
+			1,
+			0,
+			1,
+			0,
+			0,
+			1,
+			0,
+			0,
+			1,
+			0,
+			0,
+			0
+		],
+		[
+			14,
+			"Rocketeer",
+			"Ordinance",
+			-1,
+			6,
+			1,
+			5,
+			0,
+			0,
+			0,
+			3,
+			1,
+			0,
+			0,
+			0,
+			1,
+			1,
+			0,
+			1,
+			0,
+			0,
+			0,
+			1,
+			1,
+			0
+		],
+		[
+			15,
+			"Buster",
+			"Striker",
+			-1,
+			0,
+			2,
+			9,
+			0,
+			0,
+			2,
+			1,
+			0,
+			0,
+			1,
+			1,
+			0,
+			1,
+			0,
+			1,
+			1,
+			1,
+			0,
+			0,
+			0,
+			0
+		],
+		[
+			16,
+			"Sapper",
+			"Tactician",
+			0,
+			1,
+			2,
+			4,
+			0,
+			0,
+			0,
+			2,
+			1,
+			1,
+			2,
+			0,
+			1,
+			1,
+			1,
+			0,
+			0,
+			0,
+			0,
+			0,
+			0,
+			0
+		],
+		[
+			17,
+			"Oppressor",
+			"Vanguard",
+			-1,
+			2,
+			2,
+			8,
+			0,
+			0,
+			2,
+			1,
+			1,
+			0,
+			0,
+			1,
+			0,
+			1,
+			0,
+			1,
+			0,
+			0,
+			0,
+			0,
+			0,
+			1
+		],
+		[
+			18,
+			"Ranger",
+			"Ordinance",
+			-1,
+			3,
+			2,
+			5,
+			0,
+			0,
+			1,
+			1,
+			0,
+			2,
+			0,
+			1,
+			0,
+			0,
+			1,
+			0,
+			1,
+			0,
+			0,
+			0,
+			0,
+			0
+		],
+		[
+			19,
+			"Shade",
+			"Striker",
+			-1,
+			4,
+			2,
+			5,
+			0,
+			0,
+			2,
+			0,
+			0,
+			2,
+			0,
+			0,
+			1,
+			1,
+			0,
+			1,
+			1,
+			0,
+			0,
+			0,
+			0,
+			0
+		],
+		[
+			20,
+			"Phantom",
+			"Auxiliary",
+			0,
+			5,
+			2,
+			6,
+			0,
+			0,
+			0,
+			0,
+			2,
+			2,
+			1,
+			1,
+			0,
+			0,
+			1,
+			0,
+			0,
+			0,
+			1,
+			0,
+			0,
+			0
+		]
+	]
+}

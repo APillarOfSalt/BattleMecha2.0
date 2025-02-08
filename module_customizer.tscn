@@ -1,0 +1,209 @@
+[gd_scene load_steps=9 format=3 uid="uid://dvd8rhrt3vyya"]
+
+[ext_resource type="Script" path="res://module_customizer.gd" id="1_8enqt"]
+[ext_resource type="Texture2D" uid="uid://qp080225pbn5" path="res://assets/new_file.png" id="2_7qkqo"]
+[ext_resource type="Texture2D" uid="uid://cxbs6hcltfqb3" path="res://assets/new.png" id="3_0yxg1"]
+[ext_resource type="PackedScene" uid="uid://byvnmkd1is7en" path="res://type_selector.tscn" id="4_s6sgc"]
+[ext_resource type="PackedScene" uid="uid://dgkwqxiefn2av" path="res://shape_edit.tscn" id="5_4cyb1"]
+[ext_resource type="Script" path="res://module_customizer_shield_properties.gd" id="7_s67sk"]
+[ext_resource type="PackedScene" uid="uid://cy3v2xd66to72" path="res://move_attack_preview.tscn" id="8_i5g7s"]
+[ext_resource type="Script" path="res://module_customizer_weapon_properties.gd" id="8_ivr8x"]
+
+[node name="module_customizer" type="VBoxContainer"]
+offset_right = 536.0
+offset_bottom = 350.0
+mouse_filter = 2
+script = ExtResource("1_8enqt")
+
+[node name="title" type="HBoxContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="m" type="MarginContainer" parent="title"]
+custom_minimum_size = Vector2(103, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+mouse_filter = 2
+
+[node name="anchor" type="Node2D" parent="title/m"]
+position = Vector2(0, 4)
+
+[node name="title" type="VBoxContainer" parent="title/m/anchor"]
+custom_minimum_size = Vector2(103, 31)
+offset_right = 98.0
+offset_bottom = 62.0
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="save" type="Button" parent="title/m/anchor/title"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_vertical = 6
+disabled = true
+text = "Save"
+icon = ExtResource("3_0yxg1")
+expand_icon = true
+
+[node name="batch_save" type="Button" parent="title/m/anchor/title"]
+custom_minimum_size = Vector2(98, 0)
+layout_mode = 2
+size_flags_vertical = 4
+text = "Save Batch"
+
+[node name="sizing" type="MarginContainer" parent="title"]
+custom_minimum_size = Vector2(323, 40)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="sel_op" type="OptionButton" parent="title/sizing"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 0)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 0)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 0)
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 0)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 0)
+theme_override_colors/font_disabled_color = Color(0, 0, 0, 0)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0)
+
+[node name="Label" type="Label" parent="title/sizing"]
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="new" type="Button" parent="title"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 6
+text = "New"
+icon = ExtResource("2_7qkqo")
+expand_icon = true
+
+[node name="h" type="HBoxContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="l" type="VBoxContainer" parent="h"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="shape_edit" parent="h/l" instance=ExtResource("5_4cyb1")]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="h" type="HBoxContainer" parent="h/l"]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="super" parent="h/l/h" instance=ExtResource("4_s6sgc")]
+custom_minimum_size = Vector2(124, 0)
+layout_mode = 2
+
+[node name="sub" parent="h/l/h" instance=ExtResource("4_s6sgc")]
+custom_minimum_size = Vector2(175, 0)
+layout_mode = 2
+supertype = 1
+
+[node name="r" type="VBoxContainer" parent="h"]
+custom_minimum_size = Vector2(216, 0)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="move_atk" parent="h/r" instance=ExtResource("8_i5g7s")]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="Label" type="Label" parent="h/r"]
+layout_mode = 2
+text = "Name :"
+horizontal_alignment = 1
+
+[node name="name" type="LineEdit" parent="h/r"]
+layout_mode = 2
+placeholder_text = "Module Name"
+
+[node name="shield" type="GridContainer" parent="h/r"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+columns = 2
+script = ExtResource("7_s67sk")
+
+[node name="s_l" type="Label" parent="h/r/shield"]
+layout_mode = 2
+text = "Start :"
+horizontal_alignment = 2
+
+[node name="start" type="SpinBox" parent="h/r/shield"]
+layout_mode = 2
+max_value = 2.0
+rounded = true
+
+[node name="c_l" type="Label" parent="h/r/shield"]
+layout_mode = 2
+text = "Capacity :"
+horizontal_alignment = 2
+
+[node name="cap" type="SpinBox" parent="h/r/shield"]
+layout_mode = 2
+max_value = 2.0
+rounded = true
+
+[node name="sp_l" type="Label" parent="h/r/shield"]
+layout_mode = 2
+text = "Regeneration :"
+horizontal_alignment = 2
+
+[node name="regen" type="SpinBox" parent="h/r/shield"]
+layout_mode = 2
+max_value = 2.0
+rounded = true
+
+[node name="weapon" type="GridContainer" parent="h/r"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+columns = 2
+script = ExtResource("8_ivr8x")
+
+[node name="r_l" type="Label" parent="h/r/weapon"]
+layout_mode = 2
+text = "Radius :"
+horizontal_alignment = 2
+
+[node name="radius" type="SpinBox" parent="h/r/weapon"]
+layout_mode = 2
+max_value = 2.0
+rounded = true
+
+[node name="ap_l" type="Label" parent="h/r/weapon"]
+layout_mode = 2
+text = "Armor Piercing : "
+horizontal_alignment = 2
+
+[node name="ap" type="CheckButton" parent="h/r/weapon"]
+layout_mode = 2
+size_flags_horizontal = 2
+
+[node name="sp_l" type="Label" parent="h/r/weapon"]
+layout_mode = 2
+text = "Shield Piercing : "
+horizontal_alignment = 2
+
+[node name="sp" type="CheckButton" parent="h/r/weapon"]
+layout_mode = 2
+size_flags_horizontal = 2
+
+[connection signal="pressed" from="title/m/anchor/title/save" to="." method="_on_save_pressed"]
+[connection signal="pressed" from="title/m/anchor/title/batch_save" to="." method="_on_batch_save_pressed"]
+[connection signal="item_selected" from="title/sizing/sel_op" to="." method="_on_sel_op_item_selected"]
+[connection signal="pressed" from="title/new" to="." method="_on_new_pressed"]
+[connection signal="shape_changed" from="h/l/shape_edit" to="." method="_on_shape_edit_shape_changed"]
+[connection signal="type_selected" from="h/l/h/super" to="." method="_on_super_type_selected"]
+[connection signal="type_selected" from="h/l/h/super" to="h/l/h/sub" method="_set_super"]
+[connection signal="type_selected" from="h/l/h/sub" to="." method="_on_sub_type_selected"]
+[connection signal="text_changed" from="h/r/name" to="." method="_on_name_text_changed"]

@@ -1,0 +1,482 @@
+[gd_scene load_steps=7 format=3 uid="uid://30b0ih8ktswp"]
+
+[ext_resource type="Material" uid="uid://bejs5gld5logf" path="res://assets/outlineShader.tres" id="1_jw2xq"]
+[ext_resource type="Script" path="res://module_blocks.gd" id="2_bq8u4"]
+[ext_resource type="StyleBox" uid="uid://bi71adbgledtw" path="res://styles/moduleStylebox.tres" id="3_p5yhs"]
+[ext_resource type="Texture2D" uid="uid://3hylkjp1ng6g" path="res://assets/processor.png" id="4_o52nc"]
+[ext_resource type="Texture2D" uid="uid://yh16bvpan8l8" path="res://assets/Lock-Closed.png" id="5_2dksg"]
+[ext_resource type="SystemFont" uid="uid://bx72qjb3bu2b8" path="res://assets/pixelfont.tres" id="5_st6ym"]
+
+[node name="module_blocks" type="MarginContainer"]
+offset_right = 320.0
+offset_bottom = 320.0
+mouse_filter = 2
+script = ExtResource("2_bq8u4")
+
+[node name="g" type="GridContainer" parent="."]
+material = ExtResource("1_jw2xq")
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+columns = 4
+
+[node name="0" type="PanelContainer" parent="g"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = ExtResource("3_p5yhs")
+
+[node name="tex" type="TextureRect" parent="g/0"]
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("4_o52nc")
+
+[node name="lock" type="PanelContainer" parent="g/0"]
+visible = false
+layout_mode = 2
+
+[node name="m" type="MarginContainer" parent="g/0/lock"]
+layout_mode = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+
+[node name="tex" type="TextureRect" parent="g/0/lock/m"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource("5_2dksg")
+stretch_mode = 2
+
+[node name="1" type="PanelContainer" parent="g"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = ExtResource("3_p5yhs")
+
+[node name="tex" type="TextureRect" parent="g/1"]
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("4_o52nc")
+
+[node name="lock" type="PanelContainer" parent="g/1"]
+visible = false
+layout_mode = 2
+
+[node name="m" type="MarginContainer" parent="g/1/lock"]
+layout_mode = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+
+[node name="tex" type="TextureRect" parent="g/1/lock/m"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource("5_2dksg")
+stretch_mode = 2
+
+[node name="2" type="PanelContainer" parent="g"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = ExtResource("3_p5yhs")
+
+[node name="tex" type="TextureRect" parent="g/2"]
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("4_o52nc")
+
+[node name="lock" type="PanelContainer" parent="g/2"]
+visible = false
+layout_mode = 2
+
+[node name="m" type="MarginContainer" parent="g/2/lock"]
+layout_mode = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+
+[node name="tex" type="TextureRect" parent="g/2/lock/m"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource("5_2dksg")
+stretch_mode = 2
+
+[node name="3" type="PanelContainer" parent="g"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = ExtResource("3_p5yhs")
+
+[node name="tex" type="TextureRect" parent="g/3"]
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("4_o52nc")
+
+[node name="lock" type="PanelContainer" parent="g/3"]
+visible = false
+layout_mode = 2
+
+[node name="m" type="MarginContainer" parent="g/3/lock"]
+layout_mode = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+
+[node name="tex" type="TextureRect" parent="g/3/lock/m"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource("5_2dksg")
+stretch_mode = 2
+
+[node name="4" type="PanelContainer" parent="g"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = ExtResource("3_p5yhs")
+
+[node name="tex" type="TextureRect" parent="g/4"]
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("4_o52nc")
+
+[node name="lock" type="PanelContainer" parent="g/4"]
+visible = false
+layout_mode = 2
+
+[node name="m" type="MarginContainer" parent="g/4/lock"]
+layout_mode = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+
+[node name="tex" type="TextureRect" parent="g/4/lock/m"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource("5_2dksg")
+stretch_mode = 2
+
+[node name="5" type="PanelContainer" parent="g"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = ExtResource("3_p5yhs")
+
+[node name="tex" type="TextureRect" parent="g/5"]
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("4_o52nc")
+
+[node name="lock" type="PanelContainer" parent="g/5"]
+visible = false
+layout_mode = 2
+
+[node name="m" type="MarginContainer" parent="g/5/lock"]
+layout_mode = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+
+[node name="tex" type="TextureRect" parent="g/5/lock/m"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource("5_2dksg")
+stretch_mode = 2
+
+[node name="6" type="PanelContainer" parent="g"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = ExtResource("3_p5yhs")
+
+[node name="tex" type="TextureRect" parent="g/6"]
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("4_o52nc")
+
+[node name="lock" type="PanelContainer" parent="g/6"]
+visible = false
+layout_mode = 2
+
+[node name="m" type="MarginContainer" parent="g/6/lock"]
+layout_mode = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+
+[node name="tex" type="TextureRect" parent="g/6/lock/m"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource("5_2dksg")
+stretch_mode = 2
+
+[node name="7" type="PanelContainer" parent="g"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = ExtResource("3_p5yhs")
+
+[node name="tex" type="TextureRect" parent="g/7"]
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("4_o52nc")
+
+[node name="lock" type="PanelContainer" parent="g/7"]
+visible = false
+layout_mode = 2
+
+[node name="m" type="MarginContainer" parent="g/7/lock"]
+layout_mode = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+
+[node name="tex" type="TextureRect" parent="g/7/lock/m"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource("5_2dksg")
+stretch_mode = 2
+
+[node name="8" type="PanelContainer" parent="g"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = ExtResource("3_p5yhs")
+
+[node name="tex" type="TextureRect" parent="g/8"]
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("4_o52nc")
+
+[node name="lock" type="PanelContainer" parent="g/8"]
+visible = false
+layout_mode = 2
+
+[node name="m" type="MarginContainer" parent="g/8/lock"]
+layout_mode = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+
+[node name="tex" type="TextureRect" parent="g/8/lock/m"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource("5_2dksg")
+stretch_mode = 2
+
+[node name="9" type="PanelContainer" parent="g"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = ExtResource("3_p5yhs")
+
+[node name="tex" type="TextureRect" parent="g/9"]
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("4_o52nc")
+
+[node name="lock" type="PanelContainer" parent="g/9"]
+visible = false
+layout_mode = 2
+
+[node name="m" type="MarginContainer" parent="g/9/lock"]
+layout_mode = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+
+[node name="tex" type="TextureRect" parent="g/9/lock/m"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource("5_2dksg")
+stretch_mode = 2
+
+[node name="10" type="PanelContainer" parent="g"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = ExtResource("3_p5yhs")
+
+[node name="tex" type="TextureRect" parent="g/10"]
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("4_o52nc")
+
+[node name="lock" type="PanelContainer" parent="g/10"]
+visible = false
+layout_mode = 2
+
+[node name="m" type="MarginContainer" parent="g/10/lock"]
+layout_mode = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+
+[node name="tex" type="TextureRect" parent="g/10/lock/m"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource("5_2dksg")
+stretch_mode = 2
+
+[node name="11" type="PanelContainer" parent="g"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = ExtResource("3_p5yhs")
+
+[node name="tex" type="TextureRect" parent="g/11"]
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("4_o52nc")
+
+[node name="lock" type="PanelContainer" parent="g/11"]
+visible = false
+layout_mode = 2
+
+[node name="m" type="MarginContainer" parent="g/11/lock"]
+layout_mode = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+
+[node name="tex" type="TextureRect" parent="g/11/lock/m"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource("5_2dksg")
+stretch_mode = 2
+
+[node name="12" type="PanelContainer" parent="g"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = ExtResource("3_p5yhs")
+
+[node name="tex" type="TextureRect" parent="g/12"]
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("4_o52nc")
+
+[node name="lock" type="PanelContainer" parent="g/12"]
+visible = false
+layout_mode = 2
+
+[node name="m" type="MarginContainer" parent="g/12/lock"]
+layout_mode = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+
+[node name="tex" type="TextureRect" parent="g/12/lock/m"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource("5_2dksg")
+stretch_mode = 2
+
+[node name="13" type="PanelContainer" parent="g"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = ExtResource("3_p5yhs")
+
+[node name="tex" type="TextureRect" parent="g/13"]
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("4_o52nc")
+
+[node name="lock" type="PanelContainer" parent="g/13"]
+visible = false
+layout_mode = 2
+
+[node name="m" type="MarginContainer" parent="g/13/lock"]
+layout_mode = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+
+[node name="tex" type="TextureRect" parent="g/13/lock/m"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource("5_2dksg")
+stretch_mode = 2
+
+[node name="14" type="PanelContainer" parent="g"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = ExtResource("3_p5yhs")
+
+[node name="tex" type="TextureRect" parent="g/14"]
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("4_o52nc")
+
+[node name="lock" type="PanelContainer" parent="g/14"]
+visible = false
+layout_mode = 2
+
+[node name="m" type="MarginContainer" parent="g/14/lock"]
+layout_mode = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+
+[node name="tex" type="TextureRect" parent="g/14/lock/m"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource("5_2dksg")
+stretch_mode = 2
+
+[node name="15" type="PanelContainer" parent="g"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = ExtResource("3_p5yhs")
+
+[node name="tex" type="TextureRect" parent="g/15"]
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("4_o52nc")
+
+[node name="lock" type="PanelContainer" parent="g/15"]
+visible = false
+layout_mode = 2
+
+[node name="m" type="MarginContainer" parent="g/15/lock"]
+layout_mode = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+
+[node name="tex" type="TextureRect" parent="g/15/lock/m"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource("5_2dksg")
+stretch_mode = 2
+
+[node name="anchor" type="Node2D" parent="."]
+visible = false
+
+[node name="title" type="PanelContainer" parent="anchor"]
+custom_minimum_size = Vector2(80, 40)
+offset_right = 80.0
+offset_bottom = 40.0
+mouse_filter = 2
+
+[node name="m" type="MarginContainer" parent="anchor/title"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 4
+
+[node name="Label" type="RichTextLabel" parent="anchor/title/m"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_fonts/normal_font = ExtResource("5_st6ym")
+theme_override_font_sizes/normal_font_size = 16
+bbcode_enabled = true
+text = "[center]Module Name"
+fit_content = true
+scroll_active = false

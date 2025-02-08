@@ -1,0 +1,50 @@
+[gd_scene load_steps=6 format=3 uid="uid://cv0lpupus5mov"]
+
+[ext_resource type="Script" path="res://hand_tile.gd" id="1_m38n2"]
+[ext_resource type="Script" path="res://hand_tile_input.gd" id="3_d08qe"]
+[ext_resource type="Texture2D" uid="uid://bkq5cnnrp0304" path="res://assets/tileset64x64.png" id="3_kk5o7"]
+
+[sub_resource type="Curve2D" id="Curve2D_s2xiu"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 48, -32, 0, 0, 0, 0, 48, 32, 0, 0, 0, 0, 0, 64, 0, 0, 0, 0, -48, 32, 0, 0, 0, 0, -48, -32)
+}
+point_count = 5
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3as2x"]
+
+[node name="hand_tile" type="Node2D"]
+script = ExtResource("1_m38n2")
+
+[node name="Path2D" type="Path2D" parent="."]
+curve = SubResource("Curve2D_s2xiu")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
+position = Vector2(-0.000146004, 64)
+progress = 121.689
+rotates = false
+
+[node name="Sprite2D" type="Sprite2D" parent="Path2D/PathFollow2D" groups=["input"]]
+modulate = Color(0, 0.75, 0.75, 1)
+texture = ExtResource("3_kk5o7")
+hframes = 2
+frame = 1
+script = ExtResource("3_d08qe")
+
+[node name="1" type="Button" parent="Path2D/PathFollow2D"]
+custom_minimum_size = Vector2(48, 48)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -24.0
+offset_top = -24.0
+offset_right = 24.0
+offset_bottom = 24.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_3as2x")
+flat = true
+
+[connection signal="button_down" from="Path2D/PathFollow2D/1" to="." method="_on_button_down"]
+[connection signal="button_up" from="Path2D/PathFollow2D/1" to="." method="_on_button_up"]

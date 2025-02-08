@@ -1,0 +1,204 @@
+{
+	"type": "table",
+	"database": null,
+	"name": "shields",
+	"withoutRowId": false,
+	"strict": false,
+	"ddl": "CREATE TABLE shields (id INTEGER PRIMARY KEY ASC AUTOINCREMENT UNIQUE NOT NULL, shape TEXT NOT NULL, subtype TEXT, size INTEGER NOT NULL DEFAULT (1), name TEXT UNIQUE NOT NULL, start INTEGER NOT NULL DEFAULT (0), cap INTEGER NOT NULL DEFAULT (0), regen INTEGER NOT NULL DEFAULT (0));",
+	"columns": [
+		{
+			"name": "id",
+			"type": "INTEGER",
+			"constraints": [
+				{
+					"type": "PRIMARY KEY",
+					"definition": "PRIMARY KEY ASC AUTOINCREMENT "
+				},
+				{
+					"type": "UNIQUE",
+					"definition": "UNIQUE "
+				},
+				{
+					"type": "NOT NULL",
+					"definition": "NOT NULL"
+				}
+			]
+		},
+		{
+			"name": "shape",
+			"type": "TEXT",
+			"constraints": [
+				{
+					"type": "NOT NULL",
+					"definition": "NOT NULL"
+				}
+			]
+		},
+		{
+			"name": "subtype",
+			"type": "TEXT"
+		},
+		{
+			"name": "size",
+			"type": "INTEGER",
+			"constraints": [
+				{
+					"type": "NOT NULL",
+					"definition": "NOT NULL "
+				},
+				{
+					"type": "DEFAULT",
+					"definition": "DEFAULT (1)"
+				}
+			]
+		},
+		{
+			"name": "name",
+			"type": "TEXT",
+			"constraints": [
+				{
+					"type": "UNIQUE",
+					"definition": "UNIQUE "
+				},
+				{
+					"type": "NOT NULL",
+					"definition": "NOT NULL"
+				}
+			]
+		},
+		{
+			"name": "start",
+			"type": "INTEGER",
+			"constraints": [
+				{
+					"type": "NOT NULL",
+					"definition": "NOT NULL "
+				},
+				{
+					"type": "DEFAULT",
+					"definition": "DEFAULT (0)"
+				}
+			]
+		},
+		{
+			"name": "cap",
+			"type": "INTEGER",
+			"constraints": [
+				{
+					"type": "NOT NULL",
+					"definition": "NOT NULL "
+				},
+				{
+					"type": "DEFAULT",
+					"definition": "DEFAULT (0)"
+				}
+			]
+		},
+		{
+			"name": "regen",
+			"type": "INTEGER",
+			"constraints": [
+				{
+					"type": "NOT NULL",
+					"definition": "NOT NULL "
+				},
+				{
+					"type": "DEFAULT",
+					"definition": "DEFAULT (0)"
+				}
+			]
+		}
+	],
+	"rows": [
+		[
+			130,
+			"1100100000000000",
+			"Harmonic",
+			3,
+			"Acoustic Projector",
+			1,
+			3,
+			1
+		],
+		[
+			131,
+			"1100010000000000",
+			"Hardlight",
+			3,
+			"Hardlight Battery",
+			3,
+			4,
+			0
+		],
+		[
+			132,
+			"1000110000000000",
+			"Magnetic",
+			3,
+			"Half Capacitor",
+			0,
+			4,
+			1
+		],
+		[
+			140,
+			"1100100010000000",
+			"Harmonic",
+			4,
+			"Ultrasonic Projector",
+			3,
+			6,
+			1
+		],
+		[
+			141,
+			"1100010001000000",
+			"Hardlight",
+			4,
+			"Hardlight Suite",
+			4,
+			5,
+			0
+		],
+		[
+			142,
+			"1000100011000000",
+			"Magnetic",
+			4,
+			"Dual Capacitors",
+			0,
+			5,
+			2
+		],
+		[
+			150,
+			"1110100010000000",
+			"Harmonic",
+			5,
+			"Projection Matrix",
+			3,
+			7,
+			2
+		],
+		[
+			151,
+			"1110001000100000",
+			"Hardlight",
+			5,
+			"Hardlight Phalanx",
+			6,
+			7,
+			0
+		],
+		[
+			152,
+			"1000100011100000",
+			"Magnetic",
+			5,
+			"Turbo Capacitor",
+			0,
+			6,
+			3
+		]
+	]
+}

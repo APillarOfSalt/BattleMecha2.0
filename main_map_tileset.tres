@@ -1,0 +1,47 @@
+[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://cc3shgi4yyt5c"]
+
+[ext_resource type="Texture2D" uid="uid://bkq5cnnrp0304" path="res://assets/tileset64x64.png" id="1_3kh3p"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_j5vd5"]
+texture = ExtResource("1_3kh3p")
+texture_region_size = Vector2i(64, 64)
+0:0/next_alternative_id = 8
+0:0/0 = 0
+0:0/1 = 1
+0:0/1/modulate = Color(1, 0, 0, 1)
+0:0/2 = 2
+0:0/2/modulate = Color(0, 1, 0, 1)
+0:0/3 = 3
+0:0/3/modulate = Color(0, 0, 1, 1)
+0:0/4 = 4
+0:0/4/modulate = Color(0, 1, 1, 1)
+0:0/5 = 5
+0:0/5/modulate = Color(1, 0, 1, 1)
+0:0/6 = 6
+0:0/6/modulate = Color(1, 1, 0, 1)
+0:0/7 = 7
+0:0/7/modulate = Color(0, 0, 0, 1)
+1:0/next_alternative_id = 10
+1:0/0 = 0
+1:0/1 = 1
+1:0/1/modulate = Color(1, 0, 0, 1)
+1:0/2 = 2
+1:0/2/modulate = Color(0, 1, 0, 1)
+1:0/3 = 3
+1:0/3/modulate = Color(0, 0, 1, 1)
+1:0/4 = 4
+1:0/4/modulate = Color(0, 1, 1, 1)
+1:0/5 = 5
+1:0/5/modulate = Color(1, 0, 1, 1)
+1:0/6 = 6
+1:0/6/modulate = Color(1, 1, 0, 1)
+1:0/8 = 8
+1:0/8/modulate = Color(0, 0, 0, 1)
+1:0/9 = 9
+1:0/9/modulate = Color(0.589096, 0.589096, 0.589096, 1)
+
+[resource]
+tile_shape = 3
+tile_offset_axis = 1
+tile_size = Vector2i(64, 64)
+sources/0 = SubResource("TileSetAtlasSource_j5vd5")

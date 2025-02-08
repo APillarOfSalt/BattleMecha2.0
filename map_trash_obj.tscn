@@ -1,0 +1,26 @@
+[gd_scene load_steps=3 format=3 uid="uid://dmw7ncpbymxpf"]
+
+[ext_resource type="Script" path="res://cool_sell_icon.gd" id="1_07f81"]
+[ext_resource type="Texture2D" uid="uid://iwsq382rnfiq" path="res://assets/abstract-013.png" id="2_i7oqa"]
+
+[node name="trash" type="Node2D"]
+visible = false
+position = Vector2(32, 352)
+script = ExtResource("1_07f81")
+
+[node name="w" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.768627)
+z_index = -1
+scale = Vector2(0.95, 0.95)
+texture = ExtResource("2_i7oqa")
+flip_h = true
+hframes = 2
+vframes = 2
+region_rect = Rect2(0, 0, 64, 64)
+
+[node name="b" type="Sprite2D" parent="."]
+modulate = Color(0, 0, 0, 0.768627)
+z_index = 4
+texture = ExtResource("2_i7oqa")
+hframes = 2
+vframes = 2

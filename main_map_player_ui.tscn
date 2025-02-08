@@ -1,0 +1,171 @@
+[gd_scene load_steps=12 format=3 uid="uid://cumsvlwogft10"]
+
+[ext_resource type="Script" path="res://time_color_label.gd" id="1_0ave2"]
+[ext_resource type="Script" path="res://main_map_player_ui.gd" id="1_iuaqg"]
+[ext_resource type="PackedScene" uid="uid://c5j6yc30a0sip" path="res://cost.tscn" id="2_rx27g"]
+[ext_resource type="StyleBox" uid="uid://6g50sjgbl825" path="res://styles/player_stylebox0.tres" id="3_holx0"]
+[ext_resource type="Texture2D" uid="uid://w77oybeoon5s" path="res://assets/player-time.png" id="3_xrt1y"]
+[ext_resource type="Script" path="res://ui_actions.gd" id="4_8ii16"]
+[ext_resource type="PackedScene" uid="uid://c2uufn4iee1tp" path="res://unit_deck.tscn" id="4_b4522"]
+[ext_resource type="Texture2D" uid="uid://br87mo3mashfp" path="res://assets/crown-coin.png" id="4_rb4ak"]
+[ext_resource type="Script" path="res://player_ui_end_turn_button.gd" id="9_6vp3y"]
+[ext_resource type="Texture2D" uid="uid://le8hxlit864f" path="res://assets/caution.png" id="10_tyap3"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c6rm7"]
+bg_color = Color(0, 0.588235, 0.690196, 1)
+border_width_left = 8
+border_width_top = 8
+border_width_right = 8
+border_width_bottom = 8
+border_color = Color(0.180005, 0.180005, 0.180005, 1)
+border_blend = true
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="p1" type="VBoxContainer"]
+offset_right = 203.0
+offset_bottom = 249.0
+size_flags_horizontal = 3
+mouse_filter = 2
+script = ExtResource("1_iuaqg")
+
+[node name="status" type="Label" parent="."]
+layout_mode = 2
+horizontal_alignment = 1
+script = ExtResource("1_0ave2")
+repeat_text = Array[String](["Loading"])
+r_holds_msec = Array[int]([0, 1000])
+repeat_colors = Array[Color]([Color(0, 0, 0, 0), Color(1, 1, 1, 1)])
+
+[node name="title" type="PanelContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = ExtResource("3_holx0")
+
+[node name="subpanel" type="PanelContainer" parent="title"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_c6rm7")
+
+[node name="m" type="MarginContainer" parent="title/subpanel"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = -5
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = -4
+
+[node name="Label" type="Label" parent="title/subpanel/m"]
+layout_mode = 2
+text = "Player 1"
+horizontal_alignment = 1
+
+[node name="victory_points" type="HBoxContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="victory_points"]
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("4_rb4ak")
+
+[node name="Label" type="Label" parent="victory_points"]
+layout_mode = 2
+text = "Victory Points :"
+
+[node name="Label2" type="Label" parent="victory_points"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+text = "0"
+
+[node name="actions" type="HBoxContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 0
+alignment = 1
+script = ExtResource("4_8ii16")
+
+[node name="TextureRect" type="TextureRect" parent="actions"]
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("3_xrt1y")
+
+[node name="Label" type="Label" parent="actions"]
+layout_mode = 2
+text = " Actions : "
+
+[node name="val" type="Label" parent="actions"]
+layout_mode = 2
+text = "0"
+
+[node name="total" type="Label" parent="actions"]
+layout_mode = 2
+text = "/3"
+
+[node name="deck" parent="." instance=ExtResource("4_b4522")]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="resources" parent="." instance=ExtResource("2_rx27g")]
+layout_mode = 2
+mouse_filter = 2
+override_visible = 15
+flip_colors = true
+font_size_override = 22
+
+[node name="cost" parent="." instance=ExtResource("2_rx27g")]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+mouse_filter = 2
+override_visible = 15
+font_size_override = 22
+
+[node name="end_turn" type="MarginContainer" parent="." node_paths=PackedStringArray("action_cont")]
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("9_6vp3y")
+action_cont = NodePath("../actions")
+
+[node name="Button" type="Button" parent="end_turn"]
+layout_mode = 2
+toggle_mode = true
+
+[node name="h" type="HBoxContainer" parent="end_turn"]
+layout_mode = 2
+mouse_filter = 2
+alignment = 1
+
+[node name="l" type="TextureRect" parent="end_turn/h"]
+visible = false
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("10_tyap3")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="end_turn/h"]
+layout_mode = 2
+text = "End Turn"
+
+[node name="r" type="TextureRect" parent="end_turn/h"]
+visible = false
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("10_tyap3")
+expand_mode = 1
+stretch_mode = 5
+
+[connection signal="out_of_actions" from="actions" to="." method="_on_actions_out_of_actions"]
+[connection signal="out_of_actions" from="actions" to="end_turn" method="_on_actions_out_of_actions"]
+[connection signal="focus_entered" from="end_turn/Button" to="end_turn" method="_on_button_focus_entered"]
+[connection signal="focus_exited" from="end_turn/Button" to="end_turn" method="_on_button_focus_exited"]
+[connection signal="mouse_entered" from="end_turn/Button" to="end_turn" method="_on_button_mouse_entered"]
+[connection signal="mouse_exited" from="end_turn/Button" to="end_turn" method="_on_button_mouse_exited"]
+[connection signal="toggled" from="end_turn/Button" to="end_turn" method="_on_button_toggled"]

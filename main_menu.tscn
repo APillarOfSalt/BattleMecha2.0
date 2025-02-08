@@ -1,0 +1,60 @@
+[gd_scene load_steps=3 format=3 uid="uid://cwg66mluny6ly"]
+
+[ext_resource type="Script" path="res://main_menu.gd" id="1_62x21"]
+[ext_resource type="PackedScene" uid="uid://dvd8rhrt3vyya" path="res://module_customizer.tscn" id="2_hrkph"]
+
+[node name="main_menu" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_62x21")
+
+[node name="module_customizer" parent="." instance=ExtResource("2_hrkph")]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+
+[node name="l" type="VBoxContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+
+[node name="Label" type="Label" parent="l"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "Battle Mecha"
+horizontal_alignment = 1
+
+[node name="play" type="Button" parent="l"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 42
+text = "Play"
+
+[node name="edit" type="Button" parent="l"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 42
+text = "Customizer"
+
+[node name="dev" type="Button" parent="l"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 42
+text = "Developer Tools"
+
+[node name="exit" type="Button" parent="l"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 42
+text = "Exit"
+
+[node name="even" type="Label" parent="l"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = " "
+horizontal_alignment = 1
+
+[connection signal="pressed" from="l/play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="l/edit" to="." method="_on_edit_pressed"]
+[connection signal="pressed" from="l/dev" to="." method="_on_dev_pressed"]
+[connection signal="pressed" from="l/exit" to="." method="_on_exit_pressed"]

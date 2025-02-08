@@ -1,0 +1,294 @@
+[gd_scene load_steps=15 format=3 uid="uid://ddqlnd06ihvsg"]
+
+[ext_resource type="Script" path="res://unit_editor.gd" id="1_fbngl"]
+[ext_resource type="Texture2D" uid="uid://nb7t8xgq5g1s" path="res://assets/s1spritesheet.png" id="1_y3cwd"]
+[ext_resource type="PackedScene" uid="uid://bep67tj1nkdg0" path="res://godot_sucks_ass/option_button.tscn" id="2_k4cbq"]
+[ext_resource type="Texture2D" uid="uid://bht6ck5fmq3n" path="res://assets/s2spritesheet.png" id="2_sci75"]
+[ext_resource type="SystemFont" uid="uid://bx72qjb3bu2b8" path="res://assets/pixelfont.tres" id="3_crhap"]
+[ext_resource type="Texture2D" uid="uid://bvwrdwi01cys0" path="res://assets/hp.png" id="3_toudy"]
+[ext_resource type="Texture2D" uid="uid://dohioa3qjg5gi" path="res://assets/sav.png" id="3_w6ui4"]
+[ext_resource type="Texture2D" uid="uid://cxbs6hcltfqb3" path="res://assets/new.png" id="4_lyvvw"]
+[ext_resource type="Texture2D" uid="uid://3ia5kk14bm56" path="res://assets/bolt-shield.png" id="4_tmnce"]
+[ext_resource type="Texture2D" uid="uid://daajittfhy2md" path="res://assets/shoulder-armor.png" id="5_yafql"]
+[ext_resource type="Script" path="res://stats.gd" id="8_dybjt"]
+[ext_resource type="Script" path="res://module_list.gd" id="8_vunkr"]
+[ext_resource type="PackedScene" uid="uid://cy3v2xd66to72" path="res://move_attack_preview.tscn" id="11_q2fmt"]
+[ext_resource type="PackedScene" uid="uid://bjbx58lg0s5y7" path="res://module_backdrop.tscn" id="14_l4jlp"]
+
+[node name="unit_edit" type="GridContainer"]
+size_flags_vertical = 3
+mouse_filter = 2
+columns = 2
+script = ExtResource("1_fbngl")
+
+[node name="unit_disp" type="VBoxContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="sel" type="HBoxContainer" parent="unit_disp"]
+layout_mode = 2
+
+[node name="unit_sel" parent="unit_disp/sel" instance=ExtResource("2_k4cbq")]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="save" type="Button" parent="unit_disp/sel"]
+custom_minimum_size = Vector2(31, 0)
+layout_mode = 2
+icon = ExtResource("3_w6ui4")
+expand_icon = true
+
+[node name="save_batch" type="Button" parent="unit_disp/sel"]
+custom_minimum_size = Vector2(31, 0)
+layout_mode = 2
+icon = ExtResource("4_lyvvw")
+expand_icon = true
+
+[node name="unit" type="MarginContainer" parent="unit_disp"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="title" type="PanelContainer" parent="unit_disp/unit"]
+custom_minimum_size = Vector2(0, 46)
+layout_mode = 2
+size_flags_vertical = 0
+mouse_filter = 2
+
+[node name="anchor" type="MarginContainer" parent="unit_disp/unit/title"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 2
+
+[node name="scale" type="Node2D" parent="unit_disp/unit/title/anchor"]
+scale = Vector2(3, 3)
+
+[node name="Label" type="Label" parent="unit_disp/unit/title/anchor/scale"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -31.0
+offset_top = -8.0
+offset_right = 31.0
+offset_bottom = 7.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("3_crhap")
+theme_override_font_sizes/font_size = 12
+horizontal_alignment = 1
+
+[node name="spr" type="MarginContainer" parent="unit_disp"]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="anchor" type="MarginContainer" parent="unit_disp/spr"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 2
+
+[node name="s1" type="Sprite2D" parent="unit_disp/spr/anchor"]
+visible = false
+scale = Vector2(3, 3)
+texture = ExtResource("1_y3cwd")
+hframes = 7
+vframes = 3
+
+[node name="s2" type="Sprite2D" parent="unit_disp/spr/anchor"]
+visible = false
+scale = Vector2(3, 3)
+texture = ExtResource("2_sci75")
+hframes = 3
+vframes = 2
+frame = 1
+
+[node name="unit_props" type="HBoxContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="move" parent="unit_props" instance=ExtResource("11_q2fmt")]
+layout_mode = 2
+
+[node name="v" type="VBoxContainer" parent="unit_props"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="main_menu" type="Button" parent="unit_props/v"]
+layout_mode = 2
+text = "Main Menu"
+
+[node name="stats" type="GridContainer" parent="unit_props/v"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+columns = 2
+script = ExtResource("8_dybjt")
+
+[node name="h" type="MarginContainer" parent="unit_props/v/stats"]
+layout_mode = 2
+size_flags_vertical = 6
+mouse_filter = 2
+
+[node name="hp" type="PanelContainer" parent="unit_props/v/stats/h"]
+custom_minimum_size = Vector2(42, 42)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+mouse_filter = 2
+
+[node name="m" type="MarginContainer" parent="unit_props/v/stats/h/hp"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
+
+[node name="tex" type="TextureRect" parent="unit_props/v/stats/h/hp/m"]
+modulate = Color(1, 0.286275, 0.313726, 1)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("3_toudy")
+expand_mode = 3
+stretch_mode = 4
+
+[node name="hl" type="Label" parent="unit_props/v/stats"]
+layout_mode = 2
+text = "0/0"
+
+[node name="a" type="MarginContainer" parent="unit_props/v/stats"]
+layout_mode = 2
+size_flags_vertical = 6
+mouse_filter = 2
+
+[node name="armor" type="PanelContainer" parent="unit_props/v/stats/a"]
+custom_minimum_size = Vector2(42, 42)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+mouse_filter = 2
+
+[node name="m" type="MarginContainer" parent="unit_props/v/stats/a/armor"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
+
+[node name="tex" type="TextureRect" parent="unit_props/v/stats/a/armor/m"]
+modulate = Color(0.34902, 0.615686, 0.792157, 1)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("5_yafql")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="al" type="Label" parent="unit_props/v/stats"]
+layout_mode = 2
+text = "0"
+
+[node name="s" type="MarginContainer" parent="unit_props/v/stats"]
+layout_mode = 2
+size_flags_vertical = 6
+mouse_filter = 2
+
+[node name="shield" type="PanelContainer" parent="unit_props/v/stats/s"]
+custom_minimum_size = Vector2(42, 42)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+mouse_filter = 2
+
+[node name="m" type="MarginContainer" parent="unit_props/v/stats/s/shield"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
+
+[node name="tex" type="TextureRect" parent="unit_props/v/stats/s/shield/m"]
+modulate = Color(0.760784, 0.764706, 0.156863, 1)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("4_tmnce")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="v" type="VBoxContainer" parent="unit_props/v/stats"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = -4
+
+[node name="start_cap" type="Label" parent="unit_props/v/stats/v"]
+layout_mode = 2
+text = "0/0"
+
+[node name="regen" type="Label" parent="unit_props/v/stats/v"]
+layout_mode = 2
+text = "+0"
+horizontal_alignment = 1
+
+[node name="mods" type="TabContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+tab_alignment = 1
+clip_tabs = false
+
+[node name="Modules" type="ScrollContainer" parent="mods"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+script = ExtResource("8_vunkr")
+
+[node name="v" type="VBoxContainer" parent="mods/Modules"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="Sheilds" type="ScrollContainer" parent="mods"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+script = ExtResource("8_vunkr")
+type = 1
+
+[node name="v" type="VBoxContainer" parent="mods/Sheilds"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="Weapons" type="ScrollContainer" parent="mods"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+script = ExtResource("8_vunkr")
+type = 2
+
+[node name="v" type="VBoxContainer" parent="mods/Weapons"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="module_backdrop" parent="." instance=ExtResource("14_l4jlp")]
+layout_mode = 2
+
+[connection signal="item_selected" from="unit_disp/sel/unit_sel" to="." method="_on_debug_item_selected"]
+[connection signal="pressed" from="unit_disp/sel/save" to="." method="_on_save_pressed"]
+[connection signal="pressed" from="unit_disp/sel/save_batch" to="." method="_on_save_batch_pressed"]
+[connection signal="pressed" from="unit_props/v/main_menu" to="." method="_on_main_menu_pressed"]
+[connection signal="refresh_movement" from="module_backdrop" to="." method="_on_module_backdrop_refresh_movement"]

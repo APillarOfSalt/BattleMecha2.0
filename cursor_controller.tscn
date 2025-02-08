@@ -1,0 +1,35 @@
+[gd_scene load_steps=4 format=3 uid="uid://4yu4rbfvetdo"]
+
+[ext_resource type="Script" path="res://cursor_controller.gd" id="1_wppej"]
+[ext_resource type="Texture2D" uid="uid://b3bg45cq5f5re" path="res://assets/gear-stick-pattern.png" id="2_k6bvq"]
+[ext_resource type="PackedScene" uid="uid://bgggngkq1twwt" path="res://remapper.tscn" id="4_r0beo"]
+
+[node name="cursor_controller" type="Node2D"]
+z_index = 1
+z_as_relative = false
+script = ExtResource("1_wppej")
+
+[node name="h" type="HBoxContainer" parent="."]
+visible = false
+offset_right = 44.0
+offset_bottom = 40.0
+
+[node name="show_remap" type="Button" parent="h"]
+visible = false
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+icon = ExtResource("2_k6bvq")
+icon_alignment = 1
+expand_icon = true
+
+[node name="pad_list" type="HBoxContainer" parent="h"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/separation = 2
+
+[node name="remapper" parent="." instance=ExtResource("4_r0beo")]
+visible = false
+
+[connection signal="pressed" from="h/show_remap" to="." method="_on_show_remap_pressed"]
+[connection signal="close_popup" from="remapper" to="." method="_on_remapper_close_popup"]

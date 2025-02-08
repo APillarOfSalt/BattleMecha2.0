@@ -1,0 +1,26 @@
+[gd_scene load_steps=2 format=3 uid="uid://byvnmkd1is7en"]
+
+[ext_resource type="Script" path="res://type_selector.gd" id="1_8badt"]
+
+[node name="type_selector" type="VBoxContainer"]
+offset_right = 108.0
+offset_bottom = 31.0
+mouse_filter = 2
+script = ExtResource("1_8badt")
+
+[node name="title" type="PanelContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="m" type="MarginContainer" parent="title"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="Label" type="Label" parent="title/m"]
+layout_mode = 2
+text = "Module Type"
+horizontal_alignment = 1

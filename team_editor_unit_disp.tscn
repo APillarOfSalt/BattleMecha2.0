@@ -1,0 +1,70 @@
+[gd_scene load_steps=6 format=3 uid="uid://cfnv73nfxsxld"]
+
+[ext_resource type="Texture2D" uid="uid://nb7t8xgq5g1s" path="res://assets/s1spritesheet.png" id="1_hfcxs"]
+[ext_resource type="Material" uid="uid://bejs5gld5logf" path="res://assets/outlineShader.tres" id="1_q7vlp"]
+[ext_resource type="Script" path="res://team_editor_unit_disp.gd" id="2_t2lmi"]
+[ext_resource type="Texture2D" uid="uid://dqx3py0rg8338" path="res://assets/double_refresh.png" id="4_mdp01"]
+[ext_resource type="Texture2D" uid="uid://b0h4qj62b0hg4" path="res://assets/pencil.png" id="5_oi83p"]
+
+[node name="team_editor_unit_disp" type="Sprite2D" groups=["team_edit_unit_disp"]]
+material = ExtResource("1_q7vlp")
+position = Vector2(400, 400)
+texture = ExtResource("1_hfcxs")
+hframes = 7
+vframes = 3
+frame = 20
+script = ExtResource("2_t2lmi")
+
+[node name="h" type="GridContainer" parent="."]
+visible = false
+modulate = Color(1, 1, 1, 0.784314)
+custom_minimum_size = Vector2(48, 48)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -24.0
+offset_top = -24.0
+offset_right = -24.0
+offset_bottom = -24.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+columns = 2
+
+[node name="resel" type="Button" parent="h"]
+modulate = Color(1, 0.733333, 0, 1)
+custom_minimum_size = Vector2(24, 31)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+icon = ExtResource("4_mdp01")
+icon_alignment = 1
+expand_icon = true
+
+[node name="edit" type="Button" parent="h"]
+visible = false
+modulate = Color(0, 1, 0.654902, 1)
+custom_minimum_size = Vector2(0, 31)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+icon = ExtResource("5_oi83p")
+expand_icon = true
+
+[node name="s" type="ScrollContainer" parent="."]
+visible = false
+offset_left = -32.0
+offset_top = -24.0
+offset_right = 32.0
+offset_bottom = 32.0
+vertical_scroll_mode = 0
+
+[node name="h" type="HBoxContainer" parent="s"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 1
+
+[connection signal="pressed" from="h/resel" to="." method="_on_resel_pressed"]
+[connection signal="pressed" from="h/edit" to="." method="_on_edit_pressed"]

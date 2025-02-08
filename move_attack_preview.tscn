@@ -1,0 +1,55 @@
+[gd_scene load_steps=5 format=3 uid="uid://cy3v2xd66to72"]
+
+[ext_resource type="Texture2D" uid="uid://cgnnrtdscueqt" path="res://assets/spd.png" id="1_l3gcu"]
+[ext_resource type="Script" path="res://move_attack_preview.gd" id="1_s3qdc"]
+[ext_resource type="TileSet" uid="uid://si70rv21ngyb" path="res://tileset_64.tres" id="2_4osnt"]
+[ext_resource type="Texture2D" uid="uid://xyo3k05jxfbj" path="res://assets/shotgun.png" id="3_8eekv"]
+
+[node name="move_atk" type="PanelContainer"]
+custom_minimum_size = Vector2(225, 244)
+size_flags_vertical = 3
+mouse_filter = 2
+script = ExtResource("1_s3qdc")
+
+[node name="m" type="MarginContainer" parent="."]
+custom_minimum_size = Vector2(42, 42)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+mouse_filter = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
+
+[node name="wep" type="TextureRect" parent="m"]
+modulate = Color(0.87, 0.29, 0, 1)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("3_8eekv")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="move" type="TextureRect" parent="m"]
+modulate = Color(0, 0.870588, 0.435294, 1)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("1_l3gcu")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="map" type="TileMap" parent="."]
+position = Vector2(92.5, 139)
+scale = Vector2(0.623, 0.53)
+tile_set = ExtResource("2_4osnt")
+format = 2
+layer_0/name = "base"
+layer_0/tile_data = PackedInt32Array(65538, 0, 0, 2, 0, 0, 1, 0, 0, 65536, 0, 0, 131072, 0, 0, 65537, 0, 0, 0, 65536, 0, 131071, 0, 0, 131070, 0, 0, 65534, 0, 0, -2, 0, 0, -65537, 0, 0, -131072, 0, 0, -65536, 0, 0, -131071, 0, 0, -65535, 0, 0, -65534, 0, 0, 65535, 0, 0, -1, 0, 0, -3, 0, 0, 65533, 0, 0, 3, 0, 0, -65533, 0, 0, -131069, 0, 0, -131070, 0, 0, -196607, 0, 0, -196608, 0, 0, -131073, 0, 0, -65538, 0, 0, -65539, 0, 0, -196605, 0, 0, -196606, 0, 0, -262143, 0, 0, -262144, 0, 0, -196609, 0, 0, -131074, 0, 0, -131075, 0, 0)
+layer_1/name = "default"
+layer_1/modulate = Color(0.733333, 1, 0.2, 1)
+layer_1/tile_data = PackedInt32Array()
+layer_2/name = "highlight"
+layer_2/modulate = Color(0.5, 0.8, 1, 1)
+layer_2/tile_data = PackedInt32Array()
+layer_3/name = "cursor"
+layer_3/tile_data = PackedInt32Array()

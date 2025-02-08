@@ -1,0 +1,40 @@
+[gd_scene load_steps=4 format=3 uid="uid://d3kp651pnfqs1"]
+
+[ext_resource type="PackedScene" uid="uid://ddqlnd06ihvsg" path="res://unit_editor.tscn" id="1_e70m3"]
+[ext_resource type="PackedScene" uid="uid://dvd8rhrt3vyya" path="res://module_customizer.tscn" id="2_lm8d0"]
+[ext_resource type="PackedScene" uid="uid://cwofqjj3naay8" path="res://cursor_disp.tscn" id="3_jppu4"]
+
+[node name="dev_tools" type="VBoxContainer"]
+offset_right = 1123.0
+offset_bottom = 675.0
+
+[node name="title" type="PanelContainer" parent="."]
+layout_mode = 2
+
+[node name="m" type="MarginContainer" parent="title"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="Label" type="Label" parent="title/m"]
+layout_mode = 2
+text = "Developer Tools"
+horizontal_alignment = 1
+
+[node name="tools" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="module_customizer" parent="tools" instance=ExtResource("2_lm8d0")]
+layout_mode = 2
+size_flags_horizontal = 2
+
+[node name="unit_edit" parent="tools" instance=ExtResource("1_e70m3")]
+layout_mode = 2
+is_dev = true
+
+[node name="anchor" type="Node2D" parent="tools/unit_edit"]
+
+[node name="cursor" parent="tools/unit_edit/anchor" instance=ExtResource("3_jppu4")]
+input = -1

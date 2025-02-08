@@ -1,0 +1,70 @@
+[gd_scene load_steps=10 format=3 uid="uid://cwofqjj3naay8"]
+
+[ext_resource type="Script" path="res://cursor_disp.gd" id="1_o7nlt"]
+[ext_resource type="Texture2D" uid="uid://r45jq88lvljk" path="res://assets/mouse.png" id="2_k6frh"]
+[ext_resource type="Texture2D" uid="uid://dtncuabamow28" path="res://assets/5x5cross.png" id="3_ond2s"]
+[ext_resource type="Script" path="res://cursor.gd" id="4_jsltb"]
+[ext_resource type="StyleBox" uid="uid://c6rrj0gxhiklk" path="res://hover_outline_stylebox.tres" id="5_l8dmt"]
+[ext_resource type="Script" path="res://cursor_module_manager.gd" id="5_ljewj"]
+[ext_resource type="PackedScene" uid="uid://kkah6vax8l7b" path="res://module_display.tscn" id="6_swr4m"]
+[ext_resource type="PackedScene" uid="uid://30b0ih8ktswp" path="res://module_blocks.tscn" id="7_3hdyn"]
+
+[sub_resource type="SystemFont" id="SystemFont_o11tr"]
+font_names = PackedStringArray("Cambria")
+subpixel_positioning = 0
+
+[node name="disp" type="MarginContainer" groups=["input_list"]]
+script = ExtResource("1_o7nlt")
+
+[node name="tex" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+texture = ExtResource("2_k6frh")
+stretch_mode = 3
+
+[node name="l" type="Label" parent="."]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = SubResource("SystemFont_o11tr")
+theme_override_font_sizes/font_size = 12
+text = "0"
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="c" type="Sprite2D" parent="." node_paths=PackedStringArray("panel")]
+top_level = true
+z_index = 3
+texture = ExtResource("3_ond2s")
+script = ExtResource("4_jsltb")
+panel = NodePath("../anchor/Panel")
+
+[node name="module_manager" type="Node2D" parent="c"]
+script = ExtResource("5_ljewj")
+
+[node name="module" parent="c/module_manager" instance=ExtResource("6_swr4m")]
+visible = false
+button_accepts_input = false
+
+[node name="blocks" parent="c/module_manager" instance=ExtResource("7_3hdyn")]
+visible = false
+offset_right = 320.0
+offset_bottom = 320.0
+
+[node name="anchor" type="Node2D" parent="."]
+top_level = true
+
+[node name="Panel" type="Panel" parent="anchor"]
+top_level = true
+offset_right = 20.0
+offset_bottom = 20.0
+theme_override_styles/panel = ExtResource("5_l8dmt")
+
+[connection signal="accept_pressed" from="." to="c/module_manager" method="_on_disp_accept_pressed"]
+[connection signal="accept_released" from="." to="c/module_manager" method="_on_disp_accept_released"]
+[connection signal="cancel_pressed" from="." to="c/module_manager" method="_on_disp_cancel_pressed"]
+[connection signal="hover_refreshed" from="c" to="c/module_manager" method="_on_c_hover_refreshed"]

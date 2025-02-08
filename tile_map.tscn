@@ -1,0 +1,71 @@
+[gd_scene load_steps=9 format=3 uid="uid://bekrqdlhmhejy"]
+
+[ext_resource type="PackedScene" uid="uid://bt6uanrmhqtwm" path="res://main_map.tscn" id="1_jtmg4"]
+[ext_resource type="Script" path="res://objective_controller.gd" id="8_6ib8v"]
+[ext_resource type="Script" path="res://game_controller.gd" id="8_pgl8b"]
+[ext_resource type="Script" path="res://main_unit_controller.gd" id="9_4x2yn"]
+[ext_resource type="PackedScene" uid="uid://dxg6ndgjsmdqm" path="res://game_ui.tscn" id="9_j205t"]
+
+[sub_resource type="Curve2D" id="Curve2D_y0ci8"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, -96, 64, 0, 0, 0, 0, -48, 32, 0, 0, 0, 0, 0, 0)
+}
+point_count = 3
+
+[sub_resource type="Curve2D" id="Curve2D_cr6ap"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 96, 64, 0, 0, 0, 0, 48, 32, 0, 0, 0, 0, 0, 0)
+}
+point_count = 3
+
+[sub_resource type="Curve2D" id="Curve2D_vrfke"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 0, -128, 0, 0, 0, 0, 0, -64, 0, 0, 0, 0, 0, 0)
+}
+point_count = 3
+
+[node name="origin" type="Node2D"]
+
+[node name="TileMap" parent="." instance=ExtResource("1_jtmg4")]
+
+[node name="objective" type="Node2D" parent="TileMap"]
+position = Vector2(-16, 0)
+script = ExtResource("8_6ib8v")
+
+[node name="ml" type="Path2D" parent="TileMap/objective"]
+curve = SubResource("Curve2D_y0ci8")
+
+[node name="mr" type="Path2D" parent="TileMap/objective"]
+curve = SubResource("Curve2D_cr6ap")
+
+[node name="lr" type="Path2D" parent="TileMap/objective"]
+curve = SubResource("Curve2D_vrfke")
+
+[node name="main_unit_controller" type="Node2D" parent="." groups=["controller"]]
+script = ExtResource("9_4x2yn")
+
+[node name="game_controller" type="Node2D" parent="."]
+position = Vector2(1152, 648)
+script = ExtResource("8_pgl8b")
+
+[node name="game_ui" type="HBoxContainer" parent="game_controller"]
+visible = false
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -328.0
+offset_top = -648.0
+grow_horizontal = 0
+grow_vertical = 0
+mouse_filter = 2
+
+[node name="drag" type="Button" parent="game_controller/game_ui"]
+layout_mode = 2
+
+[node name="ui" parent="game_controller/game_ui" instance=ExtResource("9_j205t")]
+layout_mode = 2
+
+[connection signal="button_down" from="game_controller/game_ui/drag" to="game_controller" method="_on_drag_button_down"]
+[connection signal="button_up" from="game_controller/game_ui/drag" to="game_controller" method="_on_drag_button_up"]

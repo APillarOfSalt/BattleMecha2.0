@@ -1,0 +1,388 @@
+[gd_scene load_steps=6 format=3 uid="uid://o24hk0yqnyin"]
+
+[ext_resource type="Script" path="res://local_roller.gd" id="1_lq6gh"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6xuui"]
+bg_color = Color(0.690196, 0.690196, 0.690196, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+expand_margin_left = 1.0
+expand_margin_top = 1.0
+expand_margin_right = 1.0
+expand_margin_bottom = 1.0
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_140ge"]
+bg_color = Color(0.529412, 0.807843, 0.921569, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+expand_margin_left = 1.0
+expand_margin_top = 1.0
+expand_margin_right = 1.0
+expand_margin_bottom = 1.0
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eflh1"]
+bg_color = Color(0.690196, 0.768627, 0.870588, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+expand_margin_left = 1.0
+expand_margin_top = 1.0
+expand_margin_right = 1.0
+expand_margin_bottom = 1.0
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0ww3m"]
+bg_color = Color(0, 0.278431, 0.670588, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+expand_margin_left = 1.0
+expand_margin_top = 1.0
+expand_margin_right = 1.0
+expand_margin_bottom = 1.0
+anti_aliasing = false
+
+[node name="roller" type="Node2D"]
+script = ExtResource("1_lq6gh")
+
+[node name="reroll" type="GridContainer" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.0
+offset_top = -21.0
+offset_right = 32.0
+offset_bottom = 21.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/h_separation = 2
+theme_override_constants/v_separation = 2
+columns = 2
+
+[node name="ti" type="MarginContainer" parent="reroll"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="ti" type="Button" parent="reroll/ti"]
+layout_mode = 2
+
+[node name="m" type="MarginContainer" parent="reroll/ti"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = -1
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 0
+
+[node name="h" type="HBoxContainer" parent="reroll/ti/m"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 1
+
+[node name="t_l" type="MarginContainer" parent="reroll/ti/m/h"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 1
+theme_override_constants/margin_top = -2
+theme_override_constants/margin_bottom = -1
+
+[node name="h" type="HBoxContainer" parent="reroll/ti/m/h/t_l"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = -1
+
+[node name="l" type="Label" parent="reroll/ti/m/h/t_l/h"]
+layout_mode = 2
+text = "1"
+vertical_alignment = 1
+
+[node name="l2" type="Label" parent="reroll/ti/m/h/t_l/h"]
+layout_mode = 2
+text = ":"
+vertical_alignment = 1
+
+[node name="ti" type="PanelContainer" parent="reroll/ti/m/h"]
+custom_minimum_size = Vector2(14, 14)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_6xuui")
+
+[node name="s2" type="MarginContainer" parent="reroll/ti/m/h/ti"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+mouse_filter = 2
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = -5
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = -4
+
+[node name="Label" type="Label" parent="reroll/ti/m/h/ti/s2"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 0
+theme_override_font_sizes/font_size = 14
+text = "T"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="ga" type="MarginContainer" parent="reroll"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="ga" type="Button" parent="reroll/ga"]
+layout_mode = 2
+
+[node name="m" type="MarginContainer" parent="reroll/ga"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = -1
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 0
+
+[node name="h" type="HBoxContainer" parent="reroll/ga/m"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 1
+
+[node name="t_l" type="MarginContainer" parent="reroll/ga/m/h"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 1
+theme_override_constants/margin_top = -2
+theme_override_constants/margin_bottom = -1
+
+[node name="h" type="HBoxContainer" parent="reroll/ga/m/h/t_l"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = -1
+
+[node name="l" type="Label" parent="reroll/ga/m/h/t_l/h"]
+layout_mode = 2
+text = "1"
+vertical_alignment = 1
+
+[node name="l2" type="Label" parent="reroll/ga/m/h/t_l/h"]
+layout_mode = 2
+text = ":"
+vertical_alignment = 1
+
+[node name="ga" type="PanelContainer" parent="reroll/ga/m/h"]
+custom_minimum_size = Vector2(14, 14)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_140ge")
+
+[node name="s2" type="MarginContainer" parent="reroll/ga/m/h/ga"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+mouse_filter = 2
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = -5
+theme_override_constants/margin_right = -1
+theme_override_constants/margin_bottom = -4
+
+[node name="Label" type="Label" parent="reroll/ga/m/h/ga/s2"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 0
+theme_override_font_sizes/font_size = 14
+text = "G"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="al" type="MarginContainer" parent="reroll"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="al" type="Button" parent="reroll/al"]
+layout_mode = 2
+
+[node name="m" type="MarginContainer" parent="reroll/al"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = -1
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 0
+
+[node name="h" type="HBoxContainer" parent="reroll/al/m"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 1
+
+[node name="t_l" type="MarginContainer" parent="reroll/al/m/h"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 1
+theme_override_constants/margin_top = -2
+theme_override_constants/margin_bottom = -1
+
+[node name="h" type="HBoxContainer" parent="reroll/al/m/h/t_l"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = -1
+
+[node name="l" type="Label" parent="reroll/al/m/h/t_l/h"]
+layout_mode = 2
+text = "1"
+vertical_alignment = 1
+
+[node name="l2" type="Label" parent="reroll/al/m/h/t_l/h"]
+layout_mode = 2
+text = ":"
+vertical_alignment = 1
+
+[node name="al" type="PanelContainer" parent="reroll/al/m/h"]
+custom_minimum_size = Vector2(14, 14)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_eflh1")
+
+[node name="s2" type="MarginContainer" parent="reroll/al/m/h/al"]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+mouse_filter = 2
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = -7
+theme_override_constants/margin_right = -1
+theme_override_constants/margin_bottom = -4
+
+[node name="Label" type="Label" parent="reroll/al/m/h/al/s2"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 0
+theme_override_font_sizes/font_size = 15
+text = "A"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="co" type="MarginContainer" parent="reroll"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="co" type="Button" parent="reroll/co"]
+layout_mode = 2
+
+[node name="m" type="MarginContainer" parent="reroll/co"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = -1
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 0
+
+[node name="h" type="HBoxContainer" parent="reroll/co/m"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 1
+
+[node name="t_l" type="MarginContainer" parent="reroll/co/m/h"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 1
+theme_override_constants/margin_top = -2
+theme_override_constants/margin_bottom = -1
+
+[node name="h" type="HBoxContainer" parent="reroll/co/m/h/t_l"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = -1
+
+[node name="l" type="Label" parent="reroll/co/m/h/t_l/h"]
+layout_mode = 2
+text = "1"
+vertical_alignment = 1
+
+[node name="l2" type="Label" parent="reroll/co/m/h/t_l/h"]
+layout_mode = 2
+text = ":"
+vertical_alignment = 1
+
+[node name="co" type="PanelContainer" parent="reroll/co/m/h"]
+custom_minimum_size = Vector2(14, 14)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_0ww3m")
+
+[node name="s2" type="MarginContainer" parent="reroll/co/m/h/co"]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+mouse_filter = 2
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = -6
+theme_override_constants/margin_right = -1
+theme_override_constants/margin_bottom = -4
+
+[node name="Label" type="Label" parent="reroll/co/m/h/co/s2"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 0
+theme_override_font_sizes/font_size = 15
+text = "C"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[connection signal="mouse_entered" from="reroll/ti/ti" to="." method="_on_ti_mouse_entered"]
+[connection signal="mouse_exited" from="reroll/ti/ti" to="." method="_on_ti_mouse_exited"]
+[connection signal="pressed" from="reroll/ti/ti" to="." method="_on_ti_pressed"]
+[connection signal="mouse_entered" from="reroll/ga/ga" to="." method="_on_ga_mouse_entered"]
+[connection signal="mouse_exited" from="reroll/ga/ga" to="." method="_on_ga_mouse_exited"]
+[connection signal="pressed" from="reroll/ga/ga" to="." method="_on_ga_pressed"]
+[connection signal="mouse_entered" from="reroll/al/al" to="." method="_on_al_mouse_entered"]
+[connection signal="mouse_exited" from="reroll/al/al" to="." method="_on_al_mouse_exited"]
+[connection signal="pressed" from="reroll/al/al" to="." method="_on_al_pressed"]
+[connection signal="mouse_entered" from="reroll/co/co" to="." method="_on_co_mouse_entered"]
+[connection signal="mouse_exited" from="reroll/co/co" to="." method="_on_co_mouse_exited"]
+[connection signal="pressed" from="reroll/co/co" to="." method="_on_co_pressed"]

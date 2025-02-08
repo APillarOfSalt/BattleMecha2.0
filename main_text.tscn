@@ -1,0 +1,105 @@
+[gd_scene load_steps=4 format=3 uid="uid://dcmikok6p8vx8"]
+
+[ext_resource type="Script" path="res://main_text.gd" id="1_1ipi1"]
+[ext_resource type="SystemFont" uid="uid://ijojndgouji6" path="res://assets/big_pixel_font.tres" id="2_2h2lu"]
+[ext_resource type="SystemFont" uid="uid://d2yb1coypbyjd" path="res://assets/med_pixel_font.tres" id="3_04dsf"]
+
+[node name="main_text" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_1ipi1")
+
+[node name="h" type="HBoxContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="s_l_cont" type="MarginContainer" parent="h"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="round_s" type="Label" parent="h/s_l_cont"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.388235)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_constants/shadow_outline_size = 1
+theme_override_fonts/font = ExtResource("3_04dsf")
+theme_override_font_sizes/font_size = 22
+text = "Round 1"
+horizontal_alignment = 1
+
+[node name="phase_s" type="Label" parent="h/s_l_cont"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.388235)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_constants/shadow_outline_size = 1
+theme_override_fonts/font = ExtResource("3_04dsf")
+theme_override_font_sizes/font_size = 22
+text = "Action Phase"
+horizontal_alignment = 1
+
+[node name="r" type="MarginContainer" parent="h"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="deploy" type="Label" parent="."]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.388235)
+theme_override_constants/shadow_offset_x = 5
+theme_override_constants/shadow_offset_y = 6
+theme_override_constants/shadow_outline_size = 11
+theme_override_fonts/font = ExtResource("2_2h2lu")
+theme_override_font_sizes/font_size = 64
+text = "Deploying"
+horizontal_alignment = 1
+
+[node name="l_l_cont" type="VBoxContainer" parent="."]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 2
+alignment = 1
+
+[node name="round_l" type="Label" parent="l_l_cont"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.388235)
+theme_override_constants/shadow_offset_x = 5
+theme_override_constants/shadow_offset_y = 6
+theme_override_constants/shadow_outline_size = 11
+theme_override_fonts/font = ExtResource("2_2h2lu")
+theme_override_font_sizes/font_size = 64
+text = "Round 1"
+horizontal_alignment = 1
+
+[node name="phase_l" type="Label" parent="l_l_cont"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.388235)
+theme_override_constants/shadow_offset_x = 5
+theme_override_constants/shadow_offset_y = 6
+theme_override_constants/shadow_outline_size = 11
+theme_override_fonts/font = ExtResource("2_2h2lu")
+theme_override_font_sizes/font_size = 64
+text = "Action Phase"
+horizontal_alignment = 1
+
+[node name="debug" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[connection signal="halfway" from="." to="." method="_on_halfway"]

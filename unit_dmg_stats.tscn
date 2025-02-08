@@ -1,0 +1,173 @@
+[gd_scene load_steps=8 format=3 uid="uid://con00fjgkjqgi"]
+
+[ext_resource type="Texture2D" uid="uid://fxl21ht4xo6n" path="res://assets/targeting.png" id="1_mnid6"]
+[ext_resource type="Script" path="res://unit_dmg_stats.gd" id="1_v15x3"]
+[ext_resource type="Texture2D" uid="uid://dcle4ff7qennw" path="res://assets/shield-echoes.png" id="2_0dyuw"]
+[ext_resource type="Texture2D" uid="uid://coo5w5i2g81bj" path="res://assets/damage_icons/p.png" id="3_8s0kv"]
+[ext_resource type="Texture2D" uid="uid://cuw73ekd0vkxc" path="res://assets/damage_icons/v.png" id="4_khdy4"]
+[ext_resource type="Texture2D" uid="uid://cm4lnsfohw12e" path="res://assets/damage_icons/c.png" id="5_kli6r"]
+
+[sub_resource type="SystemFont" id="SystemFont_weesf"]
+font_names = PackedStringArray("Cambria")
+subpixel_positioning = 0
+
+[node name="dmg_stats" type="GridContainer"]
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+columns = 3
+script = ExtResource("1_v15x3")
+
+[node name="spacer" type="MarginContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="plus" type="PanelContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="m" type="MarginContainer" parent="plus"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
+
+[node name="tex" type="TextureRect" parent="plus/m"]
+custom_minimum_size = Vector2(11, 0)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("1_mnid6")
+expand_mode = 5
+stretch_mode = 5
+
+[node name="minus" type="PanelContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="m" type="MarginContainer" parent="minus"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
+
+[node name="tex" type="TextureRect" parent="minus/m"]
+custom_minimum_size = Vector2(11, 0)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("2_0dyuw")
+expand_mode = 5
+stretch_mode = 5
+
+[node name="p" type="PanelContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="m" type="MarginContainer" parent="p"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
+
+[node name="tex" type="TextureRect" parent="p/m"]
+modulate = Color(0.449419, 0.467603, 0.499417, 1)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("3_8s0kv")
+expand_mode = 5
+stretch_mode = 4
+
+[node name="pa" type="Label" parent="."]
+layout_mode = 2
+theme_override_fonts/font = SubResource("SystemFont_weesf")
+theme_override_font_sizes/font_size = 12
+text = "+0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="pr" type="Label" parent="."]
+layout_mode = 2
+theme_override_fonts/font = SubResource("SystemFont_weesf")
+theme_override_font_sizes/font_size = 12
+text = "+0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="v" type="PanelContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="m" type="MarginContainer" parent="v"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
+
+[node name="tex" type="TextureRect" parent="v/m"]
+modulate = Color(0.294118, 0.784314, 1, 1)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("4_khdy4")
+expand_mode = 5
+stretch_mode = 4
+
+[node name="va" type="Label" parent="."]
+layout_mode = 2
+theme_override_fonts/font = SubResource("SystemFont_weesf")
+theme_override_font_sizes/font_size = 12
+text = "+0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="vr" type="Label" parent="."]
+layout_mode = 2
+theme_override_fonts/font = SubResource("SystemFont_weesf")
+theme_override_font_sizes/font_size = 12
+text = "+0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="c" type="PanelContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="m" type="MarginContainer" parent="c"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
+
+[node name="tex" type="TextureRect" parent="c/m"]
+modulate = Color(1, 0.686275, 0, 1)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("5_kli6r")
+expand_mode = 2
+stretch_mode = 4
+
+[node name="cr" type="Label" parent="."]
+layout_mode = 2
+theme_override_fonts/font = SubResource("SystemFont_weesf")
+theme_override_font_sizes/font_size = 12
+text = "+0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ca" type="Label" parent="."]
+layout_mode = 2
+theme_override_fonts/font = SubResource("SystemFont_weesf")
+theme_override_font_sizes/font_size = 12
+text = "+0"
+horizontal_alignment = 1
+vertical_alignment = 1

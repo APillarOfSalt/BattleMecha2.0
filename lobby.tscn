@@ -1,0 +1,129 @@
+[gd_scene load_steps=8 format=3 uid="uid://col2ujkhgkj8m"]
+
+[ext_resource type="Script" path="res://lobby.gd" id="1_gtgo8"]
+[ext_resource type="Script" path="res://network_manager.gd" id="2_3qaax"]
+[ext_resource type="PackedScene" uid="uid://d34ff5wgr3k4a" path="res://host_server_disp.tscn" id="2_ssu2h"]
+[ext_resource type="PackedScene" uid="uid://c8jgmdarq1exp" path="res://join_server_disp.tscn" id="3_k3arj"]
+[ext_resource type="Script" path="res://time_color_label.gd" id="5_hv78k"]
+[ext_resource type="PackedScene" uid="uid://6nmkjcbhhcjl" path="res://lobby_player.tscn" id="6_e8od3"]
+[ext_resource type="Script" path="res://Custom_Timer.gd" id="7_ltuyy"]
+
+[node name="lobby" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_gtgo8")
+
+[node name="v" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="network_manager" type="HBoxContainer" parent="v"]
+layout_mode = 2
+script = ExtResource("2_3qaax")
+
+[node name="offline" type="Button" parent="v/network_manager"]
+layout_mode = 2
+size_flags_vertical = 8
+text = "Connect To Network"
+
+[node name="j_h_butt" type="Button" parent="v/network_manager"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 8
+toggle_mode = true
+text = "Join By IP"
+
+[node name="j_h" type="MarginContainer" parent="v/network_manager"]
+custom_minimum_size = Vector2(615, 0)
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="join" parent="v/network_manager/j_h" instance=ExtResource("3_k3arj")]
+layout_mode = 2
+
+[node name="host" parent="v/network_manager/j_h" instance=ExtResource("2_ssu2h")]
+visible = false
+layout_mode = 2
+
+[node name="connect_err" type="Label" parent="v/network_manager"]
+modulate = Color(0.5, 0.5, 0.5, 1)
+custom_minimum_size = Vector2(360, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Offline"
+script = ExtResource("5_hv78k")
+max_shift = 0.015
+max_shift_for_first = 0.033
+repeat_text = Array[String](["Offline"])
+r_holds_msec = Array[int]([0, 1000])
+repeat_colors = Array[Color]([Color(0.501961, 0.501961, 0.501961, 0), Color(0.827, 0.827, 0.827, 1)])
+
+[node name="main_menu_butt" type="Button" parent="v/network_manager"]
+layout_mode = 2
+size_flags_vertical = 8
+text = "Main Menu"
+
+[node name="players" type="HBoxContainer" parent="v"]
+layout_mode = 2
+alignment = 1
+
+[node name="player1" parent="v/players" instance=ExtResource("6_e8od3")]
+layout_mode = 2
+size_flags_horizontal = 3
+player_num = 1
+player_name = "A"
+color = Color(1, 0, 0, 1)
+
+[node name="player2" parent="v/players" instance=ExtResource("6_e8od3")]
+layout_mode = 2
+size_flags_horizontal = 3
+player_num = 2
+player_name = "B"
+color = Color(0, 1, 0, 1)
+
+[node name="player3" parent="v/players" instance=ExtResource("6_e8od3")]
+layout_mode = 2
+size_flags_horizontal = 3
+player_num = 3
+player_name = "C"
+color = Color(0, 0, 1, 1)
+
+[node name="center" type="MarginContainer" parent="."]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="anchor" type="Node2D" parent="center"]
+
+[node name="countdown" type="Label" parent="center/anchor"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -28.5
+offset_top = -68.5
+offset_right = 28.5
+offset_bottom = 68.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 100
+text = "3"
+
+[node name="custom_timer" type="Node" parent="."]
+script = ExtResource("7_ltuyy")
+
+[connection signal="client_joined" from="v/network_manager" to="." method="_on_network_manager_client_joined"]
+[connection signal="update_iid" from="v/network_manager" to="." method="_on_network_manager_update_iid"]
+[connection signal="pressed" from="v/network_manager/offline" to="v/network_manager" method="_on_offline_pressed"]
+[connection signal="toggled" from="v/network_manager/j_h_butt" to="v/network_manager" method="_on_j_h_butt_toggled"]
+[connection signal="connection_status" from="v/network_manager/j_h/join" to="v/network_manager" method="_on_join_connection_status"]
+[connection signal="server_status" from="v/network_manager/j_h/host" to="v/network_manager" method="_on_host_server_status"]
+[connection signal="pressed" from="v/network_manager/main_menu_butt" to="." method="_on_main_menu_butt_pressed"]
+[connection signal="readied" from="v/players/player1" to="." method="_on_player_1_readied"]
+[connection signal="readied" from="v/players/player2" to="." method="_on_player_2_readied"]
+[connection signal="readied" from="v/players/player3" to="." method="_on_player_3_readied"]
+[connection signal="one_tick" from="custom_timer" to="." method="_on_custom_timer_one_tick"]

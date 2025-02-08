@@ -1,0 +1,333 @@
+{
+	"type": "table",
+	"database": null,
+	"name": "weapons",
+	"withoutRowId": false,
+	"strict": false,
+	"ddl": "CREATE TABLE weapons (id INTEGER UNIQUE PRIMARY KEY ASC AUTOINCREMENT, shape TEXT NOT NULL, name TEXT UNIQUE NOT NULL, size INTEGER NOT NULL DEFAULT (1), subtype TEXT REFERENCES weapon_types (name) ON UPDATE CASCADE NOT NULL, ability TEXT, radius INTEGER NOT NULL DEFAULT (0), ap INTEGER NOT NULL DEFAULT (0), sp INTEGER NOT NULL DEFAULT (0));",
+	"columns": [
+		{
+			"name": "id",
+			"type": "INTEGER",
+			"constraints": [
+				{
+					"type": "UNIQUE",
+					"definition": "UNIQUE "
+				},
+				{
+					"type": "PRIMARY KEY",
+					"definition": "PRIMARY KEY ASC AUTOINCREMENT"
+				}
+			]
+		},
+		{
+			"name": "shape",
+			"type": "TEXT",
+			"constraints": [
+				{
+					"type": "NOT NULL",
+					"definition": "NOT NULL"
+				}
+			]
+		},
+		{
+			"name": "name",
+			"type": "TEXT",
+			"constraints": [
+				{
+					"type": "UNIQUE",
+					"definition": "UNIQUE "
+				},
+				{
+					"type": "NOT NULL",
+					"definition": "NOT NULL"
+				}
+			]
+		},
+		{
+			"name": "size",
+			"type": "INTEGER",
+			"constraints": [
+				{
+					"type": "NOT NULL",
+					"definition": "NOT NULL "
+				},
+				{
+					"type": "DEFAULT",
+					"definition": "DEFAULT (1)"
+				}
+			]
+		},
+		{
+			"name": "subtype",
+			"type": "TEXT",
+			"constraints": [
+				{
+					"type": "FOREIGN KEY",
+					"definition": "REFERENCES weapon_types (name) ON UPDATE CASCADE "
+				},
+				{
+					"type": "NOT NULL",
+					"definition": "NOT NULL"
+				}
+			]
+		},
+		{
+			"name": "ability",
+			"type": "TEXT"
+		},
+		{
+			"name": "radius",
+			"type": "INTEGER",
+			"constraints": [
+				{
+					"type": "NOT NULL",
+					"definition": "NOT NULL "
+				},
+				{
+					"type": "DEFAULT",
+					"definition": "DEFAULT (0)"
+				}
+			]
+		},
+		{
+			"name": "ap",
+			"type": "INTEGER",
+			"constraints": [
+				{
+					"type": "NOT NULL",
+					"definition": "NOT NULL "
+				},
+				{
+					"type": "DEFAULT",
+					"definition": "DEFAULT (0)"
+				}
+			]
+		},
+		{
+			"name": "sp",
+			"type": "INTEGER",
+			"constraints": [
+				{
+					"type": "NOT NULL",
+					"definition": "NOT NULL "
+				},
+				{
+					"type": "DEFAULT",
+					"definition": "DEFAULT (0)"
+				}
+			]
+		}
+	],
+	"rows": [
+		[
+			1300,
+			"1000100010000000",
+			"Bayonette",
+			3,
+			"Melee",
+			null,
+			0,
+			0,
+			0
+		],
+		[
+			1301,
+			"0100110000000000",
+			"Markerlight",
+			3,
+			"Laser",
+			null,
+			0,
+			0,
+			0
+		],
+		[
+			1302,
+			"1110000000000000",
+			"Missile Pod",
+			3,
+			"Launcher",
+			null,
+			0,
+			0,
+			0
+		],
+		[
+			1400,
+			"0100010011000000",
+			"AP Lance",
+			4,
+			"Melee",
+			null,
+			0,
+			1,
+			0
+		],
+		[
+			1401,
+			"1000110010000000",
+			"AR",
+			4,
+			"Rifle",
+			null,
+			0,
+			0,
+			0
+		],
+		[
+			1402,
+			"1110100000000000",
+			"Beam Rifle",
+			4,
+			"Laser",
+			"Beam",
+			0,
+			0,
+			0
+		],
+		[
+			1403,
+			"1000100010001000",
+			"Chain Axe",
+			4,
+			"Melee",
+			null,
+			0,
+			0,
+			0
+		],
+		[
+			1404,
+			"1110010000000000",
+			"Drum Shotgun",
+			4,
+			"Cannon",
+			"Cone, Alternate_Damage",
+			0,
+			0,
+			0
+		],
+		[
+			1405,
+			"1000111000000000",
+			"Energy Blade",
+			4,
+			"Melee",
+			"Alternate_Damage",
+			0,
+			0,
+			0
+		],
+		[
+			1406,
+			"1111000000000000",
+			"Grenade Launcher",
+			4,
+			"Launcher",
+			null,
+			1,
+			0,
+			0
+		],
+		[
+			1407,
+			"0010111000000000",
+			"Phase Spike",
+			4,
+			"Melee",
+			null,
+			0,
+			1,
+			0
+		],
+		[
+			1500,
+			"1110010001000000",
+			"Flak Cannons",
+			5,
+			"Cannon",
+			"Split_Damage",
+			2,
+			0,
+			0
+		],
+		[
+			1501,
+			"1000100010001100",
+			"Greatsword",
+			5,
+			"Melee",
+			null,
+			0,
+			0,
+			0
+		],
+		[
+			1502,
+			"1000111001000000",
+			"Howitzer",
+			5,
+			"Cannon",
+			null,
+			1,
+			0,
+			0
+		],
+		[
+			1503,
+			"1100011001000000",
+			"Marksman Rifle",
+			5,
+			"Rifle",
+			null,
+			0,
+			1,
+			0
+		],
+		[
+			1504,
+			"0100111010000000",
+			"Nanobot Energy Discharge",
+			5,
+			"Coil",
+			null,
+			1,
+			0,
+			0
+		],
+		[
+			1505,
+			"1000111100000000",
+			"Rocket Launcher",
+			5,
+			"Launcher",
+			null,
+			1,
+			0,
+			0
+		],
+		[
+			1600,
+			"1100111010000000",
+			"Arc Generator",
+			6,
+			"Coil",
+			"No_Self_Damage",
+			1,
+			1,
+			0
+		],
+		[
+			1601,
+			"1100100010001100",
+			"Rocket Hammer",
+			6,
+			"Melee",
+			"No_Self_Damage",
+			1,
+			0,
+			0
+		]
+	]
+}

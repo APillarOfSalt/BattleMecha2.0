@@ -1,0 +1,105 @@
+[gd_scene load_steps=4 format=3 uid="uid://rhih7qvihfn3"]
+
+[ext_resource type="PackedScene" uid="uid://bep67tj1nkdg0" path="res://godot_sucks_ass/option_button.tscn" id="1_buyye"]
+[ext_resource type="Script" path="res://unit_selector.gd" id="1_p7wad"]
+[ext_resource type="PackedScene" uid="uid://cniipby2quw4p" path="res://unit_ui.tscn" id="3_wan7j"]
+
+[node name="unit_sel" type="VBoxContainer"]
+offset_right = 226.0
+offset_bottom = 224.0
+theme_override_constants/separation = 0
+script = ExtResource("1_p7wad")
+
+[node name="team" type="MarginContainer" parent="."]
+custom_minimum_size = Vector2(0, 31)
+layout_mode = 2
+
+[node name="local" type="OptionButton" parent="team"]
+layout_mode = 2
+disabled = true
+alignment = 1
+icon_alignment = 1
+expand_icon = true
+item_count = 1
+selected = 0
+popup/item_0/text = "Select Team"
+popup/item_0/id = 0
+
+[node name="network" type="Label" parent="team"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+text = "Team Name"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="spacer1" type="MarginContainer" parent="."]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+
+[node name="h" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="l" type="Button" parent="h"]
+layout_mode = 2
+disabled = true
+text = "<"
+
+[node name="OptionButton" parent="h" instance=ExtResource("1_buyye")]
+layout_mode = 2
+size_flags_horizontal = 3
+disabled = true
+
+[node name="r" type="Button" parent="h"]
+layout_mode = 2
+disabled = true
+text = ">"
+
+[node name="m" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = -1
+theme_override_constants/margin_right = 4
+
+[node name="units" type="GridContainer" parent="m"]
+layout_mode = 2
+theme_override_constants/h_separation = 4
+theme_override_constants/v_separation = -1
+columns = 3
+
+[node name="check0" type="CheckBox" parent="m/units"]
+layout_mode = 2
+size_flags_horizontal = 6
+disabled = true
+
+[node name="check1" type="CheckBox" parent="m/units"]
+layout_mode = 2
+size_flags_horizontal = 6
+disabled = true
+
+[node name="check2" type="CheckBox" parent="m/units"]
+layout_mode = 2
+size_flags_horizontal = 6
+disabled = true
+
+[node name="unit0" parent="m/units" instance=ExtResource("3_wan7j")]
+layout_mode = 2
+size_flags_horizontal = 6
+show_local_sprite = true
+
+[node name="unit1" parent="m/units" instance=ExtResource("3_wan7j")]
+layout_mode = 2
+size_flags_horizontal = 6
+show_local_sprite = true
+
+[node name="unit2" parent="m/units" instance=ExtResource("3_wan7j")]
+layout_mode = 2
+size_flags_horizontal = 6
+show_local_sprite = true
+
+[connection signal="item_selected" from="team/local" to="." method="_on_local_item_selected"]
+[connection signal="pressed" from="h/l" to="." method="_on_l_pressed"]
+[connection signal="item_selected" from="h/OptionButton" to="." method="_on_option_button_item_selected"]
+[connection signal="pressed" from="h/r" to="." method="_on_r_pressed"]
+[connection signal="toggled" from="m/units/check0" to="." method="_on_check_0_toggled"]
+[connection signal="toggled" from="m/units/check1" to="." method="_on_check_1_toggled"]
+[connection signal="toggled" from="m/units/check2" to="." method="_on_check_2_toggled"]

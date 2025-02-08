@@ -1,0 +1,87 @@
+[gd_scene load_steps=6 format=3 uid="uid://dp40j8m0bppk4"]
+
+[ext_resource type="Script" path="res://attack_queue_one_attack.gd" id="1_8v18u"]
+[ext_resource type="Texture2D" uid="uid://nb7t8xgq5g1s" path="res://assets/s1spritesheet.png" id="1_de21b"]
+[ext_resource type="Texture2D" uid="uid://dyhi1cwm07reg" path="res://assets/rifle.png" id="2_6b62l"]
+[ext_resource type="Texture2D" uid="uid://b5wlywfd1heq0" path="res://assets/laser-gun.png" id="3_03ba7"]
+[ext_resource type="Texture2D" uid="uid://lhr3b4rqohf2" path="res://assets/grenade.png" id="4_us3v2"]
+
+[node name="one_attack" type="PanelContainer"]
+script = ExtResource("1_8v18u")
+
+[node name="h" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="off" type="MarginContainer" parent="h"]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+
+[node name="center" type="MarginContainer" parent="h/off"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Sprite2D" type="Sprite2D" parent="h/off/center"]
+texture = ExtResource("1_de21b")
+hframes = 7
+vframes = 3
+
+[node name="dmg" type="HBoxContainer" parent="h"]
+layout_mode = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="Label" type="Label" parent="h/dmg"]
+layout_mode = 2
+text = "↓"
+
+[node name="p" type="PanelContainer" parent="h/dmg"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="v" type="HBoxContainer" parent="h/dmg/p"]
+layout_mode = 2
+theme_override_constants/separation = -4
+
+[node name="val" type="MarginContainer" parent="h/dmg/p/v"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = -2
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = -2
+
+[node name="Label" type="Label" parent="h/dmg/p/v/val"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "1"
+
+[node name="type" type="MarginContainer" parent="h/dmg/p/v"]
+layout_mode = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
+
+[node name="p" type="TextureRect" parent="h/dmg/p/v/type"]
+layout_mode = 2
+texture = ExtResource("2_6b62l")
+expand_mode = 2
+
+[node name="v" type="TextureRect" parent="h/dmg/p/v/type"]
+visible = false
+layout_mode = 2
+texture = ExtResource("3_03ba7")
+
+[node name="c" type="TextureRect" parent="h/dmg/p/v/type"]
+visible = false
+layout_mode = 2
+texture = ExtResource("4_us3v2")
+
+[node name="Label2" type="Label" parent="h/dmg"]
+layout_mode = 2
+text = "↓"
+
+[node name="def" type="HBoxContainer" parent="h"]
+layout_mode = 2

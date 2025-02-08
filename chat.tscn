@@ -1,0 +1,60 @@
+[gd_scene load_steps=2 format=3 uid="uid://28reccnlibjq"]
+
+[ext_resource type="Script" path="res://chat.gd" id="1_bdgmt"]
+
+[node name="chat" type="VBoxContainer" groups=["is_chat"]]
+offset_right = 459.0
+offset_bottom = 326.0
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 1
+script = ExtResource("1_bdgmt")
+
+[node name="title" type="PanelContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="m" type="MarginContainer" parent="title"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="Label" type="Label" parent="title/m"]
+layout_mode = 2
+text = "Chat Logs"
+horizontal_alignment = 1
+
+[node name="disp" type="PanelContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="list" type="VBoxContainer" parent="disp"]
+layout_mode = 2
+alignment = 2
+
+[node name="START" type="Label" parent="disp/list"]
+layout_mode = 2
+text = "Start"
+
+[node name="h" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 1
+
+[node name="TextEdit" type="TextEdit" parent="h"]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+size_flags_horizontal = 3
+scroll_fit_content_height = true
+
+[node name="send" type="Button" parent="h"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = " ⇑ "
+
+[connection signal="pressed" from="h/send" to="." method="_on_send_pressed"]

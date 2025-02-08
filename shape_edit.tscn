@@ -1,0 +1,179 @@
+[gd_scene load_steps=2 format=3 uid="uid://dgkwqxiefn2av"]
+
+[ext_resource type="Script" path="res://shape_edit.gd" id="1_ofeyq"]
+
+[node name="shape_edit" type="HBoxContainer"]
+mouse_filter = 2
+theme_override_constants/separation = 1
+script = ExtResource("1_ofeyq")
+
+[node name="v" type="VBoxContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+alignment = 2
+
+[node name="title" type="PanelContainer" parent="v"]
+layout_mode = 2
+
+[node name="m" type="MarginContainer" parent="v/title"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="Label" type="Label" parent="v/title/m"]
+layout_mode = 2
+text = "Shape Editor"
+
+[node name="area" type="Label" parent="v"]
+layout_mode = 2
+size_flags_vertical = 1
+text = "Module Size:
+0"
+horizontal_alignment = 1
+
+[node name="normalize" type="Button" parent="v"]
+layout_mode = 2
+text = "Normalize
+Display
+Shape"
+
+[node name="g" type="GridContainer" parent="."]
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+columns = 4
+
+[node name="0" type="Button" parent="g"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 0
+toggle_mode = true
+
+[node name="1" type="Button" parent="g"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 0
+toggle_mode = true
+
+[node name="2" type="Button" parent="g"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 0
+toggle_mode = true
+
+[node name="3" type="Button" parent="g"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 0
+toggle_mode = true
+
+[node name="4" type="Button" parent="g"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 0
+toggle_mode = true
+
+[node name="5" type="Button" parent="g"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 0
+toggle_mode = true
+
+[node name="6" type="Button" parent="g"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 0
+toggle_mode = true
+
+[node name="7" type="Button" parent="g"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 0
+toggle_mode = true
+
+[node name="8" type="Button" parent="g"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 0
+toggle_mode = true
+
+[node name="9" type="Button" parent="g"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 0
+toggle_mode = true
+
+[node name="10" type="Button" parent="g"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 0
+toggle_mode = true
+
+[node name="11" type="Button" parent="g"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 0
+toggle_mode = true
+
+[node name="12" type="Button" parent="g"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 0
+toggle_mode = true
+
+[node name="13" type="Button" parent="g"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 0
+toggle_mode = true
+
+[node name="14" type="Button" parent="g"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 0
+toggle_mode = true
+
+[node name="15" type="Button" parent="g"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 0
+toggle_mode = true
+
+[connection signal="pressed" from="v/normalize" to="." method="_on_normalize_pressed"]
+[connection signal="toggled" from="g/0" to="." method="_on_0_toggled"]
+[connection signal="toggled" from="g/1" to="." method="_on_1_toggled"]
+[connection signal="toggled" from="g/2" to="." method="_on_2_toggled"]
+[connection signal="toggled" from="g/3" to="." method="_on_3_toggled"]
+[connection signal="toggled" from="g/4" to="." method="_on_4_toggled"]
+[connection signal="toggled" from="g/5" to="." method="_on_5_toggled"]
+[connection signal="toggled" from="g/6" to="." method="_on_6_toggled"]
+[connection signal="toggled" from="g/7" to="." method="_on_7_toggled"]
+[connection signal="toggled" from="g/8" to="." method="_on_8_toggled"]
+[connection signal="toggled" from="g/9" to="." method="_on_9_toggled"]
+[connection signal="toggled" from="g/10" to="." method="_on_10_toggled"]
+[connection signal="toggled" from="g/11" to="." method="_on_11_toggled"]
+[connection signal="toggled" from="g/12" to="." method="_on_12_toggled"]
+[connection signal="toggled" from="g/13" to="." method="_on_13_toggled"]
+[connection signal="toggled" from="g/14" to="." method="_on_14_toggled"]
+[connection signal="toggled" from="g/15" to="." method="_on_15_toggled"]

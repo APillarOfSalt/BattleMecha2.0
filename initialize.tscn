@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=3 uid="uid://cmqd2dsdc08vu"]
+
+[ext_resource type="Script" path="res://initialize.gd" id="1_rg2gd"]
+
+[node name="initialize" type="Node"]
+script = ExtResource("1_rg2gd")
+
+[node name="screen" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="screen"]
+layout_mode = 2
+size_flags_vertical = 10
+text = "Initializing..."
+fit_content = true
+scroll_active = false

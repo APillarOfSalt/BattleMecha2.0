@@ -1,0 +1,44 @@
+[gd_scene load_steps=3 format=3 uid="uid://c8rre51hkcrby"]
+
+[ext_resource type="Texture2D" uid="uid://3hylkjp1ng6g" path="res://assets/processor.png" id="1_onvpg"]
+[ext_resource type="Script" path="res://type_button.gd" id="1_ye7wq"]
+
+[node name="module" type="MarginContainer" groups=["type_disp"]]
+custom_minimum_size = Vector2(0, 36)
+mouse_filter = 2
+script = ExtResource("1_ye7wq")
+
+[node name="butt" type="Button" parent="."]
+layout_mode = 2
+toggle_mode = true
+
+[node name="h" type="HBoxContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="CheckBox" type="CheckBox" parent="h"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="TextureRect" type="TextureRect" parent="h"]
+custom_minimum_size = Vector2(28, 0)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("1_onvpg")
+stretch_mode = 5
+
+[node name="m" type="MarginContainer" parent="h"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="Label" type="Label" parent="h/m"]
+layout_mode = 2
+size_flags_horizontal = 4
+horizontal_alignment = 1
+
+[connection signal="button_down" from="butt" to="." method="_on_butt_button_down"]

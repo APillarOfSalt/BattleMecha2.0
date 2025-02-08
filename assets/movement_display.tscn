@@ -1,0 +1,59 @@
+[gd_scene load_steps=5 format=3 uid="uid://b2vo0conepdtn"]
+
+[ext_resource type="Script" path="res://movement_display.gd" id="1_cqmwu"]
+[ext_resource type="Texture2D" uid="uid://d10icw84hte07" path="res://assets/tile_part_s1.png" id="2_y2ncc"]
+[ext_resource type="Texture2D" uid="uid://d0bc0hmcawtv" path="res://assets/tile_part_s2.png" id="3_366cu"]
+[ext_resource type="Texture2D" uid="uid://dm5drlcxb2uo7" path="res://assets/tile_s.png" id="4_tlkf0"]
+
+[node name="movement_display" type="MarginContainer"]
+custom_minimum_size = Vector2(17, 15)
+mouse_filter = 2
+script = ExtResource("1_cqmwu")
+
+[node name="anchor" type="Node2D" parent="."]
+position = Vector2(8.5, 7.5)
+
+[node name="up" type="Sprite2D" parent="anchor"]
+modulate = Color(0.784314, 1, 0.784314, 1)
+position = Vector2(0, -3.5)
+texture = ExtResource("2_y2ncc")
+hframes = 4
+
+[node name="ur" type="Sprite2D" parent="anchor"]
+modulate = Color(0.784314, 1, 0.784314, 1)
+position = Vector2(4, -3.5)
+texture = ExtResource("3_366cu")
+hframes = 4
+
+[node name="dr" type="Sprite2D" parent="anchor"]
+modulate = Color(0.784314, 1, 0.784314, 1)
+position = Vector2(4, 3.5)
+texture = ExtResource("3_366cu")
+flip_v = true
+hframes = 4
+
+[node name="down" type="Sprite2D" parent="anchor"]
+modulate = Color(0.784314, 1, 0.784314, 1)
+position = Vector2(0, 3.5)
+texture = ExtResource("2_y2ncc")
+flip_v = true
+hframes = 4
+
+[node name="dl" type="Sprite2D" parent="anchor"]
+modulate = Color(0.784314, 1, 0.784314, 1)
+position = Vector2(-4, 3.5)
+texture = ExtResource("3_366cu")
+flip_h = true
+flip_v = true
+hframes = 4
+
+[node name="ul" type="Sprite2D" parent="anchor"]
+modulate = Color(0.784314, 1, 0.784314, 1)
+position = Vector2(-4, -3.5)
+texture = ExtResource("3_366cu")
+flip_h = true
+hframes = 4
+
+[node name="Sprite2D" type="Sprite2D" parent="anchor"]
+modulate = Color(0, 0, 0, 1)
+texture = ExtResource("4_tlkf0")

@@ -1,0 +1,27 @@
+[gd_scene load_steps=3 format=3 uid="uid://bep67tj1nkdg0"]
+
+[ext_resource type="Texture2D" uid="uid://bv0kr00x42t6u" path="res://godot_sucks_ass/downCarret.png" id="1_jikem"]
+[ext_resource type="Script" path="res://godot_sucks_ass/OptionButton.gd" id="2_ipb1j"]
+
+[node name="OptionButton" type="Button"]
+offset_right = 20.0
+offset_bottom = 20.0
+action_mode = 0
+text = " "
+icon = ExtResource("1_jikem")
+icon_alignment = 2
+script = ExtResource("2_ipb1j")
+
+[node name="anchor" type="Node2D" parent="."]
+modulate = Color(1, 1, 1, 0)
+top_level = true
+
+[node name="p" type="PanelContainer" parent="anchor"]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="list" type="VBoxContainer" parent="anchor/p"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[connection signal="pressed" from="." to="." method="_on_pressed"]

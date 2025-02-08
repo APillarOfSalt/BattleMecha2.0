@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://bshdgafc6vils"]
+
+[ext_resource type="Script" path="res://game_board_player_controller.gd" id="1_78cw3"]
+
+[node name="p1_controller" type="Node2D"]
+position = Vector2(256, 240)
+script = ExtResource("1_78cw3")

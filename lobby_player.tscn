@@ -1,0 +1,193 @@
+[gd_scene load_steps=8 format=3 uid="uid://6nmkjcbhhcjl"]
+
+[ext_resource type="Script" path="res://lobby_player.gd" id="1_vhp5g"]
+[ext_resource type="PackedScene" uid="uid://rhih7qvihfn3" path="res://unit_selector.tscn" id="1_w4npb"]
+[ext_resource type="PackedScene" uid="uid://uece2td75dsj" path="res://cost_editor.tscn" id="2_3qnea"]
+[ext_resource type="Texture2D" uid="uid://dcbpew0nnvc3h" path="res://assets/wifi_icon.png" id="2_uv8c7"]
+[ext_resource type="Texture2D" uid="uid://crilpqyhng5vk" path="res://assets/aerial-signal.png" id="3_ybwhv"]
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_gdj6e"]
+color = Color(0.5, 0.5, 0.5, 1)
+grow_begin = 0.0
+grow_end = 0.0
+thickness = 3
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_oxl55"]
+color = Color(0.5, 0.5, 0.5, 1)
+grow_begin = 0.0
+grow_end = 0.0
+thickness = 3
+
+[node name="player" type="VBoxContainer"]
+offset_right = 364.0
+offset_bottom = 504.0
+mouse_filter = 2
+theme_override_constants/separation = 1
+script = ExtResource("1_vhp5g")
+
+[node name="title" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="p" type="PanelContainer" parent="title"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="m" type="MarginContainer" parent="title/p"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="Label" type="Label" parent="title/p/m"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Player 1"
+horizontal_alignment = 1
+
+[node name="m" type="MarginContainer" parent="title"]
+layout_mode = 2
+
+[node name="client" type="PanelContainer" parent="title/m"]
+visible = false
+custom_minimum_size = Vector2(0, 31)
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="m" type="MarginContainer" parent="title/m/client"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_right = 4
+
+[node name="h" type="HBoxContainer" parent="title/m/client/m"]
+layout_mode = 2
+theme_override_constants/separation = 2
+alignment = 1
+
+[node name="iid" type="Label" parent="title/m/client/m/h"]
+layout_mode = 2
+text = "2"
+horizontal_alignment = 1
+
+[node name="m" type="MarginContainer" parent="title/m/client/m/h"]
+custom_minimum_size = Vector2(20, 23)
+layout_mode = 2
+
+[node name="anchor" type="MarginContainer" parent="title/m/client/m/h/m"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="conn" type="Sprite2D" parent="title/m/client/m/h/m/anchor"]
+position = Vector2(0, 1)
+texture = ExtResource("2_uv8c7")
+hframes = 4
+frame = 3
+
+[node name="host" type="PanelContainer" parent="title/m"]
+custom_minimum_size = Vector2(0, 31)
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="m" type="MarginContainer" parent="title/m/host"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_right = 4
+
+[node name="h" type="HBoxContainer" parent="title/m/host/m"]
+layout_mode = 2
+theme_override_constants/separation = -1
+alignment = 1
+
+[node name="iid" type="Label" parent="title/m/host/m/h"]
+layout_mode = 2
+text = "1"
+horizontal_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="title/m/host/m/h"]
+modulate = Color(0, 1, 0, 1)
+layout_mode = 2
+texture = ExtResource("3_ybwhv")
+stretch_mode = 3
+
+[node name="LineEdit" type="LineEdit" parent="."]
+layout_mode = 2
+placeholder_text = "Name"
+
+[node name="ColorPickerButton" type="ColorPickerButton" parent="."]
+custom_minimum_size = Vector2(0, 31)
+layout_mode = 2
+
+[node name="res_sep" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(0, 31)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="l" type="HSeparator" parent="res_sep"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_gdj6e")
+
+[node name="Label" type="Label" parent="res_sep"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5, 0.5, 0.5, 1)
+text = "Starting Resources"
+
+[node name="r" type="HSeparator" parent="res_sep"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_oxl55")
+
+[node name="cost_editor" parent="." instance=ExtResource("2_3qnea")]
+layout_mode = 2
+size_flags_horizontal = 4
+total_allowed = 4
+individual_total_limit = 2
+
+[node name="unit_sep" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(0, 33)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="l" type="HSeparator" parent="unit_sep"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_oxl55")
+
+[node name="Label" type="Label" parent="unit_sep"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5, 0.5, 0.5, 1)
+text = "Starting Units"
+
+[node name="r" type="HSeparator" parent="unit_sep"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_oxl55")
+
+[node name="unit_picker" parent="." instance=ExtResource("1_w4npb")]
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+
+[node name="spacer2" type="MarginContainer" parent="."]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+
+[node name="ready" type="Button" parent="."]
+layout_mode = 2
+disabled = true
+toggle_mode = true
+text = "Set Ready"
+
+[connection signal="text_changed" from="LineEdit" to="." method="_on_line_edit_text_changed"]
+[connection signal="color_changed" from="ColorPickerButton" to="." method="_on_color_picker_button_color_changed"]
+[connection signal="new_value" from="cost_editor" to="." method="_on_cost_editor_new_value"]
+[connection signal="toggled" from="ready" to="." method="_on_ready_toggled"]

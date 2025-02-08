@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=3 uid="uid://c6ng0yuea6pqi"]
+
+[ext_resource type="Script" path="res://two_tiny_digits.gd" id="1_i612r"]
+[ext_resource type="Texture2D" uid="uid://comrumi7iot2f" path="res://assets/tiny_digits.png" id="2_ayqvr"]
+
+[node name="current" type="HBoxContainer"]
+theme_override_constants/separation = 1
+script = ExtResource("1_i612r")
+
+[node name="tens" type="MarginContainer" parent="."]
+visible = false
+custom_minimum_size = Vector2(3, 5)
+layout_mode = 2
+
+[node name="sprite" type="Sprite2D" parent="tens"]
+texture = ExtResource("2_ayqvr")
+centered = false
+hframes = 5
+vframes = 2
+
+[node name="ones" type="MarginContainer" parent="."]
+custom_minimum_size = Vector2(3, 5)
+layout_mode = 2
+
+[node name="sprite" type="Sprite2D" parent="ones"]
+texture = ExtResource("2_ayqvr")
+centered = false
+hframes = 5
+vframes = 2

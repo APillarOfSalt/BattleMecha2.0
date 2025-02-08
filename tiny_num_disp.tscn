@@ -1,0 +1,77 @@
+[gd_scene load_steps=5 format=3 uid="uid://cgwynd74pvifa"]
+
+[ext_resource type="Script" path="res://tiny_num_disp.gd" id="1_7onwb"]
+[ext_resource type="PackedScene" uid="uid://c6ng0yuea6pqi" path="res://two_tiny_digits.tscn" id="2_40bc6"]
+[ext_resource type="Texture2D" uid="uid://c0dw523chbg1u" path="res://assets/tiny_operators.png" id="3_y3pf1"]
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_327c6"]
+color = Color(1, 1, 1, 1)
+grow_begin = -1.0
+grow_end = -1.0
+
+[node name="tiny_num_disp" type="HBoxContainer"]
+offset_right = 11.0
+offset_bottom = 13.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 1
+script = ExtResource("1_7onwb")
+hide_tens = true
+
+[node name="disp" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="current" parent="disp" instance=ExtResource("2_40bc6")]
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="HSeparator" type="HSeparator" parent="disp"]
+layout_mode = 2
+theme_override_constants/separation = 3
+theme_override_styles/separator = SubResource("StyleBoxLine_327c6")
+
+[node name="max" parent="disp" instance=ExtResource("2_40bc6")]
+layout_mode = 2
+
+[node name="left" type="VBoxContainer" parent="."]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="argument" type="HBoxContainer" parent="left"]
+custom_minimum_size = Vector2(7, 5)
+layout_mode = 2
+theme_override_constants/separation = 1
+
+[node name="operator" type="MarginContainer" parent="left/argument"]
+custom_minimum_size = Vector2(3, 0)
+layout_mode = 2
+
+[node name="op" type="Sprite2D" parent="left/argument/operator"]
+texture = ExtResource("3_y3pf1")
+centered = false
+hframes = 5
+frame = 1
+
+[node name="num" parent="left/argument" instance=ExtResource("2_40bc6")]
+layout_mode = 2
+
+[node name="total" type="HBoxContainer" parent="left"]
+custom_minimum_size = Vector2(7, 5)
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_constants/separation = 1
+
+[node name="equal" type="MarginContainer" parent="left/total"]
+custom_minimum_size = Vector2(3, 0)
+layout_mode = 2
+
+[node name="op" type="Sprite2D" parent="left/total/equal"]
+texture = ExtResource("3_y3pf1")
+centered = false
+hframes = 5
+frame = 2
+
+[node name="num" parent="left/total" instance=ExtResource("2_40bc6")]
+layout_mode = 2

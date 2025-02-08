@@ -1,0 +1,348 @@
+[gd_scene load_steps=11 format=3 uid="uid://c1pkj6iruuudg"]
+
+[ext_resource type="Script" path="res://lobby_display.gd" id="1_y7ngd"]
+[ext_resource type="Texture2D" uid="uid://dcbpew0nnvc3h" path="res://assets/wifi_icon.png" id="2_invjt"]
+[ext_resource type="Texture2D" uid="uid://crilpqyhng5vk" path="res://assets/aerial-signal.png" id="3_3wbfa"]
+[ext_resource type="Script" path="res://lobby_displaye_color_module.gd" id="4_maoha"]
+[ext_resource type="Script" path="res://lobby_display_select_module.gd" id="4_sglnk"]
+[ext_resource type="PackedScene" uid="uid://c5j6yc30a0sip" path="res://cost.tscn" id="5_tpiff"]
+[ext_resource type="Script" path="res://lobby_display_unit_module.gd" id="6_egcd1"]
+[ext_resource type="PackedScene" uid="uid://cniipby2quw4p" path="res://unit_ui.tscn" id="6_phubt"]
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_gdj6e"]
+color = Color(0.5, 0.5, 0.5, 1)
+grow_begin = 0.0
+grow_end = 0.0
+thickness = 3
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_oxl55"]
+color = Color(0.5, 0.5, 0.5, 1)
+grow_begin = 0.0
+grow_end = 0.0
+thickness = 3
+
+[node name="player_display" type="VBoxContainer"]
+offset_right = 273.0
+offset_bottom = 405.0
+mouse_filter = 2
+theme_override_constants/separation = 2
+script = ExtResource("1_y7ngd")
+
+[node name="title" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="p" type="PanelContainer" parent="title"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="m" type="MarginContainer" parent="title/p"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="Label" type="Label" parent="title/p/m"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Player #"
+horizontal_alignment = 1
+
+[node name="m" type="MarginContainer" parent="title"]
+layout_mode = 2
+
+[node name="client" type="PanelContainer" parent="title/m"]
+visible = false
+custom_minimum_size = Vector2(0, 31)
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="m" type="MarginContainer" parent="title/m/client"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_right = 4
+
+[node name="h" type="HBoxContainer" parent="title/m/client/m"]
+layout_mode = 2
+theme_override_constants/separation = 2
+alignment = 1
+
+[node name="iid" type="Label" parent="title/m/client/m/h"]
+layout_mode = 2
+text = "2"
+horizontal_alignment = 1
+
+[node name="m" type="MarginContainer" parent="title/m/client/m/h"]
+custom_minimum_size = Vector2(20, 23)
+layout_mode = 2
+
+[node name="anchor" type="MarginContainer" parent="title/m/client/m/h/m"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="conn" type="Sprite2D" parent="title/m/client/m/h/m/anchor"]
+position = Vector2(0, 1)
+texture = ExtResource("2_invjt")
+hframes = 4
+frame = 3
+
+[node name="host" type="PanelContainer" parent="title/m"]
+visible = false
+custom_minimum_size = Vector2(0, 31)
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="m" type="MarginContainer" parent="title/m/host"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_right = 4
+
+[node name="h" type="HBoxContainer" parent="title/m/host/m"]
+layout_mode = 2
+theme_override_constants/separation = -1
+alignment = 1
+
+[node name="iid" type="Label" parent="title/m/host/m/h"]
+layout_mode = 2
+text = "1"
+horizontal_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="title/m/host/m/h"]
+modulate = Color(0, 1, 0, 1)
+layout_mode = 2
+texture = ExtResource("3_3wbfa")
+stretch_mode = 3
+
+[node name="LineEdit" type="LineEdit" parent="."]
+layout_mode = 2
+placeholder_text = "Player Name"
+alignment = 1
+
+[node name="selector" type="MarginContainer" parent="."]
+layout_mode = 2
+script = ExtResource("4_sglnk")
+
+[node name="team_sel" type="OptionButton" parent="selector"]
+custom_minimum_size = Vector2(0, 31)
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 0)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 0)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 0)
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 0)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 0)
+theme_override_colors/font_disabled_color = Color(0, 0, 0, 0)
+alignment = 1
+
+[node name="team_name" type="Label" parent="selector"]
+layout_mode = 2
+text = "Select Team"
+horizontal_alignment = 1
+
+[node name="col_sep" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(0, 17)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="l" type="HSeparator" parent="col_sep"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_gdj6e")
+
+[node name="Label" type="Label" parent="col_sep"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5, 0.5, 0.5, 1)
+theme_override_font_sizes/font_size = 12
+text = "Team Colors"
+
+[node name="r" type="HSeparator" parent="col_sep"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_oxl55")
+
+[node name="colors" type="GridContainer" parent="."]
+layout_mode = 2
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+columns = 3
+script = ExtResource("4_maoha")
+
+[node name="base_l" type="Label" parent="colors"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Primary"
+horizontal_alignment = 1
+
+[node name="sec_l" type="Label" parent="colors"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Secondary"
+horizontal_alignment = 1
+
+[node name="ter_l" type="Label" parent="colors"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Tertiary"
+horizontal_alignment = 1
+
+[node name="base" type="PanelContainer" parent="colors"]
+custom_minimum_size = Vector2(0, 23)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="m" type="MarginContainer" parent="colors/base"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="rect" type="ColorRect" parent="colors/base/m"]
+layout_mode = 2
+
+[node name="sec" type="PanelContainer" parent="colors"]
+custom_minimum_size = Vector2(0, 23)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="m" type="MarginContainer" parent="colors/sec"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="rect" type="ColorRect" parent="colors/sec/m"]
+layout_mode = 2
+
+[node name="ter" type="PanelContainer" parent="colors"]
+custom_minimum_size = Vector2(0, 23)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="m" type="MarginContainer" parent="colors/ter"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="rect" type="ColorRect" parent="colors/ter/m"]
+layout_mode = 2
+
+[node name="base_name" type="Label" parent="colors"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 8
+text = "White"
+horizontal_alignment = 1
+
+[node name="sec_name" type="Label" parent="colors"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "White"
+horizontal_alignment = 1
+
+[node name="ter_name" type="Label" parent="colors"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "White"
+horizontal_alignment = 1
+
+[node name="res_sep" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="l" type="HSeparator" parent="res_sep"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_gdj6e")
+
+[node name="Label" type="Label" parent="res_sep"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5, 0.5, 0.5, 1)
+theme_override_font_sizes/font_size = 12
+text = "Starting Resources"
+
+[node name="r" type="HSeparator" parent="res_sep"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_oxl55")
+
+[node name="cost" parent="." instance=ExtResource("5_tpiff")]
+layout_mode = 2
+theme_override_constants/h_separation = 5
+override_visible = 15
+font_size_override = 26
+
+[node name="unit_sep" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="l" type="HSeparator" parent="unit_sep"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_oxl55")
+
+[node name="Label" type="Label" parent="unit_sep"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5, 0.5, 0.5, 1)
+theme_override_font_sizes/font_size = 12
+text = "Starting Units"
+
+[node name="r" type="HSeparator" parent="unit_sep"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_oxl55")
+
+[node name="units" type="HBoxContainer" parent="."]
+layout_mode = 2
+script = ExtResource("6_egcd1")
+
+[node name="unit0" parent="units" instance=ExtResource("6_phubt")]
+layout_mode = 2
+size_flags_horizontal = 6
+show_local_sprite = true
+
+[node name="unit1" parent="units" instance=ExtResource("6_phubt")]
+layout_mode = 2
+size_flags_horizontal = 6
+show_local_sprite = true
+
+[node name="unit2" parent="units" instance=ExtResource("6_phubt")]
+layout_mode = 2
+size_flags_horizontal = 6
+show_local_sprite = true
+
+[node name="r" type="HSeparator" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 15
+theme_override_styles/separator = SubResource("StyleBoxLine_oxl55")
+
+[node name="ready" type="Button" parent="."]
+layout_mode = 2
+disabled = true
+toggle_mode = true
+text = "Set Ready"
+
+[connection signal="text_changed" from="LineEdit" to="." method="_on_line_edit_text_changed"]
+[connection signal="item_selected" from="selector/team_sel" to="selector" method="_on_team_sel_item_selected"]
+[connection signal="toggled" from="ready" to="." method="_on_ready_toggled"]

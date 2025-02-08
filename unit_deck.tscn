@@ -1,0 +1,137 @@
+[gd_scene load_steps=3 format=3 uid="uid://c2uufn4iee1tp"]
+
+[ext_resource type="PackedScene" uid="uid://eof6hlbwlg72" path="res://unit_deck_ui_container.tscn" id="1_e0hy4"]
+[ext_resource type="Script" path="res://unit_deck_manager.gd" id="1_jdgqe"]
+
+[node name="units" type="HBoxContainer"]
+offset_right = 175.0
+offset_bottom = 100.0
+mouse_filter = 2
+theme_override_constants/separation = 1
+script = ExtResource("1_jdgqe")
+
+[node name="spacer" type="MarginContainer" parent="."]
+custom_minimum_size = Vector2(1, 0)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="left" type="VBoxContainer" parent="."]
+layout_mode = 2
+size_flags_vertical = 0
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="cur" type="PanelContainer" parent="left"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="m" type="MarginContainer" parent="left/cur"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 2
+
+[node name="Label" type="Label" parent="left/cur/m"]
+layout_mode = 2
+text = "Current"
+horizontal_alignment = 1
+
+[node name="c_val" type="Label" parent="left"]
+layout_mode = 2
+text = "0"
+horizontal_alignment = 1
+
+[node name="re" type="PanelContainer" parent="left"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="m" type="MarginContainer" parent="left/re"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 2
+
+[node name="Label" type="Label" parent="left/re/m"]
+layout_mode = 2
+text = "Remaining"
+horizontal_alignment = 1
+
+[node name="r_val" type="Label" parent="left"]
+layout_mode = 2
+text = "20"
+horizontal_alignment = 1
+
+[node name="deck" type="GridContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+columns = 4
+
+[node name="u0" parent="deck" instance=ExtResource("1_e0hy4")]
+layout_mode = 2
+
+[node name="u1" parent="deck" instance=ExtResource("1_e0hy4")]
+layout_mode = 2
+
+[node name="u2" parent="deck" instance=ExtResource("1_e0hy4")]
+layout_mode = 2
+
+[node name="u3" parent="deck" instance=ExtResource("1_e0hy4")]
+layout_mode = 2
+
+[node name="u4" parent="deck" instance=ExtResource("1_e0hy4")]
+layout_mode = 2
+
+[node name="u5" parent="deck" instance=ExtResource("1_e0hy4")]
+layout_mode = 2
+
+[node name="u6" parent="deck" instance=ExtResource("1_e0hy4")]
+layout_mode = 2
+
+[node name="u7" parent="deck" instance=ExtResource("1_e0hy4")]
+layout_mode = 2
+
+[node name="u8" parent="deck" instance=ExtResource("1_e0hy4")]
+layout_mode = 2
+
+[node name="u9" parent="deck" instance=ExtResource("1_e0hy4")]
+layout_mode = 2
+
+[node name="u10" parent="deck" instance=ExtResource("1_e0hy4")]
+layout_mode = 2
+
+[node name="u11" parent="deck" instance=ExtResource("1_e0hy4")]
+layout_mode = 2
+
+[node name="u12" parent="deck" instance=ExtResource("1_e0hy4")]
+layout_mode = 2
+
+[node name="u13" parent="deck" instance=ExtResource("1_e0hy4")]
+layout_mode = 2
+
+[node name="u14" parent="deck" instance=ExtResource("1_e0hy4")]
+layout_mode = 2
+
+[node name="u15" parent="deck" instance=ExtResource("1_e0hy4")]
+layout_mode = 2
+
+[node name="u16" parent="deck" instance=ExtResource("1_e0hy4")]
+layout_mode = 2
+
+[node name="u17" parent="deck" instance=ExtResource("1_e0hy4")]
+layout_mode = 2
+
+[node name="u18" parent="deck" instance=ExtResource("1_e0hy4")]
+layout_mode = 2
+
+[node name="u19" parent="deck" instance=ExtResource("1_e0hy4")]
+layout_mode = 2
+
+[node name="spacer2" type="MarginContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2

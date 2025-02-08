@@ -1,0 +1,115 @@
+[gd_scene load_steps=5 format=3 uid="uid://bgggngkq1twwt"]
+
+[ext_resource type="Script" path="res://remapper.gd" id="1_pni6k"]
+[ext_resource type="PackedScene" uid="uid://bhbxxn888on3a" path="res://remapper_input_disp.tscn" id="2_6sp07"]
+[ext_resource type="PackedScene" uid="uid://df260an5tk1wo" path="res://remapper_player_disp.tscn" id="2_bk6ee"]
+[ext_resource type="Texture2D" uid="uid://iyqsonvgpu85" path="res://assets/minus.png" id="2_uv8un"]
+
+[node name="remapper" type="PanelContainer"]
+offset_right = 346.0
+offset_bottom = 66.0
+mouse_filter = 2
+script = ExtResource("1_pni6k")
+
+[node name="v" type="VBoxContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 16
+
+[node name="title" type="PanelContainer" parent="v"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="m" type="MarginContainer" parent="v/title"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="v/title/m"]
+layout_mode = 2
+text = "Input Remapping"
+horizontal_alignment = 1
+
+[node name="content" type="MarginContainer" parent="v"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_right = 8
+
+[node name="h" type="HBoxContainer" parent="v/content"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 40
+
+[node name="inputs" type="VBoxContainer" parent="v/content/h"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="-1" parent="v/content/h/inputs" instance=ExtResource("2_6sp07")]
+layout_mode = 2
+mouse_filter = 2
+input = -1
+
+[node name="0" parent="v/content/h/inputs" instance=ExtResource("2_6sp07")]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="v" type="VBoxContainer" parent="v/content/h"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="players" type="VBoxContainer" parent="v/content/h/v"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="0" parent="v/content/h/v/players" instance=ExtResource("2_bk6ee")]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="add_remove" type="HBoxContainer" parent="v/content/h/v"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="add" type="Button" parent="v/content/h/v/add_remove"]
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Add New"
+expand_icon = true
+
+[node name="remove" type="Button" parent="v/content/h/v/add_remove"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+disabled = true
+text = "Remove Last"
+icon = ExtResource("2_uv8un")
+expand_icon = true
+
+[node name="pop_butts" type="HBoxContainer" parent="v"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="save" type="Button" parent="v/pop_butts"]
+layout_mode = 2
+text = "Save & Close"
+
+[node name="cancel" type="Button" parent="v/pop_butts"]
+custom_minimum_size = Vector2(106, 0)
+layout_mode = 2
+text = "Cancel"
+
+[connection signal="selected" from="v/content/h/inputs/-1" to="." method="_on_i_selected"]
+[connection signal="selected" from="v/content/h/inputs/0" to="." method="_on_i_selected"]
+[connection signal="selected" from="v/content/h/v/players/0" to="." method="_on_p_selected"]
+[connection signal="pressed" from="v/content/h/v/add_remove/add" to="." method="_on_add_pressed"]
+[connection signal="pressed" from="v/content/h/v/add_remove/remove" to="." method="_on_remove_pressed"]
+[connection signal="pressed" from="v/pop_butts/save" to="." method="_on_save_pressed"]
+[connection signal="pressed" from="v/pop_butts/cancel" to="." method="_on_cancel_pressed"]

@@ -1,0 +1,209 @@
+[gd_scene load_steps=3 format=3 uid="uid://uece2td75dsj"]
+
+[ext_resource type="Script" path="res://cost_editor.gd" id="1_cee0o"]
+[ext_resource type="PackedScene" uid="uid://c5j6yc30a0sip" path="res://cost.tscn" id="2_muym0"]
+
+[node name="cost_editor" type="VBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 2
+theme_override_constants/separation = 4
+script = ExtResource("1_cee0o")
+
+[node name="title" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="remaining" type="MarginContainer" parent="title"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="total" type="HBoxContainer" parent="title/remaining"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="title/remaining/total"]
+layout_mode = 2
+text = "Remaining :"
+
+[node name="p" type="PanelContainer" parent="title/remaining/total"]
+layout_mode = 2
+
+[node name="m" type="MarginContainer" parent="title/remaining/total/p"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 1
+
+[node name="Label" type="Label" parent="title/remaining/total/p/m"]
+layout_mode = 2
+text = "0"
+
+[node name="max" type="PanelContainer" parent="title"]
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="m" type="MarginContainer" parent="title/max"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_right = 4
+
+[node name="Label" type="Label" parent="title/max/m"]
+layout_mode = 2
+text = "Max : 2"
+
+[node name="input" type="MarginContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="butts" type="HBoxContainer" parent="input"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 1
+
+[node name="spacer0" type="MarginContainer" parent="input/butts"]
+layout_mode = 2
+
+[node name="ti_m" type="Button" parent="input/butts"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ti_p" type="Button" parent="input/butts"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="spacer1" type="MarginContainer" parent="input/butts"]
+custom_minimum_size = Vector2(4, 0)
+layout_mode = 2
+
+[node name="ga_m" type="Button" parent="input/butts"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ga_p" type="Button" parent="input/butts"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="spacer2" type="MarginContainer" parent="input/butts"]
+custom_minimum_size = Vector2(4, 0)
+layout_mode = 2
+
+[node name="al_m" type="Button" parent="input/butts"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="al_p" type="Button" parent="input/butts"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="spacer3" type="MarginContainer" parent="input/butts"]
+custom_minimum_size = Vector2(4, 0)
+layout_mode = 2
+
+[node name="co_m" type="Button" parent="input/butts"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="co_p" type="Button" parent="input/butts"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="spacer4" type="MarginContainer" parent="input/butts"]
+layout_mode = 2
+
+[node name="m" type="MarginContainer" parent="input"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_top = -7
+theme_override_constants/margin_bottom = -7
+
+[node name="labels" type="HBoxContainer" parent="input/m"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 1
+
+[node name="spacer0" type="MarginContainer" parent="input/m/labels"]
+custom_minimum_size = Vector2(1, 0)
+layout_mode = 2
+
+[node name="m0" type="Label" parent="input/m/labels"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "–"
+horizontal_alignment = 1
+
+[node name="p0" type="Label" parent="input/m/labels"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "+"
+horizontal_alignment = 1
+
+[node name="spacer1" type="MarginContainer" parent="input/m/labels"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+
+[node name="m1" type="Label" parent="input/m/labels"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "–"
+horizontal_alignment = 1
+
+[node name="p1" type="Label" parent="input/m/labels"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "+"
+horizontal_alignment = 1
+
+[node name="spacer2" type="MarginContainer" parent="input/m/labels"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+
+[node name="m2" type="Label" parent="input/m/labels"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "–"
+horizontal_alignment = 1
+
+[node name="p2" type="Label" parent="input/m/labels"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "+"
+horizontal_alignment = 1
+
+[node name="spacer3" type="MarginContainer" parent="input/m/labels"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+
+[node name="m3" type="Label" parent="input/m/labels"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "–"
+horizontal_alignment = 1
+
+[node name="p3" type="Label" parent="input/m/labels"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "+"
+horizontal_alignment = 1
+
+[node name="spacer5" type="MarginContainer" parent="input/m/labels"]
+layout_mode = 2
+
+[node name="cost" parent="." instance=ExtResource("2_muym0")]
+layout_mode = 2
+theme_override_constants/h_separation = 0
+override_visible = 15
+flip_colors = true
+font_size_override = 23
+
+[connection signal="pressed" from="input/butts/ti_m" to="." method="_on_ti_m_pressed"]
+[connection signal="pressed" from="input/butts/ti_p" to="." method="_on_ti_p_pressed"]
+[connection signal="pressed" from="input/butts/ga_m" to="." method="_on_ga_m_pressed"]
+[connection signal="pressed" from="input/butts/ga_p" to="." method="_on_ga_p_pressed"]
+[connection signal="pressed" from="input/butts/al_m" to="." method="_on_al_m_pressed"]
+[connection signal="pressed" from="input/butts/al_p" to="." method="_on_al_p_pressed"]
+[connection signal="pressed" from="input/butts/co_m" to="." method="_on_co_m_pressed"]
+[connection signal="pressed" from="input/butts/co_p" to="." method="_on_co_p_pressed"]

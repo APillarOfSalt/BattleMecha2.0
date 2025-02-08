@@ -1,0 +1,95 @@
+[gd_scene load_steps=6 format=3 uid="uid://c8jgmdarq1exp"]
+
+[ext_resource type="Texture2D" uid="uid://br5rg5jv7c4cr" path="res://assets/eyeClosed.png" id="1_ea4vw"]
+[ext_resource type="Script" path="res://join_server_disp.gd" id="1_vyqsu"]
+[ext_resource type="Texture2D" uid="uid://b7ixdgyyufl0r" path="res://assets/cancel.png" id="2_eug58"]
+[ext_resource type="Texture2D" uid="uid://b7sjwtul025ha" path="res://assets/confirmed.png" id="3_74qyy"]
+[ext_resource type="Texture2D" uid="uid://le8hxlit864f" path="res://assets/caution.png" id="3_u8hiq"]
+
+[node name="join" type="HBoxContainer"]
+theme_override_constants/separation = 0
+script = ExtResource("1_vyqsu")
+
+[node name="ip_l" type="Label" parent="."]
+layout_mode = 2
+text = "Host IP : "
+
+[node name="ip" type="MarginContainer" parent="."]
+layout_mode = 2
+
+[node name="LineEdit" type="LineEdit" parent="ip"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+text = "localhost"
+placeholder_text = "localhost"
+alignment = 1
+secret = true
+
+[node name="ip_valid" type="PanelContainer" parent="ip"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+
+[node name="m" type="MarginContainer" parent="ip/ip_valid"]
+layout_mode = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
+
+[node name="invalid" type="TextureRect" parent="ip/ip_valid/m"]
+modulate = Color(0.8, 0, 0, 1)
+layout_mode = 2
+texture = ExtResource("2_eug58")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="lan" type="TextureRect" parent="ip/ip_valid/m"]
+visible = false
+modulate = Color(0.8, 0.8, 0, 1)
+layout_mode = 2
+texture = ExtResource("3_u8hiq")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="valid" type="TextureRect" parent="ip/ip_valid/m"]
+visible = false
+self_modulate = Color(0, 0.8, 0, 1)
+layout_mode = 2
+texture = ExtResource("3_74qyy")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="hide" type="Button" parent="."]
+layout_mode = 2
+toggle_mode = true
+button_pressed = true
+icon = ExtResource("1_ea4vw")
+
+[node name="port" type="Label" parent="."]
+layout_mode = 2
+text = "  On Port : "
+
+[node name="SpinBox" type="SpinBox" parent="."]
+layout_mode = 2
+min_value = 1024.0
+max_value = 65535.0
+value = 1024.0
+alignment = 1
+
+[node name="password" type="LineEdit" parent="."]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Password"
+alignment = 1
+
+[node name="open" type="Button" parent="."]
+layout_mode = 2
+text = "> Connect <"
+
+[connection signal="text_changed" from="ip/LineEdit" to="." method="_on_line_edit_text_changed"]
+[connection signal="toggled" from="hide" to="." method="_on_hide_toggled"]
+[connection signal="value_changed" from="SpinBox" to="." method="_on_spin_box_value_changed"]
+[connection signal="pressed" from="open" to="." method="_on_open_pressed"]

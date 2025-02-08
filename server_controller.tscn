@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://d4ibxs75ddst"]
+
+[ext_resource type="Script" path="res://server_controller.gd" id="1_p2ylm"]
+[ext_resource type="Script" path="res://Host_Controller.gd" id="2_ooaaj"]
+[ext_resource type="Script" path="res://chat_controller.gd" id="3_a7rcx"]
+
+[node name="Server_Controller" type="Node"]
+script = ExtResource("1_p2ylm")
+
+[node name="Host_Controller" type="Node" parent="."]
+script = ExtResource("2_ooaaj")
+
+[node name="Chat_Controller" type="Node" parent="."]
+script = ExtResource("3_a7rcx")
