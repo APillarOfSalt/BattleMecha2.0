@@ -1,3 +1,3 @@
-extends Node2D
+extends Line2D
 class_name Offensive_Animation_Controller
 
