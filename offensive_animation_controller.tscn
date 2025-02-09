@@ -55,7 +55,7 @@ modulate = Color(1, 0.6, 0, 1)
 texture = ExtResource("4_kp84o")
 hframes = 8
 vframes = 24
-frame = 12
+frame = 9
 
 [node name="ranged_p_smoke1" type="Sprite2D" parent="to/rotation/hit_loc"]
 visible = false
@@ -66,7 +66,7 @@ texture = ExtResource("5_unnur")
 flip_v = true
 hframes = 20
 vframes = 9
-frame = 118
+frame = 113
 
 [node name="ranged_p_smoke2" type="Sprite2D" parent="to/rotation/hit_loc"]
 visible = false
@@ -74,7 +74,7 @@ position = Vector2(16, 4)
 texture = ExtResource("5_unnur")
 hframes = 20
 vframes = 9
-frame = 118
+frame = 113
 
 [node name="ranged_c_smoke2" type="Sprite2D" parent="to/rotation/hit_loc"]
 visible = false
@@ -83,23 +83,23 @@ position = Vector2(6, 0)
 texture = ExtResource("6_tgaer")
 hframes = 16
 vframes = 9
-frame = 95
+frame = 94
 
 [node name="ranged_c_smoke" type="Sprite2D" parent="to/rotation/hit_loc"]
 visible = false
-modulate = Color(1, 1, 1, 0)
 position = Vector2(6, 0)
 texture = ExtResource("6_tgaer")
 hframes = 16
 vframes = 9
-frame = 127
+frame = 112
 
 [node name="ranged_c_hit" type="Sprite2D" parent="to/rotation/hit_loc"]
+visible = false
 position = Vector2(8, 0)
 texture = ExtResource("10_072dp")
 hframes = 8
 vframes = 24
-frame = 87
+frame = 81
 
 [node name="coil_hit" type="Sprite2D" parent="to/rotation/hit_loc"]
 visible = false
@@ -108,19 +108,19 @@ position = Vector2(-64, 0)
 rotation = -1.5708
 texture = ExtResource("8_u3pk2")
 hframes = 10
-frame = 9
+frame = 5
 
 [node name="early" type="PathFollow2D" parent="."]
 position = Vector2(39.9854, 0)
 progress = 40.0
 
-[node name="Sprite2D" type="Sprite2D" parent="early"]
+[node name="smoke" type="Sprite2D" parent="early"]
 visible = false
 z_index = 1
 texture = ExtResource("9_5as0n")
 hframes = 15
 vframes = 9
-frame = 88
+frame = 78
 
 [node name="midpoint" type="PathFollow2D" parent="."]
 position = Vector2(69.9926, 0)
@@ -133,7 +133,7 @@ visible = false
 position = Vector2(0, -6)
 texture = ExtResource("6_u40gf")
 hframes = 5
-frame = 4
+frame = 2
 
 [node name="v_ring" type="Sprite2D" parent="midpoint/rotation"]
 visible = false
@@ -142,7 +142,7 @@ scale = Vector2(0.8, 1)
 texture = ExtResource("10_3m204")
 hframes = 16
 vframes = 9
-frame = 45
+frame = 37
 
 [node name="from" type="PathFollow2D" parent="."]
 
@@ -164,7 +164,7 @@ texture = ExtResource("5_07ghw")
 flip_v = true
 hframes = 5
 vframes = 2
-frame = 9
+frame = 5
 
 [node name="melee_v_hit_1" type="Sprite2D" parent="from/rotation/emission"]
 visible = false
@@ -175,16 +175,16 @@ flip_h = true
 flip_v = true
 hframes = 8
 vframes = 24
-frame = 111
+frame = 108
 
 [node name="melee_v_hit2" type="Sprite2D" parent="from/rotation/emission"]
 visible = false
-position = Vector2(16, -55)
+position = Vector2(32, -15)
 rotation = -0.523599
 texture = ExtResource("4_kp84o")
 hframes = 8
 vframes = 24
-frame = 102
+frame = 96
 
 [node name="melee_p_hit" type="Sprite2D" parent="from/rotation/emission"]
 visible = false
@@ -193,7 +193,6 @@ rotation = 0.785398
 texture = ExtResource("8_d6m27")
 hframes = 8
 vframes = 24
-frame = 4
 
 [node name="melee_p" type="Sprite2D" parent="from/rotation/emission"]
 visible = false
@@ -202,7 +201,7 @@ rotation = -0.523599
 texture = ExtResource("6_jaart")
 hframes = 5
 vframes = 2
-frame = 1
+frame = 3
 
 [node name="ranged_pc_flash" type="Sprite2D" parent="from/rotation/emission"]
 visible = false
@@ -210,7 +209,7 @@ position = Vector2(32, 0)
 texture = ExtResource("10_072dp")
 hframes = 8
 vframes = 24
-frame = 53
+frame = 28
 
 [node name="coil" type="Sprite2D" parent="from/rotation/emission"]
 visible = false
@@ -218,11 +217,11 @@ position = Vector2(0, -2)
 texture = ExtResource("16_phxu4")
 hframes = 17
 vframes = 9
-frame = 46
+frame = 47
 
 [node name="coil1" type="Sprite2D" parent="from/rotation/emission"]
 visible = false
 texture = ExtResource("17_pg073")
 hframes = 14
 vframes = 9
-frame = 41
+frame = 35

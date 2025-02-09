@@ -29,6 +29,6 @@ vframes = 2
 visible = false
 offset_bottom = 132.0
 
-[node name="defense_anim" parent="anchor" instance=ExtResource("6_pjmkx")]
+[node name="defense_anim" parent="." instance=ExtResource("6_pjmkx")]
 
-[node name="offensive_animation_controller" parent="anchor" instance=ExtResource("7_1sjlh")]
+[node name="offensive_animation_controller" parent="." instance=ExtResource("7_1sjlh")]
