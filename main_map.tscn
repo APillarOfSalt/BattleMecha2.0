@@ -130,6 +130,6 @@ replication_config = SubResource("SceneReplicationConfig_53dno")
 [node name="main_text" parent="." instance=ExtResource("8_2j528")]
 layout_mode = 2
 
-[connection signal="attacks_complete" from="manager/display" to="." method="_on_attackers_complete"]
 [connection signal="attacks_complete" from="manager/display" to="." method="_client_on_complete"]
+[connection signal="attacks_complete" from="manager/display" to="." method="_on_attackers_complete"]
 [connection signal="on_search_complete" from="manager/sniffer" to="manager" method="_on_sniffer_on_search_complete"]

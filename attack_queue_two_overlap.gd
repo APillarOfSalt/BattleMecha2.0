@@ -20,6 +20,8 @@ func setup(a:Unit_Node, a_wep:Module_Data, b:Unit_Node, b_wep:Module_Data):
 	b_unit = b
 	b_spr.frame_coords = b_unit.unit_data.atlas
 	b_weapon = b_wep
+	#a.anim_ctrl.setup_atk(a_wep, [b])
+	#fx_atk._play()
 
 func play():
 	a_unit.attack_anim_complete.connect(_on_anim_complete)

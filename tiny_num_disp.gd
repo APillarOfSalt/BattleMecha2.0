@@ -15,7 +15,9 @@ func setup(m:int,c:int,a:int=0,o:bool=false):
 func get_color_from(c:int=current, m:int=maximum)->Color:
 	if c == 0:
 		return color_min
-	var index : int = floor( 4.0 * float(c) / float(m) )
+	var index : int = 0
+	if m:
+		index = floor( 4.0 * float(c) / float(m) )
 	return [color_quarter, color_half, color_max, color_max][index-1]
 
 @export_group("Colors")

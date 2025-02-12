@@ -4,23 +4,19 @@ class_name Combat_Display
 
 signal attacks_complete()
 
-func _process(delta):
-	if !attacks.size():
-		return
-	if attacks.front() == null:
-		attacks.pop_front()
-	if !attacks.size():
-		attacks_complete.emit()
-		return
-	if !attacks.front().is_anim_playing():
-		attacks.front().play()
-
 const one_atk_scene : PackedScene = preload( "res://attack_queue_one_attack.tscn" )
 const two_scene : PackedScene = preload( "res://attack_queue_two_overlap.tscn" )
 const three_scene : PackedScene = preload( "res://attack_queue_three_overlap.tscn" )
 @export var map : TileMap = null
 @export var obj_ctrl : Object_Controller = null
 @export var turn_tracker : Turn_Tracker = null
+
+func debug_create_attack(atk:Unit_Node, wep:Module_Data.Weapon_Data, def:Unit_Node):
+	var atk_node = one_atk_scene.instantiate()
+	add_child(atk_node)
+	atk_node.setup(atk, wep, [def])
+	atk_node.animation_finished.connect(_on_anim_finished)
+	attacks.append(atk_node)
 
 var attacks : Array
 @rpc("authority", "call_local", "reliable")
@@ -33,9 +29,22 @@ func create_atk_node(atk_id:int,mod_id:int,def_ids:Array):
 		defense.append(obj_ctrl.all_objects[id].unit)
 	
 	var atk_node = one_atk_scene.instantiate()
+	atk_node.animation_finished.connect(_on_anim_finished)
 	add_child(atk_node)
 	atk_node.setup(attacker, weapon, defense)
 	attacks.append(atk_node)
+
+func _play():
+	if !attacks.size():
+		return false
+	attacks.front().play()
+	return true
+func _on_anim_finished():
+	attacks.pop_front().queue_free()
+	if !attacks.size():
+		attacks_complete.emit()
+	else:
+		attacks.front().play()
 
 @rpc("authority", "call_local", "reliable")
 func create_overlap_node(a_id:int,a_wep_id:int, b_id:int,b_wep_id:int,c_id:int=-1,c_wep_id:int=-1):

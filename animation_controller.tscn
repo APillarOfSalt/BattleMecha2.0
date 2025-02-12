@@ -1,0 +1,347 @@
+[gd_scene load_steps=32 format=3 uid="uid://dgvh2ku6pfa3k"]
+
+[ext_resource type="Script" path="res://animation_controller.gd" id="1_hguu7"]
+[ext_resource type="AnimationLibrary" uid="uid://crri5mft4ecjr" path="res://animations/defense_lib.res" id="2_rt1aa"]
+[ext_resource type="AnimationLibrary" uid="uid://bsflu54oarakt" path="res://animations/offense_lib.res" id="3_imhyj"]
+[ext_resource type="Texture2D" uid="uid://dmvokd7o5y0ro" path="res://assets/texture_lib/Retro Impact Effect E.png" id="4_gsogc"]
+[ext_resource type="Texture2D" uid="uid://g1x46jmpg2r6" path="res://assets/texture_lib/695.png" id="5_focvb"]
+[ext_resource type="Texture2D" uid="uid://cbatftdp7ab7b" path="res://assets/texture_lib/657.png" id="6_nsuey"]
+[ext_resource type="Texture2D" uid="uid://bkgcqpki1laiq" path="res://assets/texture_lib/Retro Impact Effect A.png" id="7_8vvig"]
+[ext_resource type="Texture2D" uid="uid://bvlhrva0adjub" path="res://assets/texture_lib/self_destruct.png" id="7_mdxcs"]
+[ext_resource type="Texture2D" uid="uid://c8sk8vyotcnne" path="res://assets/texture_lib/coil_hit.png" id="9_o0v7e"]
+[ext_resource type="Texture2D" uid="uid://6nvqj3voivic" path="res://assets/texture_lib/658.png" id="10_0841b"]
+[ext_resource type="Texture2D" uid="uid://ctmkk2g2avfyt" path="res://assets/texture_lib/shield_break_start.png" id="10_sqjq8"]
+[ext_resource type="Texture2D" uid="uid://bh35r23qxfma6" path="res://assets/texture_lib/shield.png" id="11_tvx32"]
+[ext_resource type="Texture2D" uid="uid://qaxd3ogv72gu" path="res://assets/texture_lib/shield_break_end.png" id="12_8iojk"]
+[ext_resource type="Texture2D" uid="uid://drrx5sk37x60c" path="res://assets/texture_lib/v_hit_2.png" id="13_6iia5"]
+[ext_resource type="Texture2D" uid="uid://xm5b57q4wwlq" path="res://assets/texture_lib/Retro Impact Effect C.png" id="13_anud2"]
+[ext_resource type="Texture2D" uid="uid://c1rmlr6haicbm" path="res://assets/texture_lib/Retro Impact Effect F.png" id="14_1mngr"]
+[ext_resource type="Texture2D" uid="uid://cpbh17wlk88u3" path="res://assets/texture_lib/melee_hit.png" id="14_2oaki"]
+[ext_resource type="Texture2D" uid="uid://b0d665ajmdk08" path="res://assets/texture_lib/c_hit.png" id="15_ayvx0"]
+[ext_resource type="Texture2D" uid="uid://dwmqp80q40q7a" path="res://assets/texture_lib/melee_0.png" id="15_p646h"]
+[ext_resource type="Texture2D" uid="uid://dp43ufr8a3loa" path="res://assets/texture_lib/678.png" id="16_7qn11"]
+[ext_resource type="Texture2D" uid="uid://nb7t8xgq5g1s" path="res://assets/s1spritesheet.png" id="16_xf7e4"]
+[ext_resource type="Texture2D" uid="uid://bxicmvrqj5o21" path="res://assets/texture_lib/651.png" id="17_cq27p"]
+[ext_resource type="Texture2D" uid="uid://cb0ak6uyy3sge" path="res://assets/texture_lib/v_hit.png" id="17_tuoqu"]
+[ext_resource type="Texture2D" uid="uid://dlxx35ltxgsat" path="res://assets/texture_lib/temp/663.png" id="18_ocji7"]
+[ext_resource type="Texture2D" uid="uid://qc2356l4cu7e" path="res://assets/texture_lib/hit_smoke.png" id="18_siybb"]
+[ext_resource type="Texture2D" uid="uid://tax7j2ugjl2n" path="res://assets/texture_lib/smoke_poke.png" id="19_ilpgt"]
+[ext_resource type="Texture2D" uid="uid://kxq2pwfiob37" path="res://assets/texture_lib/temp/696.png" id="19_w03up"]
+[ext_resource type="Texture2D" uid="uid://c2w7125devutb" path="res://assets/texture_lib/melee_v.png" id="21_uwc85"]
+
+[sub_resource type="Curve2D" id="Curve2D_ra0f8"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 200, 0)
+}
+point_count = 2
+
+[sub_resource type="Animation" id="Animation_cxqls"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("from/rotation/emission/missile_smoke1:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-40, -8)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_xj7mx"]
+_data = {
+"RESET": SubResource("Animation_cxqls")
+}
+
+[node name="animation_controller" type="Path2D"]
+curve = SubResource("Curve2D_ra0f8")
+script = ExtResource("1_hguu7")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_xj7mx"),
+"defense_lib": ExtResource("2_rt1aa"),
+"offense_lib": ExtResource("3_imhyj")
+}
+
+[node name="to" type="PathFollow2D" parent="."]
+position = Vector2(200, 0)
+progress = 200.0
+
+[node name="DEBUG_VIS" type="Sprite2D" parent="to"]
+visible = false
+texture = ExtResource("16_xf7e4")
+hframes = 7
+vframes = 3
+
+[node name="rotation" type="Node2D" parent="to"]
+
+[node name="hit_loc" type="Node2D" parent="to/rotation"]
+z_index = 1
+position = Vector2(-12, 0)
+
+[node name="ranged_p_hit" type="Sprite2D" parent="to/rotation/hit_loc"]
+modulate = Color(1, 0.6, 0, 1)
+texture = ExtResource("4_gsogc")
+hframes = 8
+vframes = 24
+frame = 7
+
+[node name="ranged_p_smoke1" type="Sprite2D" parent="to/rotation/hit_loc"]
+visible = false
+position = Vector2(-4, -14)
+rotation = -1.5708
+scale = Vector2(0.8, 0.9)
+texture = ExtResource("5_focvb")
+flip_v = true
+hframes = 20
+vframes = 9
+frame = 113
+
+[node name="ranged_p_smoke2" type="Sprite2D" parent="to/rotation/hit_loc"]
+visible = false
+position = Vector2(16, 4)
+texture = ExtResource("5_focvb")
+hframes = 20
+vframes = 9
+frame = 113
+
+[node name="ranged_c_smoke2" type="Sprite2D" parent="to/rotation/hit_loc"]
+visible = false
+modulate = Color(1, 1, 1, 0.905882)
+position = Vector2(6, 0)
+texture = ExtResource("6_nsuey")
+hframes = 16
+vframes = 9
+frame = 95
+
+[node name="ranged_c_hit" type="Sprite2D" parent="to/rotation/hit_loc"]
+visible = false
+texture = ExtResource("7_8vvig")
+hframes = 8
+vframes = 24
+frame = 87
+
+[node name="ranged_c_smoke" type="Sprite2D" parent="to/rotation/hit_loc"]
+visible = false
+modulate = Color(1, 1, 1, 0)
+position = Vector2(6, 0)
+texture = ExtResource("6_nsuey")
+hframes = 16
+vframes = 9
+frame = 127
+
+[node name="early" type="PathFollow2D" parent="."]
+position = Vector2(39.9854, 0)
+progress = 40.0
+
+[node name="smoke" type="Sprite2D" parent="early"]
+visible = false
+z_index = 1
+texture = ExtResource("18_siybb")
+hframes = 15
+vframes = 9
+frame = 89
+
+[node name="midpoint" type="PathFollow2D" parent="."]
+position = Vector2(69.9926, 0)
+progress = 70.0
+
+[node name="rotation" type="Node2D" parent="midpoint"]
+
+[node name="p_smoke" type="Sprite2D" parent="midpoint/rotation"]
+visible = false
+position = Vector2(0, -6)
+texture = ExtResource("19_ilpgt")
+hframes = 5
+frame = 2
+
+[node name="v_ring" type="Sprite2D" parent="midpoint/rotation"]
+visible = false
+z_index = 1
+scale = Vector2(0.8, 1)
+texture = ExtResource("10_0841b")
+hframes = 16
+vframes = 9
+frame = 47
+
+[node name="from" type="PathFollow2D" parent="."]
+
+[node name="DEBUG_VIS" type="Sprite2D" parent="from"]
+visible = false
+texture = ExtResource("16_xf7e4")
+flip_h = true
+hframes = 7
+vframes = 3
+frame = 13
+
+[node name="rotation" type="Node2D" parent="from"]
+
+[node name="emission" type="Node2D" parent="from/rotation"]
+position = Vector2(18, 0)
+
+[node name="melee_v" type="Sprite2D" parent="from/rotation/emission"]
+visible = false
+position = Vector2(-12, -6)
+texture = ExtResource("21_uwc85")
+flip_v = true
+hframes = 5
+vframes = 2
+frame = 9
+
+[node name="melee_v_hit_1" type="Sprite2D" parent="from/rotation/emission"]
+visible = false
+position = Vector2(42, 0)
+rotation = 0.523599
+texture = ExtResource("13_anud2")
+flip_h = true
+flip_v = true
+hframes = 8
+vframes = 24
+frame = 111
+
+[node name="melee_v_hit2" type="Sprite2D" parent="from/rotation/emission"]
+visible = false
+position = Vector2(16, -55)
+rotation = -0.523599
+texture = ExtResource("4_gsogc")
+hframes = 8
+vframes = 24
+frame = 103
+
+[node name="melee_p_hit" type="Sprite2D" parent="from/rotation/emission"]
+visible = false
+position = Vector2(40, -14)
+rotation = 0.785398
+texture = ExtResource("14_1mngr")
+hframes = 8
+vframes = 24
+frame = 4
+
+[node name="melee_p" type="Sprite2D" parent="from/rotation/emission"]
+visible = false
+position = Vector2(-16, -16)
+rotation = -0.523599
+texture = ExtResource("15_p646h")
+hframes = 5
+vframes = 2
+
+[node name="ranged_pc_flash" type="Sprite2D" parent="from/rotation/emission"]
+position = Vector2(32, 0)
+texture = ExtResource("7_8vvig")
+hframes = 8
+vframes = 24
+frame = 23
+
+[node name="coil" type="Sprite2D" parent="from/rotation/emission"]
+visible = false
+position = Vector2(0, -2)
+texture = ExtResource("16_7qn11")
+hframes = 17
+vframes = 9
+frame = 50
+
+[node name="coil1" type="Sprite2D" parent="from/rotation/emission"]
+visible = false
+texture = ExtResource("17_cq27p")
+hframes = 14
+vframes = 9
+frame = 41
+
+[node name="missile_smoke1" type="Sprite2D" parent="from/rotation/emission"]
+visible = false
+position = Vector2(-40, -8)
+rotation = -1.91986
+texture = ExtResource("18_ocji7")
+hframes = 16
+vframes = 9
+frame = 85
+
+[node name="missile_smoke0" type="Sprite2D" parent="from/rotation/emission"]
+visible = false
+position = Vector2(-4, -24)
+rotation = 1.22173
+texture = ExtResource("19_w03up")
+hframes = 18
+vframes = 9
+frame = 95
+
+[node name="death" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(-0.5, -1.5)
+texture = ExtResource("7_mdxcs")
+hframes = 14
+frame = 4
+
+[node name="coil_hit" type="Sprite2D" parent="."]
+visible = false
+z_index = 1
+position = Vector2(-64, 0)
+rotation = -1.5708
+texture = ExtResource("9_o0v7e")
+hframes = 10
+frame = 9
+
+[node name="shield_break_start" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("10_sqjq8")
+hframes = 15
+vframes = 9
+frame = 134
+
+[node name="shield" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0)
+texture = ExtResource("11_tvx32")
+hframes = 18
+vframes = 9
+frame = 43
+
+[node name="shield_break_end" type="Sprite2D" parent="."]
+visible = false
+modulate = Color(1, 1, 1, 0)
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("12_8iojk")
+hframes = 15
+vframes = 9
+frame = 43
+
+[node name="v_hit" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0)
+texture = ExtResource("13_6iia5")
+hframes = 19
+vframes = 9
+frame = 56
+
+[node name="p_hit" type="Sprite2D" parent="."]
+visible = false
+modulate = Color(1, 1, 1, 0)
+texture = ExtResource("14_2oaki")
+hframes = 17
+vframes = 9
+frame = 16
+
+[node name="c_hit" type="Sprite2D" parent="."]
+visible = false
+modulate = Color(1, 1, 1, 0)
+texture = ExtResource("15_ayvx0")
+flip_h = true
+hframes = 14
+vframes = 9
+frame = 111
+
+[node name="mask" type="Sprite2D" parent="."]
+clip_children = 1
+texture = ExtResource("16_xf7e4")
+hframes = 7
+vframes = 3
+
+[node name="v_hit" type="Sprite2D" parent="mask"]
+modulate = Color(1, 1, 1, 0)
+texture = ExtResource("17_tuoqu")
+hframes = 17
+vframes = 9
+frame = 50
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

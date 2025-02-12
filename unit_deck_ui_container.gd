@@ -7,9 +7,14 @@ extends MarginContainer
 const unit_outline_width : int = 4
 
 const unit_node_scene : PackedScene  = preload("res://unit_node.tscn")
+
+func get_is_in_deck()->bool:
+	return linked_node == null and !get_is_dead()
+func get_is_dead()->bool:
+	return w_spr.visible
 var linked_node : Unit_Node = null
 func take_node()->Unit_Node:
-	if linked_node != null:
+	if linked_node != null or w_spr.visible:
 		return null
 	linked_node = unit_node_scene.instantiate()
 	linked_node.unit_data = unit
@@ -18,13 +23,19 @@ func take_node()->Unit_Node:
 	local_mat = linked_node.set_spr_mat()
 	linked_node.player_color = base_color
 	local_mat.set_shader_parameter("color",secondary_color)
+	local_mat.set_shader_parameter("tint", Color(0.0,0.0,0.0,0.0) )
 	u_spr.material = local_mat
 	ql.hide()
 	u_spr.show()
 	return linked_node
-func _on_linked_death():
-	u_spr.hide()
-	w_spr.show()
+func _on_linked_death(node:Unit_Node=null, sale:bool=false):
+	if node != linked_node:
+		return
+	node.hide()
+	u_spr.visible = sale
+	w_spr.visible = !sale
+	local_mat.set_shader_parameter("tint", Color(0.0,0.0,0.0, int(sale) ))
+	node.queue_free()
 
 var unit : Unit_Data = null:
 	set(data):

@@ -27,11 +27,12 @@ func _create_defender(def:Unit_Node)->Unit_Ui:
 	return def_node
 
 func play():
-	attacker.attack_anim_complete.connect(_on_anim_complete)
-	attacker.animate_attack(weapon, defenders)
+	attacker.anim_ctrl.finished.connect(_on_anim_complete)
+	attacker.anim_ctrl.setup_atk(weapon, defenders)
+	attacker.anim_ctrl._play()
 	anim_playing = true
 var anim_playing : bool = false
 func _on_anim_complete():
 	anim_playing = false
+	await get_tree().create_timer(0.01).timeout
 	animation_finished.emit()
-	queue_free()

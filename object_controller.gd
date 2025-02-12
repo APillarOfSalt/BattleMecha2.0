@@ -20,15 +20,15 @@ func confirm_positions():
 
 @rpc("authority", "call_local", "reliable")
 func do_local_sale():
-	var sell_ids : Array[int] = []
+	var sell : Array[Unit_Node] = []
 	for obj in local_objs:
 		var map_at : int = map.map_at(obj.to_pos)
 		if map_at == map.AT_VALS.trash:
-			sell_ids.append(obj.id)
-	for id in sell_ids:
-		obj_removal.rpc(id, true)
-	
-
+			sell.append(obj.unit)
+	for unit:Unit_Node in sell:
+		unit.is_now_dead.emit(unit, true)
+func _local_obj_removal(unit:Unit_Node, sale:bool=false):
+	obj_removal.rpc(unit.map_obj.id, sale)
 @rpc("any_peer", "call_local", "reliable")
 func obj_removal(obj_id:int, sale:bool=false):
 	all_objects[obj_id].do_free(sale)
@@ -50,6 +50,7 @@ func local_unit_spawn(unit_id:int,r_index:int):
 	local_objs.append(obj)
 	obj.setup(obj_id, obj_cube, local_player, unit_id, true)
 	obj.unit.name = obj_name
+	obj.unit.is_now_dead.connect(_local_obj_removal)
 	_remote_unit_spawn.rpc(obj_id, obj_cube, local_player, obj.unit.unit_data.id, obj_name)
 
 @rpc("any_peer", "call_remote", "reliable")

@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://anim_tester.gd" id="1_mu5og"]
 [ext_resource type="PackedScene" uid="uid://dd5hhdonrol7" path="res://unit_node.tscn" id="2_61ovy"]
-[ext_resource type="PackedScene" uid="uid://bbsumiscjy6i2" path="res://defense_animation_controller.tscn" id="3_rettb"]
+[ext_resource type="Script" path="res://attack_queue.gd" id="3_fcdvj"]
 
 [node name="anim_tester" type="VBoxContainer"]
 offset_right = 45.0
@@ -11,15 +11,21 @@ script = ExtResource("1_mu5og")
 
 [node name="OptionButton" type="OptionButton" parent="."]
 layout_mode = 2
+focus_mode = 0
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 2
+text = "play"
 
 [node name="p" type="PanelContainer" parent="."]
 custom_minimum_size = Vector2(300, 300)
 layout_mode = 2
 mouse_filter = 1
 
-[node name="unit_node" parent="p" instance=ExtResource("2_61ovy")]
+[node name="def" parent="p" instance=ExtResource("2_61ovy")]
+state = -2
 
-[node name="Label" type="Label" parent="p/unit_node"]
+[node name="Label" type="Label" parent="p/def"]
 offset_left = -32.0
 offset_top = -44.0
 offset_right = 34.0
@@ -31,9 +37,10 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
-[node name="unit_node" parent="p/center" instance=ExtResource("2_61ovy")]
+[node name="atk" parent="p/center" instance=ExtResource("2_61ovy")]
+state = -2
 
-[node name="Label" type="Label" parent="p/center/unit_node"]
+[node name="Label" type="Label" parent="p/center/atk"]
 offset_left = -32.0
 offset_top = -44.0
 offset_right = 34.0
@@ -44,17 +51,11 @@ text = "Attacker"
 layout_mode = 2
 size_flags_horizontal = 8
 
-[node name="HSlider" type="HSlider" parent="."]
+[node name="queue" type="HBoxContainer" parent="."]
 layout_mode = 2
-
-[node name="Label" type="Label" parent="."]
-layout_mode = 2
-text = "0.00 s"
-horizontal_alignment = 1
-
-[node name="controller" type="Node" parent="."]
-
-[node name="anims" parent="controller" instance=ExtResource("3_rettb")]
+script = ExtResource("3_fcdvj")
 
 [connection signal="item_selected" from="OptionButton" to="." method="_on_option_button_item_selected"]
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
 [connection signal="gui_input" from="p" to="." method="_on_p_gui_input"]
+[connection signal="is_now_dead" from="p/def" to="." method="_on_def_is_now_dead"]

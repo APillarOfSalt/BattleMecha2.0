@@ -64,7 +64,7 @@ const sprite_sizes : Array = [Vector2(70,50), Vector2(80,60)]
 @onready var spr_cont : Container = $v/sprite
 @onready var s1sprite : Sprite2D = $v/sprite/sprite1
 @onready var s2sprite : Sprite2D = $v/sprite/sprite2
-@onready var stats : Container =  $v/stats
+@onready var stats : Unit_UI_Stats =  $v/stats
 @onready var cost : Container = $v/cost
 
 var offset : Vector2:

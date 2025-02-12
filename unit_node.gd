@@ -2,9 +2,14 @@ extends Node2D
 class_name Unit_Node
 
 signal state_changed(st:STATES)
-signal is_now_dead(node:Unit_Node)
+signal is_now_dead(node:Unit_Node, death_sale:bool)
 signal unit_hovered(unit:Unit_Node, is_hovered:bool)
 signal buy_sell_mode(bs:bool)
+
+func _kill_me():
+	is_now_dead.emit(self, false)
+func _return_me():
+	is_now_dead.emit(self, true)
 
 const mat : Material = preload("res://assets/outlineShader.tres")
 const shader : Shader = preload("res://outline.gdshader")
@@ -35,7 +40,7 @@ var unit_data : Unit_Data = null:
 	set(data):
 		unit_data = data
 		if spr1 != null:
-			$anchor/defense_anim.unit_atlas = unit_data.atlas
+			#$anchor/defense_anim.unit_atlas = unit_data.atlas
 			hp = unit_data.hp
 			armor = unit_data.armor
 			shield = unit_data.shield_start
@@ -75,16 +80,20 @@ func set_spr_mat()->Material:
 func _ready():
 	if state == -2:
 		set_spr_mat()
-	if state == STATES.roller:
+	if state <= STATES.roller:
 		ui.popup()
 	spr1.material = spr_mat
 	spr2.material = spr_mat
+	stats = ui.stats
+	anim_ctrl.stats = stats
 	refresh()
 	ui.position = -ui.offset
-	sprite_tint = Color(0.0,0.0,0.0,0.3)
 	refresh_afford()
 
 func refresh_afford():
+	if state < STATES.roller:
+		return
+	sprite_tint = Color(0.0,0.0,0.0,0.3)
 	if state != STATES.roller or !locally_owned:
 		return
 	sprite_tint.a = float(!controller.check_affordable(unit_data.cost)) * 0.5
@@ -124,6 +133,8 @@ var sprite_tint : Color = Color(0,0,0,0):
 @onready var spr2 : Sprite2D = $anchor/s2
 @onready var spr_scale : Vector2 = spr1.scale
 @onready var ui : Container = $anchor/unit_ui
+@onready var anim_ctrl : Animation_Controller = $anchor/animation_controller
+var stats : Unit_UI_Stats = null
 
 var cubic_movement : Array[Vector3i] = []
 var cubic_weapons : Dictionary = {} #weapon_id:int : [Vector3i(),etc...],
@@ -197,11 +208,20 @@ func cursor_cancel():
 
 signal attack_anim_complete()
 func animate_attack(wep:Module_Data.Weapon_Data, defense:Array[Unit_Node]):
-	$wep_anims.animate_atk(wep, defense)
+	
+	anim_ctrl.animate_atk(wep, defense)
 
-func animate_defend(wep:Module_Data.Weapon_Data, attacker:Unit_Node):
-	$wep_anims.animate_def(wep, attacker)
-
+func get_dmg_type(wep:Module_Data.Weapon_Data)->Module_Data.DMG_TYPES:
+	var dmg_type : Module_Data.DMG_TYPES = -2
+	if wep.subtype == "Melee":
+		dmg_type = Module_Data.DMG_TYPES.percussive
+	elif wep.subtype == "Rifle":
+		dmg_type = Module_Data.DMG_TYPES.percussive
+	elif wep.subtype == "Laser" or wep.subtype == "Coil":
+		dmg_type = Module_Data.DMG_TYPES.voltaic
+	elif wep.subtype == "Cannon" or wep.subtype == "Launcher":
+		dmg_type = Module_Data.DMG_TYPES.concussive
+	return dmg_type
 
 func calc_cubic():
 	cubic_movement.clear()
