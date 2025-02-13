@@ -11,7 +11,7 @@ var ui : Player_UI = null
 func do_free(sale:bool=false):
 	if sale:
 		ui.sell_unit(unit)
-	unit.is_now_dead.emit()
+	unit.is_now_dead.emit(unit, sale)
 	queue_free()
 
 func setup(obj_id:int,cube:Vector3i,p_num:int,unit_id:int, local:bool):

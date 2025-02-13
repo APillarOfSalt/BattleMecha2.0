@@ -88,6 +88,8 @@ func create_combat_at(cube:Vector3i):
 	var melee_weapons : Dictionary = gather_weapons(objs, false)
 	if melee_weapons.keys().size() > 1:
 		queue_overlap_attacks(melee_weapons)
+	elif melee_weapons.size() == 0:
+		pass
 	else:
 		var atk_id : int = melee_weapons.keys()[0]
 		var atk : Map_Object = null

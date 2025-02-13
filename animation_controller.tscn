@@ -251,13 +251,12 @@ vframes = 9
 frame = 41
 
 [node name="missile_smoke1" type="Sprite2D" parent="from/rotation/emission"]
-visible = false
 position = Vector2(-40, -8)
 rotation = -1.91986
 texture = ExtResource("18_ocji7")
 hframes = 16
 vframes = 9
-frame = 85
+frame = 95
 
 [node name="missile_smoke0" type="Sprite2D" parent="from/rotation/emission"]
 visible = false
@@ -266,7 +265,7 @@ rotation = 1.22173
 texture = ExtResource("19_w03up")
 hframes = 18
 vframes = 9
-frame = 95
+frame = 107
 
 [node name="death" type="Sprite2D" parent="."]
 visible = false
