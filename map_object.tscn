@@ -18,7 +18,3 @@ frame = 1
 visible = false
 texture = ExtResource("2_lwbe7")
 hframes = 3
-
-[node name="Label" type="Label" parent="."]
-offset_right = 40.0
-offset_bottom = 23.0

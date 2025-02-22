@@ -31,15 +31,18 @@ func set_tertiary_color(color:Color):
 	for i in 20:
 		deck_cont.get_child(i).tertiary_color = color
 
-
-func get_unit(id:int=-1)->Unit_Node:
-	var offset : int = 0
-	if id == -1:
-		offset = randi_range(0,20)
+func rand_unit_id()->int:
+	var offset : int = randi_range(0,19)
 	for i in 20:
-		var index : int = (i + offset) % 20
+		var index : int = ( i + offset ) % 20
 		var cont = deck_cont.get_child(index)
-		var toggle : bool = cont.unit.id == id or id == -1
+		if cont.linked_node == null:
+			return cont.unit.id
+	return -1
+func get_unit(id:int)->Unit_Node:
+	for i in 20:
+		var cont = deck_cont.get_child(i)
+		var toggle : bool = cont.unit.id == id
 		if toggle and cont.linked_node == null:
 			return cont.take_node()
 	return null

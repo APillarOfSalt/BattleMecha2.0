@@ -1,19 +1,8 @@
 extends Container
 class_name Turn_Tracker
 
-#func _input(event):
-	#if event.is_action_pressed("lmb"):
-		#advance()
-
 @export var anim_curve : Curve = preload("res://main_text_anim_curve.tres")
-
 @export_range(250,2000) var play_time_msec : int = 2000
-
-var setup : int = 0:
-	set(val):
-		setup = val
-		if val == 9 and first:
-			advance()
 
 var round : int = 0
 func get_round_text()->String:

@@ -1,12 +1,14 @@
 extends PanelContainer
 
 #false:move, true:weapon
-@export_enum("Move=0","Weapon=1") var mode : int = 0:
+@export_enum("Move","Weapon") var mode : int = 0:
 	set(toggle):
 		mode = toggle
 		if !is_inside_tree():
 			return
 		_refresh()
+@export var push_dir : int = -1
+
 
 func _ready():
 	_refresh()
@@ -51,43 +53,74 @@ func get_equal_pos(pos:Vector2i, prev_next:bool):
 	#false : prev, 60deg ccw
 	return cubic_to_oddq(Vector3i(cube.y, cube.z, cube.x))
 
-var movement : Array = []:
+var tiles : Array = []:
 	set(arr):
-		movement = arr
+		tiles = arr
 		$map.clear_layer(1)
 		for vec in arr:
 			$map.set_cell(1, vec, 0, Vector2i(1,0))
-var bonus_movement : Array = []:
+			set_push_vec(vec, true)
+var bonus_tiles : Array = []:
 	set(arr):
-		bonus_movement = arr
+		bonus_tiles = arr
 		$map.clear_layer(2)
 		for vec in arr:
 			$map.set_cell(2, vec, 0, Vector2i(1,0))
+			set_push_vec(vec, true)
 
 func set_data(data:Array):
-	movement = data
+	tiles = data
 
 func clear():
-	movement = []
-	bonus_movement = []
+	tiles = []
+	bonus_tiles = []
 
 func get_data()->Array[Vector2i]:
 	return $map.get_used_cells_by_id(1)
 
 func refresh():
+	for line in lines.values():
+		line.queue_free()
+	lines.clear()
 	for i in 6:
-		for num in movement[i]:
+		for num in tiles[i]:
 			var map_pos : Vector2i = cubic_to_oddq( (DIRS_CUBE[i].sign())*Vector3i((DIRS_CUBE[i]*(num+1))).abs() )
 			print("Setting Cell :",map_pos)
 			$map.set_cell(2, map_pos, 0, Vector2i(1,0))
+			set_push_vec(map_pos, true)
+
+var lines : Dictionary = {}
+func set_push_vec(map_pos:Vector2i, io:bool):
+	if !mode or push_dir < 0 or push_dir > 5:
+		return
+	var zero_pos : Vector2 = $map.map_to_local(Vector2(0,0))
+	var loc_pos : Vector2 = $map.map_to_local(map_pos)
+	var pos_dir : int = int(Global.dir_from_vec(loc_pos - zero_pos) + 5) % 6
+	var push_vec : Vector2i = Global.get_relative(map_pos.x, (push_dir + pos_dir) % 6 )
+	var push_map : Vector2i = map_pos + push_vec
+	if io:
+		var line := Line2D.new()
+		$map.add_child(line)
+		line.position = loc_pos
+		line.add_point( Vector2(0,0) )
+		var push_pos : Vector2 = $map.map_to_local(push_map)
+		line.add_point( push_pos - loc_pos )
+		lines[map_pos] = line
+		$map.set_cell(3, push_map, 0, Vector2i(0,0))
+	elif map_pos in lines.keys():
+		lines[map_pos].queue_free()
+		lines.erase(map_pos)
+		$map.set_cell(3, push_map)
 
 var cursor_map_pos : Vector2i
 func _physics_process(_delta):
 	cursor_map_pos = $map.local_to_map( $map.get_local_mouse_position() )
-	$map.clear_layer(3)
+	$map.clear_layer(4)
 	if cursor_map_pos in $map.get_used_cells_by_id(0, 0, Vector2i(0,0)):
-		$map.set_cell(3, cursor_map_pos, 0, Vector2i(0,0),1)
+		$map.set_cell(4, cursor_map_pos, 0, Vector2i(0,0),1)
 		if Input.is_action_just_pressed("lmb"):
 			$map.set_cell(1, cursor_map_pos, 0, Vector2i(1,0))
+			set_push_vec(cursor_map_pos, true)
 		elif Input.is_action_just_pressed("rmb"):
 			$map.set_cell(1, cursor_map_pos)
+			set_push_vec(cursor_map_pos, false)

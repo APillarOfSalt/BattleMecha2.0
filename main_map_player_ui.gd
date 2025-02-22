@@ -10,8 +10,6 @@ func _on_actions_out_of_actions():
 @export var obj_ctrl : Object_Controller
 @export var cursor : Node2D = null
 @onready var actions : Container = $actions
-func spend_action():
-	actions.remote_set.rpc( actions.current - 1 )
 
 const style : StyleBoxFlat = preload("res://styles/player_stylebox0.tres")
 var our_style : StyleBoxFlat = null
@@ -72,32 +70,25 @@ func setup(ctrl:Object_Controller, data:Player_Data): #->Array[Unit_Node]:
 	co = data.team.starting_resources.cobalt
 	deck.setup(data.team)
 
-signal _on_roller_spawn_complete()
-@rpc("any_peer", "call_local", "reliable")
-func _start_round(ids:Array=[-1,-1,-1]):
+func start_round():
 	actions.remote_set.rpc(actions.total)
 	end_turn_node._reset()
-	for i in 3:
-		if get_roller_unit(i) == null:
-			obj_ctrl.local_unit_spawn(ids[i], i)
-	_on_roller_spawn_complete.emit()
 
-func get_roller_cube(r_index:int)->Vector3i:
-	return map.oddq_to_cubic( map.local_rollers[r_index] )
 
-func get_roller_unit(r_index:int)->Unit_Node:
-	var obj : Map_Object = obj_ctrl.get_first_obj_at( get_roller_cube(r_index) )
-	if obj == null:
-		return null
-	return obj.unit
+
+
+
+
 
 func request_grab(node:Unit_Node):
-	if held_object != null:
+	if held_object != null or actions.current <= 0:
 		return
 	node.walkables = request_highlight(node, true)
 	node.state = node.STATES.held
 	held_object = node.map_obj
 func request_buy(node:Unit_Node):
+	if actions.current <= 0:
+		return
 	request_grab(node)
 	cost_disp.set_cost(node.unit_data.cost)
 	cost_disp.modulate.a = 0.5
@@ -140,7 +131,7 @@ func request_move(node:Unit_Node)->bool:
 	node.to_cube = new_cube
 	node.turn_over = true
 	node.state = node.STATES.deploy
-	spend_action()
+	actions.remote_set.rpc( actions.current - 1 )
 	held_object = null
 	return true
 
@@ -207,9 +198,20 @@ var co : int:
 		res_disp.cobalt = val
 	get: return res_disp.cobalt
 
+func unit_sale(unit:Unit_Node):
+	if unit.player_num != player_num:
+		print("oop",unit)
+		return false
+	res_disp.mod_cost_by(unit.unit_data.sale)
+
 @rpc("any_peer", "call_local", "reliable")
 func sell_unit(unit:Unit_Node):
+	print("RPC:sell_unit(unit:Unit_Node):[id:",unit.map_obj.id,",name:",unit.unit_data.name,"]\n",
+		"from:",multiplayer.get_remote_sender_id(),
+		", p:",Global.server_controller.instance_id,
+		", on:",multiplayer.get_unique_id(),"\n","@:",Time.get_ticks_msec())
 	if unit.player_num != player_num:
+		print("oop",unit)
 		return false
 	cost_disp.set_cost(unit.unit_data.sale)
 	cost_disp.flip_colors = true

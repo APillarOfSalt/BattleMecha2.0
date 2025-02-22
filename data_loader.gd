@@ -156,8 +156,8 @@ func modules_to_memory():
 		file.close()
 
 func modules_from_memory():
-	for file_s:String in DirAccess.get_files_at(user_module_dir):
-		var file_name : String = str(user_module_dir,"/",file_s)
+	for file_s:String in DirAccess.get_files_at(default_module_dir):
+		var file_name : String = str(default_module_dir,"/",file_s)
 		var file := FileAccess.open(file_name, FileAccess.READ)
 		var data : Dictionary = JSON.parse_string(file.get_line())
 		if data.type == "Shield":

@@ -2,30 +2,49 @@ extends Node
 
 signal on_search_complete()
 
-@onready var map : TileMap = get_parent().map
-@onready var obj_ctrl : Object_Controller = get_parent().obj_ctrl
-@onready var turn_tracker : Turn_Tracker = get_parent().turn_tracker
-
-func _setup(tile_arr:Array):
-	check_tile_arr = tile_arr
-	check_tile_arr.sort_custom(map.sort_vecs)
-	#print("search_start")
-	do_process = do_next_check()
-	map.clear_layer(3)
-
+@export var map : TileMap = null
+@export var obj_ctrl : Object_Controller = null
+@export var turn_tracker : Turn_Tracker = null
 
 var overlap_tiles : Array[Vector3i] = []
-var attacks : Dictionary = {} #obj_id:
+func setup(objs:Array[Map_Object]):
+	map.clear_layer(3)
+	map.clear_layer(4)
+	do_process = false
+	overlap_tiles.clear()
+	var by_pos : Dictionary = {} #cube:Vector3i : [obj_id:int,etc...]
+	for obj:Map_Object in objs:
+		var cube : Vector3i = obj.to_pos
+		var oddq : Vector2i = map.cubic_to_oddq(cube)
+		if !cube in by_pos.keys():
+			map.clear_layer(3)
+			map.set_cell(3, oddq, 0, Vector2i(1,0))
+			by_pos[cube] = []
+		by_pos[cube].append(obj.id)
+		if by_pos[cube].size() > 1 and !cube in overlap_tiles:
+			map.set_cell(4, oddq, 0, Vector2i(1,0))
+			overlap_tiles.append(cube)
+	map.clear_layer(3)
+	if overlap_tiles.size(): #skip second search
+		search_objs.clear()
+		on_search_complete.emit()
+	else: #do main search
+		search_objs = objs
+		do_process = do_next_check()
+
+
+var attacks : Dictionary = {} #obj_id:int : {tile_cube:Vector3i
 func found_attack(objs:Array[Map_Object]):
 	if objs.size() == 0:
 		return
 	var obj_ids : Array[int] = []
 	for obj:Map_Object in objs:
 		obj_ids.append(obj.id)
-	var oddq : Vector2i = map.cubic_to_oddq(current_check_tile)
-	map.set_cell(4, oddq, 0, Vector2i(1,0))
-	oddq = map.cubic_to_oddq(current_wep_tile+current_check_tile)
-	map.set_cell(4, oddq, 0, Vector2i(1,0), 9)
+	print("found attack : ", obj_ids)
+	var current_check_tile = map.cubic_to_oddq(objs[0].to_pos)
+	map.set_cell(4, current_check_tile, 0, Vector2i(1,0))
+	current_check_tile = map.cubic_to_oddq(current_wep_tile + objs[0].to_pos)
+	map.set_cell(4, current_check_tile, 0, Vector2i(1,0), 9)
 	if !current_check_tile in attacks.keys():
 		attacks[current_check_tile] = {}
 	if !current_check_obj.id in attacks[current_check_tile].keys():
@@ -34,21 +53,8 @@ func found_attack(objs:Array[Map_Object]):
 		attacks[current_check_tile][current_check_obj.id][current_check_wep.id] = {}
 	attacks[current_check_tile][current_check_obj.id][current_check_wep.id][current_wep_tile] = obj_ids
 
-var check_tile_arr : Array
-@export var current_check_tile : Vector3i = Vector3i(1,1,1):
-	set(tile):
-		current_check_tile = tile
-		if tile != Vector3i(1,1,1):
-			var oddq : Vector2i = map.cubic_to_oddq(tile)
-			map.set_cell(3, oddq, 0, Vector2i(1,0))
-			current_tile_obj_arr = obj_ctrl.get_objs_at(tile)
-			if get_parent().is_overlap:
-				if current_tile_obj_arr.size() > 1:
-					map.set_cell(4, oddq, 0, Vector2i(1,0), 9)
-					overlap_tiles.append(tile)
-				current_tile_obj_arr.clear()
-var current_tile_obj_arr : Array[Map_Object]
 
+var search_objs : Array[Map_Object]
 var current_check_obj : Map_Object = null:
 	set(obj):
 		current_check_obj = obj
@@ -56,8 +62,10 @@ var current_check_obj : Map_Object = null:
 			for wep_id:int in obj.unit.cubic_weapons.keys():
 				var wep_mod : Module_Data.Weapon_Data = obj.unit.unit_data.get_module(wep_id)
 				if wep_mod.subtype == "Melee" and turn_tracker.phase == turn_tracker.PHASES.melee:
+					print(wep_mod.subtype,":", turn_tracker.phase)
 					current_check_obj_weps.append(wep_mod)
 				elif wep_mod.subtype != "Melee" and turn_tracker.phase == turn_tracker.PHASES.ranged:
+					print(wep_mod.subtype,":", turn_tracker.phase)
 					current_check_obj_weps.append(wep_mod)
 var current_check_obj_weps : Array[Module_Data.Weapon_Data]
 var current_check_wep : Module_Data.Weapon_Data = null:
@@ -70,50 +78,41 @@ var current_wep_tiles : Array = []
 @export var current_wep_tile : Vector3i = Vector3i(1,1,1):
 	set(tile):
 		current_wep_tile = tile
-		if tile == Vector3i(1,1,1):
+		if tile == Vector3i(1,1,1) or current_check_obj == null:
 			return
-		map.set_cell(3, map.cubic_to_oddq(tile), 0, Vector2i(1,0))
-		if current_check_obj == null:
-			return
+		current_wep_tile += current_check_obj.to_pos
+		map.set_cell(3, map.cubic_to_oddq(current_wep_tile), 0, Vector2i(1,0))
 		var defenders : Array[Map_Object] = []
-		var objs : Array = obj_ctrl.get_objs_at(tile)
+		var objs : Array = obj_ctrl.get_objs_at(current_wep_tile)
 		for obj in objs:
-			if obj.unit.player_num != current_check_obj.unit.player_num:
+			if obj.unit.state != obj.unit.STATES.roller:
 				defenders.append(obj)
 		if defenders.size():
 			found_attack(defenders)
-		print(objs, defenders)
+		#print(objs, defenders)
 
 var do_process : bool = false
 @export var tick_speed_msec : int = 100
 var tick : int = -1
 func _process(delta):
-	if do_process and (Input.is_action_pressed("rmb") or Input.is_action_just_pressed("lmb")):
-		if Time.get_ticks_msec() - tick < tick_speed_msec:
-			return
-		tick = Time.get_ticks_msec()
-		if !do_next_check():
-			do_process = false
-			on_search_complete.emit()
+	if !do_process or (Time.get_ticks_msec() - tick) < tick_speed_msec:
+		return
+	tick = Time.get_ticks_msec()
+	if !do_next_check():
+		do_process = false
+		on_search_complete.emit()
+		map.clear_layer(3)
 
 func do_next_check():
 	if current_wep_tiles.size():
-		current_wep_tile = current_wep_tiles.pop_front() + current_check_tile
-		print("search_wep_tile:", current_wep_tile)
+		current_wep_tile = current_wep_tiles.pop_front()
 		return true
 	if current_check_obj_weps.size():
 		current_check_wep = current_check_obj_weps.pop_front()
-		print("search_wep:", current_check_wep.name)
 		return true
-	elif current_tile_obj_arr.size():
-		current_check_obj = current_tile_obj_arr.pop_front()
-		print("search_obj:", current_check_obj.unit.unit_data.name)
+	elif search_objs.size():
+		current_check_obj = search_objs.pop_front()
 		return true
-	elif check_tile_arr.size():
-		current_check_tile = check_tile_arr.pop_front()
-		print("search_tile:", current_check_tile)
-		return true
-	current_check_tile = Vector3i(1,1,1)
 	current_check_obj = null
 	current_check_wep = null
 	current_wep_tile = Vector3i(1,1,1)

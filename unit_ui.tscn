@@ -67,5 +67,4 @@ theme_override_constants/v_separation = -5
 columns = 6
 override_visible = 15
 simplified = true
-flip_colors = true
 font_size_override = 16

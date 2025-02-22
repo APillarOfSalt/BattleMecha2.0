@@ -70,15 +70,19 @@ var module : Module_Data = null:
 				op_sel.selected = -1
 			refresh_save_butt()
 			return
+		var is_weapon : bool = mod.type == "Weapon"
 		if mod.type == "Shield":
 			mode = MODES.shl
-		elif mod.type == "Weapon":
+		elif is_weapon:
 			mode = MODES.wep
 		else:
 			mode = MODES.mod
-		move_atk.mode = mod.type == "Weapon"
+		move_atk.mode = is_weapon
 		move_atk.visible = mod.type != "Shield"
-		move_atk.movement = mod.hex_shape
+		move_atk.push_dir = -1
+		if is_weapon:
+			move_atk.push_dir = mod.push
+		move_atk.tiles = mod.hex_shape
 		subtype = mod.subtype
 		var sub : int = Global.type_from_str(subtype)
 		sub_butt.selected_type = sub

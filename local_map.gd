@@ -1,7 +1,7 @@
 extends TileMap
 
 var local_player : int:
-	get: return get_parent().local_player
+	get: return get_parent().get_player_num()
 
 func get_rollers(index:int)->Array:
 	return [local_rollers, next_rollers, prev_rollers][(index +3- local_player) % 3]
@@ -44,7 +44,7 @@ func _refresh():
 		#add_child(roller)
 		#local_roller_nodes.append(roller)
 		#roller.global_position = to_global(map_to_local(cubic_to_oddq(cubic)))
-	do_labels()
+	#do_labels()
 
 func do_labels():
 	for i in all_walkable_tiles():
@@ -57,6 +57,7 @@ func recolor():
 	var rollers : Array = [local_rollers, next_rollers, prev_rollers]
 	var tiles : Array = [local_tiles, next_tiles, prev_tiles]
 	var shared : Array = [next_shared, not_shared, prev_shared]
+	var trash : Array = [prev_trash, local_trash, next_trash]
 	for i in 3:
 		var index : int = (local_player + i) % 3
 		var color : Color = Global.player_info_by_num[index].team.base_color
@@ -66,6 +67,7 @@ func recolor():
 		var col_n : Color = Global.player_info_by_num[next].team.base_color
 		var mix : Color = Global.mix_colors( color, col_n )
 		get_cell_tile_data(0, shared[i][0]).modulate = mix
+		get_cell_tile_data(0, trash[i][0]).modulate = mix
 
 @onready var obj_ctrl : Object_Controller = $obj_controller 
 

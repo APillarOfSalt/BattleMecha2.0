@@ -29,6 +29,7 @@ func take_node()->Unit_Node:
 	u_spr.show()
 	return linked_node
 func _on_linked_death(node:Unit_Node=null, sale:bool=false):
+	print(node.name, node.map_obj.id, " dead")
 	if node != linked_node:
 		return
 	node.hide()

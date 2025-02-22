@@ -11,7 +11,12 @@ func _duplicate(sn:bool=show_name, sc:bool=show_cost, sls:bool=show_local_sprite
 	return dup
 
 @export var show_name : bool = true
-@export var show_cost : bool = true
+@export var show_cost : bool = true:
+	set(toggle):
+		show_cost = toggle
+		if !is_inside_tree():
+			return
+		cost.visible = toggle
 @export var show_local_sprite : bool = false
 var unit_node : Unit_Node = null
 

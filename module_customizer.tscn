@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://dvd8rhrt3vyya"]
+[gd_scene load_steps=10 format=3 uid="uid://dvd8rhrt3vyya"]
 
 [ext_resource type="Script" path="res://module_customizer.gd" id="1_8enqt"]
 [ext_resource type="Texture2D" uid="uid://qp080225pbn5" path="res://assets/new_file.png" id="2_7qkqo"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://module_customizer_shield_properties.gd" id="7_s67sk"]
 [ext_resource type="PackedScene" uid="uid://cy3v2xd66to72" path="res://move_attack_preview.tscn" id="8_i5g7s"]
 [ext_resource type="Script" path="res://module_customizer_weapon_properties.gd" id="8_ivr8x"]
+[ext_resource type="PackedScene" uid="uid://xvhld5juy87e" path="res://weapon_push_edit.tscn" id="9_jsuhl"]
 
 [node name="module_customizer" type="VBoxContainer"]
 offset_right = 536.0
@@ -162,41 +163,52 @@ layout_mode = 2
 max_value = 2.0
 rounded = true
 
-[node name="weapon" type="GridContainer" parent="h/r"]
+[node name="weapon" type="VBoxContainer" parent="h/r"]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 4
 mouse_filter = 2
-columns = 2
 script = ExtResource("8_ivr8x")
 
-[node name="r_l" type="Label" parent="h/r/weapon"]
+[node name="radius" type="HBoxContainer" parent="h/r/weapon"]
+layout_mode = 2
+
+[node name="l" type="Label" parent="h/r/weapon/radius"]
 layout_mode = 2
 text = "Radius :"
 horizontal_alignment = 2
 
-[node name="radius" type="SpinBox" parent="h/r/weapon"]
+[node name="val" type="SpinBox" parent="h/r/weapon/radius"]
 layout_mode = 2
 max_value = 2.0
 rounded = true
 
-[node name="ap_l" type="Label" parent="h/r/weapon"]
+[node name="armor_p" type="HBoxContainer" parent="h/r/weapon"]
+layout_mode = 2
+
+[node name="l" type="Label" parent="h/r/weapon/armor_p"]
 layout_mode = 2
 text = "Armor Piercing : "
 horizontal_alignment = 2
 
-[node name="ap" type="CheckButton" parent="h/r/weapon"]
+[node name="toggle" type="CheckButton" parent="h/r/weapon/armor_p"]
 layout_mode = 2
 size_flags_horizontal = 2
 
-[node name="sp_l" type="Label" parent="h/r/weapon"]
+[node name="shield_p" type="HBoxContainer" parent="h/r/weapon"]
+layout_mode = 2
+
+[node name="l" type="Label" parent="h/r/weapon/shield_p"]
 layout_mode = 2
 text = "Shield Piercing : "
 horizontal_alignment = 2
 
-[node name="sp" type="CheckButton" parent="h/r/weapon"]
+[node name="toggle" type="CheckButton" parent="h/r/weapon/shield_p"]
 layout_mode = 2
 size_flags_horizontal = 2
+
+[node name="push" parent="h/r/weapon" instance=ExtResource("9_jsuhl")]
+layout_mode = 2
 
 [connection signal="pressed" from="title/m/anchor/title/save" to="." method="_on_save_pressed"]
 [connection signal="pressed" from="title/m/anchor/title/batch_save" to="." method="_on_batch_save_pressed"]

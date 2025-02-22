@@ -10,15 +10,15 @@ var ui : Player_UI = null
 
 func do_free(sale:bool=false):
 	if sale:
-		ui.sell_unit(unit)
-	unit.is_now_dead.emit(unit, sale)
+		ui.unit_sale(unit)
 	queue_free()
 
-func setup(obj_id:int,cube:Vector3i,p_num:int,unit_id:int, local:bool):
-	id = obj_id
-	name = str("obj_",obj_id)
+func setup(oid:int, cube:Vector3i,p_num:int,unit_id:int, local:bool):
+	id = oid
+	name = str("obj_",id)
 	ui = Global.player_info_by_num[p_num].ui
 	unit = ui.deck.get_unit(unit_id)
+	unit.name = unit.unit_data.name
 	player_color = ui.player_color
 	secondary_color = ui.secondary_color
 	tertiary_color = ui.tertiary_color
@@ -65,7 +65,6 @@ var to_pos : Vector3i:
 		$fg.visible = to_pos != cubic
 		$fg.global_position = glo_pos_from_cube(vec)
 		unit.to_cube = vec
-		$Label.text = str(cubic,"\n",to_pos)
 var cubic : Vector3i:
 	set(vec):
 		cubic = vec

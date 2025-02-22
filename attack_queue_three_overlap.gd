@@ -1,5 +1,7 @@
 extends PanelContainer
 
+@export var obj_ctrl : Object_Controller = null
+
 signal animation_finished()
 func is_anim_playing()->bool:
 	return anims_completed > -1
@@ -39,5 +41,13 @@ func _on_anim_complete():
 	anims_completed += 1
 	if anims_completed == 3:
 		anims_completed = -1
+		var data : Dictionary = {}
+		data[a_unit.player_num] = {}
+		data[b_unit.player_num] = {}
+		data[c_unit.player_num] = {}
+		data[a_unit.player_num][a_unit.map_obj.id] = {"cube":a_unit.cubic, "to":a_unit.to_cube}
+		data[b_unit.player_num][b_unit.map_obj.id] = {"cube":b_unit.cubic, "to":b_unit.to_cube}
+		data[c_unit.player_num][c_unit.map_obj.id] = {"cube":c_unit.cubic, "to":c_unit.to_cube}
+		obj_ctrl._on_server_positions(data)
 		animation_finished.emit()
 		queue_free()

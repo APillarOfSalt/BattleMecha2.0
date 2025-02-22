@@ -2,7 +2,9 @@ extends Path2D
 class_name Animation_Controller
 
 signal finished()
+signal started(end_time_msec:int)
 
+@onready var anim_p = $AnimationPlayer
 @onready var unit : Unit_Node = get_parent().get_parent()
 var stats : Unit_UI_Stats = null
 
@@ -61,8 +63,13 @@ func _process(delta):
 		return
 	last_tick = Time.get_ticks_msec()
 	if last_tick >= play_msec:
-		$AnimationPlayer.play(active_anim_name)
+		anim_p.play(active_anim_name)
 		play_msec = -1
+
+func _on_animation_player_animation_started(anim_name):
+	var sec : float = anim_p.current_animation_length - anim_p.current_animation_position
+	var end_time_msec : float = sec * 1000
+	started.emit(end_time_msec + Time.get_ticks_msec())
 
 func _on_animation_player_animation_finished(anim_name:String):
 	if anim_name.begins_with("offense"):
@@ -76,11 +83,12 @@ func _on_animation_player_animation_finished(anim_name:String):
 			active_anim_name = ""
 			finished.emit()
 	elif anim_name == "defense_lib/death":
-		unit.is_now_dead.emit(unit, false)
+		unit._kill_me()
 	else:
 		if !stats._on_hit():
 			_play_death()
-		
+
+
 
 
 func _play_death():
@@ -179,6 +187,8 @@ const DEF_ANIMS : Dictionary = {
 		"v" : 280,
 	},
 }
+
+
 
 
 

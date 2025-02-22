@@ -29,3 +29,5 @@ visible = false
 offset_bottom = 132.0
 
 [node name="animation_controller" parent="anchor" instance=ExtResource("7_njcuy")]
+
+[connection signal="started" from="anchor/animation_controller" to="." method="_on_animation_controller_started"]

@@ -286,6 +286,7 @@ theme_override_styles/separator = SubResource("StyleBoxLine_oxl55")
 layout_mode = 2
 theme_override_constants/h_separation = 5
 override_visible = 15
+flip_colors = true
 font_size_override = 26
 
 [node name="unit_sep" type="HBoxContainer" parent="."]

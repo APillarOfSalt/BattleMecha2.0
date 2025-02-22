@@ -129,6 +129,7 @@ func from_data(data:Dictionary):
 	for i in 4:
 		var s : String = cost_edit.VAR_NAMES[i]
 		cost_edit[s] = int(data[s])
+		print(data[s])
 	for i:int in 3:
 		unit_picker[str("u",i,"_id")] = int(data[str("u",i)])
 	if multiplayer.get_unique_id() == 1:
@@ -176,6 +177,8 @@ func _on_ready_toggled(toggled_on):
 var total : int:
 	get: return ti+ga+al+co
 func _on_cost_editor_new_value(access:String):
-	if is_local_authority():
+	if Global.server_controller.instance_id == -1:
+		cost_edit.remote_set(access, cost_edit[access])
+	elif is_local_authority():
 		cost_edit.remote_set.rpc(access, cost_edit[access])
 	$ready.disabled = player_name == "" or total != total_allowed or !is_local_authority()

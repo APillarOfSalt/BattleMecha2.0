@@ -1,0 +1,223 @@
+[gd_scene load_steps=4 format=3 uid="uid://xvhld5juy87e"]
+
+[ext_resource type="Script" path="res://weapon_push_edit.gd" id="1_mej7f"]
+[ext_resource type="Texture2D" uid="uid://laseybys5cll" path="res://assets/tile16x16.png" id="1_q41fi"]
+[ext_resource type="Texture2D" uid="uid://dg2ij1hvrtx21" path="res://assets/arrow_spritset_16x16.png" id="2_t121u"]
+
+[node name="push" type="VBoxContainer"]
+script = ExtResource("1_mej7f")
+
+[node name="top" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 0
+alignment = 2
+
+[node name="Label" type="Label" parent="top"]
+layout_mode = 2
+text = "Push "
+
+[node name="Label2" type="Label" parent="top"]
+custom_minimum_size = Vector2(0, 14)
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "(Relative)"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label3" type="Label" parent="top"]
+layout_mode = 2
+text = " : "
+
+[node name="dir_sel" type="OptionButton" parent="top"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+item_count = 7
+selected = 0
+popup/item_0/text = "None"
+popup/item_0/id = 0
+popup/item_1/text = "Push Back"
+popup/item_1/id = 1
+popup/item_2/text = "Push Right"
+popup/item_2/id = 2
+popup/item_3/text = "Pull Right"
+popup/item_3/id = 3
+popup/item_4/text = "Pull Forward"
+popup/item_4/id = 4
+popup/item_5/text = "Pull Left"
+popup/item_5/id = 5
+popup/item_6/text = "Push Left"
+popup/item_6/id = 6
+
+[node name="disp" type="HBoxContainer" parent="."]
+layout_mode = 2
+alignment = 1
+
+[node name="labels" type="VBoxContainer" parent="disp"]
+layout_mode = 2
+
+[node name="a" type="Label" parent="disp/labels"]
+self_modulate = Color(0.760784, 0.203922, 0.203922, 1)
+layout_mode = 2
+text = "Aligned : "
+horizontal_alignment = 2
+
+[node name="m" type="Label" parent="disp/labels"]
+self_modulate = Color(0.870588, 0.568627, 0.305882, 1)
+layout_mode = 2
+text = "Mis-aligned : "
+horizontal_alignment = 2
+
+[node name="grid" type="VBoxContainer" parent="disp"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = -8
+
+[node name="h0" type="HBoxContainer" parent="disp/grid"]
+layout_mode = 2
+
+[node name="spacer" type="MarginContainer" parent="disp/grid/h0"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="tile" type="TextureRect" parent="disp/grid/h0"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = ExtResource("1_q41fi")
+expand_mode = 4
+stretch_mode = 5
+
+[node name="h1" type="HBoxContainer" parent="disp/grid"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 8
+
+[node name="spacer" type="MarginContainer" parent="disp/grid/h1"]
+custom_minimum_size = Vector2(4, 0)
+layout_mode = 2
+
+[node name="tile" type="TextureRect" parent="disp/grid/h1"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = ExtResource("1_q41fi")
+expand_mode = 4
+stretch_mode = 5
+
+[node name="tile2" type="TextureRect" parent="disp/grid/h1"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = ExtResource("1_q41fi")
+expand_mode = 4
+stretch_mode = 5
+
+[node name="h2" type="HBoxContainer" parent="disp/grid"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 8
+
+[node name="tile" type="TextureRect" parent="disp/grid/h2"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = ExtResource("1_q41fi")
+expand_mode = 4
+stretch_mode = 5
+
+[node name="tile2" type="TextureRect" parent="disp/grid/h2"]
+self_modulate = Color(0.760784, 0.203922, 0.203922, 1)
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = ExtResource("1_q41fi")
+expand_mode = 4
+stretch_mode = 5
+
+[node name="aligned" type="Sprite2D" parent="disp/grid/h2/tile2"]
+visible = false
+texture = ExtResource("2_t121u")
+centered = false
+hframes = 2
+frame = 1
+
+[node name="h3" type="HBoxContainer" parent="disp/grid"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 8
+
+[node name="spacer" type="MarginContainer" parent="disp/grid/h3"]
+custom_minimum_size = Vector2(4, 0)
+layout_mode = 2
+
+[node name="tile" type="TextureRect" parent="disp/grid/h3"]
+self_modulate = Color(0.870588, 0.568627, 0.305882, 1)
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = ExtResource("1_q41fi")
+expand_mode = 4
+stretch_mode = 5
+
+[node name="misaligned" type="Sprite2D" parent="disp/grid/h3/tile"]
+visible = false
+texture = ExtResource("2_t121u")
+centered = false
+flip_v = true
+hframes = 2
+frame = 1
+
+[node name="tile2" type="TextureRect" parent="disp/grid/h3"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = ExtResource("1_q41fi")
+expand_mode = 4
+stretch_mode = 5
+
+[node name="h4" type="HBoxContainer" parent="disp/grid"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 8
+
+[node name="tile" type="TextureRect" parent="disp/grid/h4"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = ExtResource("1_q41fi")
+expand_mode = 4
+stretch_mode = 5
+
+[node name="tile2" type="TextureRect" parent="disp/grid/h4"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = ExtResource("1_q41fi")
+expand_mode = 4
+stretch_mode = 5
+
+[node name="h5" type="HBoxContainer" parent="disp/grid"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 8
+
+[node name="spacer" type="MarginContainer" parent="disp/grid/h5"]
+custom_minimum_size = Vector2(4, 0)
+layout_mode = 2
+
+[node name="tile" type="TextureRect" parent="disp/grid/h5"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = ExtResource("1_q41fi")
+expand_mode = 4
+stretch_mode = 5
+
+[node name="h6" type="HBoxContainer" parent="disp/grid"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 8
+
+[node name="spacer" type="MarginContainer" parent="disp/grid/h6"]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+
+[node name="tile" type="TextureRect" parent="disp/grid/h6"]
+self_modulate = Color(0.341176, 0.760784, 0.341176, 1)
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = ExtResource("1_q41fi")
+expand_mode = 4
+stretch_mode = 5
+
+[connection signal="item_selected" from="top/dir_sel" to="." method="_on_option_button_item_selected"]

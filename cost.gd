@@ -111,7 +111,7 @@ func add_with(cost:Cost_Data):
 func mod_cost_by(cost:Dictionary):
 	for i in ele_strs:
 		if i in cost:
-			self[i] += cost[i] * flip_sign
+			self[i] += cost[i] * -flip_sign
 			#if RED:false, +1 == higher price, -1==lower price
 			#if GREEN:true, +1 == more asset, -1==less asset
 

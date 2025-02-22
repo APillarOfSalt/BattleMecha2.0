@@ -5,7 +5,7 @@ class_name Unit_Editor
 
 
 func _on_module_backdrop_refresh_movement(move_arr):
-	move_edit.bonus_movement = move_arr
+	move_edit.bonus_tiles = move_arr
 var unit : Unit_Data = null:
 	set(data):
 		unit = data
@@ -19,7 +19,7 @@ var unit : Unit_Data = null:
 			return
 		name_l.text = data.name
 		mod_back.unit = data
-		move_edit.movement = data.movement
+		move_edit.tiles = data.movement
 		if data.size == 1:
 			s1_spr.show()
 			s1_spr.frame_coords = data.atlas

@@ -1,6 +1,6 @@
-[gd_scene load_steps=13 format=3 uid="uid://bt6uanrmhqtwm"]
+[gd_scene load_steps=14 format=3 uid="uid://bt6uanrmhqtwm"]
 
-[ext_resource type="Script" path="res://main_game.gd" id="1_weasy"]
+[ext_resource type="Script" path="res://scenes/main_map/main_multiplayer_manager.gd" id="1_4qvhw"]
 [ext_resource type="TileSet" uid="uid://cc3shgi4yyt5c" path="res://main_map_tileset.tres" id="3_a1jsy"]
 [ext_resource type="Script" path="res://local_map.gd" id="4_3rr6f"]
 [ext_resource type="Script" path="res://object_controller.gd" id="4_ie5xf"]
@@ -9,24 +9,20 @@
 [ext_resource type="PackedScene" uid="uid://dmw7ncpbymxpf" path="res://map_trash_obj.tscn" id="6_uvass"]
 [ext_resource type="PackedScene" uid="uid://dcmikok6p8vx8" path="res://main_text.tscn" id="8_2j528"]
 [ext_resource type="Script" path="res://attack_queue.gd" id="8_kf8ph"]
-[ext_resource type="Script" path="res://main_map_combat_manager.gd" id="8_thbmp"]
+[ext_resource type="Script" path="res://combat_manager.gd" id="8_n664b"]
+[ext_resource type="Script" path="res://combat_push_controller.gd" id="10_1jicj"]
 [ext_resource type="Script" path="res://combat_sniffer.gd" id="10_nk03j"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_53dno"]
 properties/0/path = NodePath(".:current_check_tile")
 properties/0/spawn = true
-properties/0/replication_mode = 1
+properties/0/replication_mode = 2
 properties/1/path = NodePath(".:current_wep_tile")
 properties/1/spawn = true
-properties/1/replication_mode = 1
+properties/1/replication_mode = 2
 
-[node name="game" type="MarginContainer" groups=["game_controller"]]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("1_weasy")
+[node name="Node" type="Node"]
+script = ExtResource("1_4qvhw")
 
 [node name="map" type="TileMap" parent="."]
 position = Vector2(256, 243)
@@ -54,7 +50,7 @@ script = ExtResource("4_ie5xf")
 [node name="map_cursor" type="Sprite2D" parent="map" node_paths=PackedStringArray("turn_tracker", "obj_ctrl")]
 texture = ExtResource("4_vqe8m")
 script = ExtResource("5_ddrtc")
-turn_tracker = NodePath("../../main_text")
+turn_tracker = NodePath("../../combat_manager/turn_tracker")
 obj_ctrl = NodePath("../obj_controller")
 
 [node name="trash0" parent="map" node_paths=PackedStringArray("cursor") instance=ExtResource("6_uvass")]
@@ -70,68 +66,84 @@ position = Vector2(80, 320)
 cursor = NodePath("../map_cursor")
 index = 2
 
-[node name="manager" type="VBoxContainer" parent="." node_paths=PackedStringArray("map", "obj_ctrl", "turn_tracker")]
-custom_minimum_size = Vector2(630, 0)
-layout_mode = 2
-size_flags_horizontal = 8
-mouse_filter = 2
-theme_override_constants/separation = 0
-script = ExtResource("8_thbmp")
+[node name="combat_manager" type="Control" parent="." node_paths=PackedStringArray("map", "obj_ctrl")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("8_n664b")
 map = NodePath("../map")
 obj_ctrl = NodePath("../map/obj_controller")
-turn_tracker = NodePath("../main_text")
 
-[node name="title" type="PanelContainer" parent="manager"]
+[node name="v" type="VBoxContainer" parent="combat_manager"]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -144.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="title" type="PanelContainer" parent="combat_manager/v"]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="m" type="MarginContainer" parent="manager/title"]
+[node name="m" type="MarginContainer" parent="combat_manager/v/title"]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="Label" type="Label" parent="manager/title/m"]
+[node name="Label" type="Label" parent="combat_manager/v/title/m"]
 layout_mode = 2
 text = "Game Info"
 horizontal_alignment = 1
 
-[node name="players" type="HBoxContainer" parent="manager"]
+[node name="players" type="HBoxContainer" parent="combat_manager/v"]
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 0
 
-[node name="title2" type="PanelContainer" parent="manager"]
+[node name="title2" type="PanelContainer" parent="combat_manager/v"]
 layout_mode = 2
-size_flags_vertical = 10
+size_flags_vertical = 8
 mouse_filter = 2
 
-[node name="m" type="MarginContainer" parent="manager/title2"]
+[node name="m" type="MarginContainer" parent="combat_manager/v/title2"]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="Label" type="Label" parent="manager/title2/m"]
+[node name="Label" type="Label" parent="combat_manager/v/title2/m"]
 layout_mode = 2
 text = "Remaining Attacks"
 horizontal_alignment = 1
 
-[node name="display" type="HBoxContainer" parent="manager" node_paths=PackedStringArray("map", "obj_ctrl", "turn_tracker")]
+[node name="combat_queue" type="HBoxContainer" parent="combat_manager/v" node_paths=PackedStringArray("map", "obj_ctrl", "turn_tracker")]
 layout_mode = 2
 mouse_filter = 2
 script = ExtResource("8_kf8ph")
+map = NodePath("../../../map")
+obj_ctrl = NodePath("../../../map/obj_controller")
+turn_tracker = NodePath("../../turn_tracker")
+
+[node name="push_controller" type="Node" parent="combat_manager/v/combat_queue" node_paths=PackedStringArray("map", "obj_ctrl")]
+script = ExtResource("10_1jicj")
+map = NodePath("../../../../map")
+obj_ctrl = NodePath("../../../../map/obj_controller")
+
+[node name="turn_tracker" parent="combat_manager" instance=ExtResource("8_2j528")]
+layout_mode = 1
+
+[node name="combat_sniffer" type="Node" parent="combat_manager" node_paths=PackedStringArray("map", "obj_ctrl", "turn_tracker")]
+script = ExtResource("10_nk03j")
 map = NodePath("../../map")
 obj_ctrl = NodePath("../../map/obj_controller")
-turn_tracker = NodePath("../../main_text")
+turn_tracker = NodePath("../turn_tracker")
 
-[node name="sniffer" type="Node" parent="manager"]
-script = ExtResource("10_nk03j")
-
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="manager/sniffer"]
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="combat_manager/combat_sniffer"]
 replication_config = SubResource("SceneReplicationConfig_53dno")
 
-[node name="main_text" parent="." instance=ExtResource("8_2j528")]
-layout_mode = 2
-
-[node name="Node" type="Node" parent="."]
-
-[connection signal="attacks_complete" from="manager/display" to="." method="_on_attackers_complete"]
-[connection signal="attacks_complete" from="manager/display" to="." method="_client_on_complete"]
-[connection signal="on_search_complete" from="manager/sniffer" to="manager" method="_on_sniffer_on_search_complete"]
+[connection signal="move_phase_finished" from="map/obj_controller" to="." method="_on_obj_controller_move_phase_finished"]
+[connection signal="attacks_complete" from="combat_manager/v/combat_queue" to="combat_manager" method="_on_combat_queue_attacks_complete"]
+[connection signal="on_search_complete" from="combat_manager/combat_sniffer" to="combat_manager" method="_on_combat_sniffer_on_search_complete"]

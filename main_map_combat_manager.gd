@@ -8,25 +8,26 @@ class_name Combat_Manager
 @onready var display : Combat_Display = $display
 @onready var sniffer = $sniffer
 
-var is_overlap : bool = false
 
-func check_tiles_raw(overlap:bool, tiles:Array):
-	#print("START : ",overlap)
-	is_overlap = overlap
+func check_tiles_raw(tiles:Array):
 	sniffer._setup(tiles)
 
 func _on_sniffer_on_search_complete():
-	if is_overlap:
+	get_parent().
+	
+	
+	
+	if sniffer.overlap_tiles.size():
 		for tile in sniffer.overlap_tiles:
 			display.create_combat_at(tile)
 	else:
 		for tile in sniffer.attacks.keys():
 			display.create_combat_at(tile)
+	
+	
+	
 	if !display.attacks.size():
-		#print("finished : ",is_overlap)
-		if is_overlap:
-			check_tiles_raw( false, obj_ctrl.get_obj_tiles().keys() )
-		else:
+
 			get_parent()._advance.rpc()
 			clear_map.rpc()
 	else:

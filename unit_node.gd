@@ -8,8 +8,10 @@ signal buy_sell_mode(bs:bool)
 
 func _kill_me():
 	is_now_dead.emit(self, false)
-func _return_me():
+func _sell_me():
 	is_now_dead.emit(self, true)
+func get_is_dying()->bool:
+	return anim_ctrl.active_anim == anim_ctrl.DEF_ANIM.death
 
 const mat : Material = preload("res://assets/outlineShader.tres")
 const shader : Shader = preload("res://outline.gdshader")
@@ -64,6 +66,7 @@ enum STATES{roller=-1,held=0,deploy=1,ready=2}
 @export_enum("Display:-2","Roller:-1","Held:0","Deployed:1","Ready:2") var state : int = STATES.roller:
 	set(val):
 		state = val
+		$anchor/unit_ui.show_cost = val == STATES.roller
 		state_changed.emit(val)
 		if locally_owned:
 			_remote_state_set.rpc(val)
@@ -138,6 +141,7 @@ var stats : Unit_UI_Stats = null
 
 var cubic_movement : Array[Vector3i] = []
 var cubic_weapons : Dictionary = {} #weapon_id:int : [Vector3i(),etc...],
+var cubic_weapons_push : Dictionary = {} #weapon_id:int : cube:Vector3i(),
 
 @export var map : TileMap
 var controller : Player_UI = null
@@ -206,10 +210,14 @@ func cursor_cancel():
 	if state == STATES.held:
 		controller.request_drop(self)
 
+signal attack_anim_started(end_time_msec:int)
 signal attack_anim_complete()
-func animate_attack(wep:Module_Data.Weapon_Data, defense:Array[Unit_Node]):
-	
-	anim_ctrl.animate_atk(wep, defense)
+func animate_attack(wep:Module_Data.Weapon_Data, defense:Array[Unit_Node])->Signal:
+	anim_ctrl.setup_atk(wep, defense)
+	return attack_anim_started
+
+func _on_animation_controller_started(end_time_msec):
+	attack_anim_started.emit(end_time_msec)
 
 func get_dmg_type(wep:Module_Data.Weapon_Data)->Module_Data.DMG_TYPES:
 	var dmg_type : Module_Data.DMG_TYPES = -2
@@ -228,7 +236,12 @@ func calc_cubic():
 	for vec in unit_data.full_movement:
 		cubic_movement.append( map.oddq_to_cubic(vec, player_num) )
 	cubic_weapons.clear()
+	cubic_weapons_push.clear()
 	for mod in unit_data.weapons:
 		cubic_weapons[mod.id] = []
 		for oddq:Vector2i in mod.hex_shape:
 			cubic_weapons[mod.id].append( map.oddq_to_cubic(oddq, player_num) )
+		if mod.push in range(6):
+			cubic_weapons_push[mod.id] = map.oddq_to_cubic( Global.directions_evenx[mod.push] )
+
+

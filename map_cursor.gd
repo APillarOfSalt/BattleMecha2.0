@@ -24,6 +24,8 @@ var map_pos : Vector2i:
 			held_object.unit.buy_sell = map_pos in map.local_trash
 		if turn_tracker.phase != turn_tracker.PHASES.action:
 			return
+		if turn_tracker.anim_msec != 0:
+			return
 		moved.emit()
 		hover()
 var cubic : Vector3i:
