@@ -93,14 +93,16 @@ func _check_advance():
 
 @rpc("any_peer", "call_local", "reliable")
 func _advance():
-	print("RPC:_advance():[]\n",
+	if turn_tracker.phase == turn_tracker.PHASES.melee:
+		print("fuck off cunt")
+	print("RPC:_advance():[], phase:",turn_tracker.phase,"\n",
 		"from:",multiplayer.get_remote_sender_id(),
 		", p:",Global.server_controller.instance_id,
 		", on:",multiplayer.get_unique_id(),"@:",Time.get_ticks_msec())
 	turn_tracker.advance()
 	await turn_tracker.anim_complete
 	if turn_tracker.phase == turn_tracker.PHASES.action:
-		obj_ctrl.confirm_positions.rpc(false)
+		obj_ctrl.confirm_positions(false)
 		if get_iid() == 1:
 			start_round(true)
 	elif turn_tracker.phase == turn_tracker.PHASES.move:
@@ -149,13 +151,18 @@ func _recieve_positions_clients(json:String):
 		", on:",multiplayer.get_unique_id(),"@:",Time.get_ticks_msec())
 	obj_ctrl._on_server_positions( JSON.parse_string(json) )
 
-func _on_combat_queue_attacks_complete():
-	_on_client_complete.rpc_id(1, get_player_num())
+func _on_combat_manager_finished():
+	print("RPC:finished combat on p_num:",get_player_num())
+	if !is_host():
+		return
+	append()
+
+
 func _on_obj_controller_move_phase_finished():
 	_on_client_complete.rpc_id(1, get_player_num())
 @rpc("any_peer", "call_local", "reliable")
 func _on_client_complete(p_num:int=-1):
-	print("RPC:_on_client_complete(p_num:int=-1):[",p_num,"]\n",
+	print("RPC:_on_client_complete(p_num:int):[",p_num,"]\n",
 		"from:",multiplayer.get_remote_sender_id(),
 		", p:",Global.server_controller.instance_id,
 		", on:",multiplayer.get_unique_id(),"@:",Time.get_ticks_msec())
@@ -167,7 +174,3 @@ func _on_client_complete(p_num:int=-1):
 		return
 	obj_ctrl.do_local_sale.rpc()
 	_advance.rpc()
-
-
-
-

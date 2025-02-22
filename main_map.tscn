@@ -14,12 +14,9 @@
 [ext_resource type="Script" path="res://combat_sniffer.gd" id="10_nk03j"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_53dno"]
-properties/0/path = NodePath(".:current_check_tile")
+properties/0/path = NodePath(".:current_wep_tile")
 properties/0/spawn = true
 properties/0/replication_mode = 2
-properties/1/path = NodePath(".:current_wep_tile")
-properties/1/spawn = true
-properties/1/replication_mode = 2
 
 [node name="Node" type="Node"]
 script = ExtResource("1_4qvhw")
@@ -145,5 +142,6 @@ turn_tracker = NodePath("../turn_tracker")
 replication_config = SubResource("SceneReplicationConfig_53dno")
 
 [connection signal="move_phase_finished" from="map/obj_controller" to="." method="_on_obj_controller_move_phase_finished"]
+[connection signal="finished" from="combat_manager" to="." method="_on_combat_manager_finished"]
 [connection signal="attacks_complete" from="combat_manager/v/combat_queue" to="combat_manager" method="_on_combat_queue_attacks_complete"]
 [connection signal="on_search_complete" from="combat_manager/combat_sniffer" to="combat_manager" method="_on_combat_sniffer_on_search_complete"]

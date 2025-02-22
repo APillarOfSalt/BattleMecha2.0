@@ -35,7 +35,6 @@ func _setup():
 #var overlap_tiles : Array[Vector3i]
 #attacks[from_vec3i][obj.id][wep.id][to_vec3i] = obj_ids
 func _on_combat_sniffer_on_search_complete():
-	peer_ids_finished.clear()
 	print("end sniff- Over:",sniffer.overlap_tiles,", Atks:", sniffer.attacks)
 	sniffer.overlap_tiles
 	last_was_overlap = bool( sniffer.overlap_tiles.size() )
@@ -71,19 +70,4 @@ func _do_atks():
 
 func _on_combat_queue_attacks_complete():
 	print("attack_queue finished playing : ", player_num)
-	map.clear_layer(3)
-	if last_was_overlap:
-		_setup()
-	elif is_host:
-		remote_finish(player_num)
-	else:
-		remote_finish.rpc_id(1, player_num)
-var peer_ids_finished : Array = []
-@rpc("any_peer", "call_remote", "reliable")
-func remote_finish(p_num:int):
-	print("player#",p_num," finished playing attack_queue")
-	if !p_num in peer_ids_finished:
-		peer_ids_finished.append(p_num)
-	if peer_ids_finished.size() >= 3:
-		rpc_clear.rpc(true)
-		get_parent()._advance.rpc()
+	finished.emit()

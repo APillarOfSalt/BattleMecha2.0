@@ -37,10 +37,10 @@ func _on_anim_finished():
 			_on_anim_finished.call_deferred()
 			return
 	attacks.pop_front().queue_free()
-	if !attacks.size():
-		attacks_complete.emit()
-	else:
+	if attacks.size():
 		attacks.front().play()
+	else:
+		attacks_complete.emit()
 
 
 var attacks : Array

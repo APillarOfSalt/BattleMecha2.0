@@ -28,6 +28,8 @@ func _play():
 
 func _play_next():
 	var def : Unit_Node = defenders.pop_front()
+	if def == null:
+		return
 	var cur := Curve2D.new()
 	cur.add_point(Vector2(0,0))
 	cur.add_point(to_local(def.global_position))

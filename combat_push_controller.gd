@@ -32,6 +32,7 @@ func resolve_overlap(data:Dictionary):
 	for oid:int in oid_cube.keys():
 		var obj : Map_Object = obj_ctrl.all_objects[oid]
 		if !oid in bump_ids: #if not getting bumped, move to push spot
+			obj.cubic = obj.to_pos
 			obj.to_pos += oid_cube[oid]
 		else:
 			var old_pos : Vector3i = obj.to_pos
