@@ -37,18 +37,6 @@ point_count = 2
 
 [sub_resource type="Animation" id="Animation_cxqls"]
 length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("from/rotation/emission/missile_smoke1:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(-40, -8)]
-}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_xj7mx"]
 _data = {
@@ -133,6 +121,83 @@ hframes = 16
 vframes = 9
 frame = 127
 
+[node name="coil_hit" type="Sprite2D" parent="to/rotation/hit_loc"]
+visible = false
+z_index = 1
+rotation = -1.5708
+texture = ExtResource("9_o0v7e")
+hframes = 10
+
+[node name="shield_break_start" type="Sprite2D" parent="to"]
+visible = false
+position = Vector2(-200, 0)
+texture = ExtResource("10_sqjq8")
+hframes = 15
+vframes = 9
+frame = 134
+
+[node name="shield" type="Sprite2D" parent="to"]
+visible = false
+modulate = Color(1, 1, 1, 0)
+position = Vector2(-12, 0)
+texture = ExtResource("11_tvx32")
+hframes = 18
+vframes = 9
+frame = 36
+
+[node name="shield_break_end" type="Sprite2D" parent="to"]
+visible = false
+modulate = Color(1, 1, 1, 0)
+position = Vector2(-200, 0)
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("12_8iojk")
+hframes = 15
+vframes = 9
+frame = 43
+
+[node name="v_hit" type="Sprite2D" parent="to"]
+visible = false
+modulate = Color(1, 1, 1, 0)
+position = Vector2(-12, 0)
+texture = ExtResource("13_6iia5")
+hframes = 19
+vframes = 9
+frame = 56
+
+[node name="p_hit" type="Sprite2D" parent="to"]
+visible = false
+modulate = Color(1, 1, 1, 0)
+position = Vector2(-200, 0)
+texture = ExtResource("14_2oaki")
+hframes = 17
+vframes = 9
+frame = 16
+
+[node name="c_hit" type="Sprite2D" parent="to"]
+visible = false
+modulate = Color(1, 1, 1, 0)
+position = Vector2(-200, 0)
+texture = ExtResource("15_ayvx0")
+flip_h = true
+hframes = 14
+vframes = 9
+frame = 111
+
+[node name="mask" type="Sprite2D" parent="to"]
+clip_children = 1
+position = Vector2(-200, 0)
+texture = ExtResource("16_xf7e4")
+hframes = 7
+vframes = 3
+
+[node name="v_hit" type="Sprite2D" parent="to/mask"]
+visible = false
+modulate = Color(1, 1, 1, 0)
+texture = ExtResource("17_tuoqu")
+hframes = 17
+vframes = 9
+frame = 50
+
 [node name="early" type="PathFollow2D" parent="."]
 position = Vector2(39.9854, 0)
 progress = 40.0
@@ -143,7 +208,7 @@ z_index = 1
 texture = ExtResource("18_siybb")
 hframes = 15
 vframes = 9
-frame = 89
+frame = 76
 
 [node name="midpoint" type="PathFollow2D" parent="."]
 position = Vector2(69.9926, 0)
@@ -165,7 +230,7 @@ scale = Vector2(0.8, 1)
 texture = ExtResource("10_0841b")
 hframes = 16
 vframes = 9
-frame = 47
+frame = 35
 
 [node name="from" type="PathFollow2D" parent="."]
 
@@ -229,6 +294,7 @@ hframes = 5
 vframes = 2
 
 [node name="ranged_pc_flash" type="Sprite2D" parent="from/rotation/emission"]
+visible = false
 position = Vector2(32, 0)
 texture = ExtResource("7_8vvig")
 hframes = 8
@@ -248,9 +314,10 @@ visible = false
 texture = ExtResource("17_cq27p")
 hframes = 14
 vframes = 9
-frame = 41
+frame = 33
 
 [node name="missile_smoke1" type="Sprite2D" parent="from/rotation/emission"]
+visible = false
 position = Vector2(-40, -8)
 rotation = -1.91986
 texture = ExtResource("18_ocji7")
@@ -269,79 +336,11 @@ frame = 107
 
 [node name="death" type="Sprite2D" parent="."]
 visible = false
-position = Vector2(-0.5, -1.5)
+position = Vector2(-0.666, -2.333)
+scale = Vector2(1.5, 1.5)
 texture = ExtResource("7_mdxcs")
 hframes = 14
-frame = 4
-
-[node name="coil_hit" type="Sprite2D" parent="."]
-visible = false
-z_index = 1
-position = Vector2(-64, 0)
-rotation = -1.5708
-texture = ExtResource("9_o0v7e")
-hframes = 10
-frame = 9
-
-[node name="shield_break_start" type="Sprite2D" parent="."]
-visible = false
-texture = ExtResource("10_sqjq8")
-hframes = 15
-vframes = 9
-frame = 134
-
-[node name="shield" type="Sprite2D" parent="."]
-modulate = Color(1, 1, 1, 0)
-texture = ExtResource("11_tvx32")
-hframes = 18
-vframes = 9
-frame = 43
-
-[node name="shield_break_end" type="Sprite2D" parent="."]
-visible = false
-modulate = Color(1, 1, 1, 0)
-scale = Vector2(1.5, 1.5)
-texture = ExtResource("12_8iojk")
-hframes = 15
-vframes = 9
-frame = 43
-
-[node name="v_hit" type="Sprite2D" parent="."]
-modulate = Color(1, 1, 1, 0)
-texture = ExtResource("13_6iia5")
-hframes = 19
-vframes = 9
-frame = 56
-
-[node name="p_hit" type="Sprite2D" parent="."]
-visible = false
-modulate = Color(1, 1, 1, 0)
-texture = ExtResource("14_2oaki")
-hframes = 17
-vframes = 9
-frame = 16
-
-[node name="c_hit" type="Sprite2D" parent="."]
-visible = false
-modulate = Color(1, 1, 1, 0)
-texture = ExtResource("15_ayvx0")
-flip_h = true
-hframes = 14
-vframes = 9
-frame = 111
-
-[node name="mask" type="Sprite2D" parent="."]
-clip_children = 1
-texture = ExtResource("16_xf7e4")
-hframes = 7
-vframes = 3
-
-[node name="v_hit" type="Sprite2D" parent="mask"]
-modulate = Color(1, 1, 1, 0)
-texture = ExtResource("17_tuoqu")
-hframes = 17
-vframes = 9
-frame = 50
+frame = 6
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="animation_started" from="AnimationPlayer" to="." method="_on_animation_player_animation_started"]

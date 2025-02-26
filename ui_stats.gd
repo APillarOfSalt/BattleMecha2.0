@@ -54,11 +54,15 @@ func setup(unit:Unit_Data):
 	#$movement_display.setup(unit)
 
 var hit_logic : Dictionary = {
+	Module_Data.DMG_TYPES.untyped : _on_push_untyped,
 	Module_Data.DMG_TYPES.percussive : _on_hit_p,
 	Module_Data.DMG_TYPES.voltaic : _on_hit_v,
 	Module_Data.DMG_TYPES.concussive : _on_hit_c,
 }
 
+func _on_push_untyped(_v:int=0):
+	if !next_shield and !armor:
+		next_hp -= 1
 
 #1/2dmg to shields;-full armor; full remainder to hp
 func _on_hit_p(dmg:int):

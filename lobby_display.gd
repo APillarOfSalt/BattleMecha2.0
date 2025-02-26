@@ -1,6 +1,8 @@
 extends VBoxContainer
 
 func get_player_data()->Player_Data:
+	if team == null:
+		return null
 	var data : Dictionary = {
 		"iid" : Global.server_controller.instance_id,
 		"peer_id" : multiplayer.get_unique_id(),
@@ -39,18 +41,20 @@ func _check_ready():
 @onready var units : Container = $units
 func _ready():
 	selector.sel.clear()
+	units.clear()
 	$LineEdit.editable = is_local
 	$ready.disabled = true
 	selector.sel.disabled = !is_local
 	if is_local:
 		for t_name:String in DataLoader.teams_by_name:
 			selector.sel.add_item(t_name)
-	else:
-		selector.sel.disabled = true
 	selector.sel.selected = -1
 
 @export var is_local : bool = false
-var is_online : bool = false
+var is_online : bool = false:
+	set(toggle):
+		is_online = toggle
+		$title/m/client/m/h/m/anchor/conn.modulate = [Color.BLACK, Color.WHITE][int(toggle)]
 
 var all_units : Array[Unit_Data]
 
@@ -63,39 +67,44 @@ var player_num : int = -1:
 		$title/m/client/m/h/iid.text = str(val)
 		_check_ready()
 
-var player_name : String = ""
+@export var player_name : String = "": set = _on_line_edit_text_changed
 func _on_line_edit_text_changed(new_text:String):
-	player_name = new_text.strip_edges()
-	while "  " in player_name:
-		player_name = player_name.replace("  ", " ")
-	if $LineEdit.text != player_name:
-		$LineEdit.text = player_name
+	while "  " in new_text:
+		new_text = new_text.replace("  ", " ").strip_edges()
+	if $LineEdit.text != new_text:
+		$LineEdit.text = new_text
+	player_name = new_text
 	_check_ready()
 
 var team : Team_Data = null:
 	set(data):
 		team = data
-		if is_online:
-			selector.set_team_name.rpc(team.name)
-			colors.set_colors.rpc(team.base_color, team.palette)
-			remote_sender()
+		if team == null:
+			team_name = ""
+			team_color = Color.WHITE
+			team_palette = 0
+			resource_setter({"titanium":0,"gallium":0,"aluminum":0,"cobalt":0})
+			units.clear()
 		else:
-			selector.set_team_name(team.name)
-			colors.set_colors(team.base_color, team.palette)
-			resources.set_cost(team.starting_resources)
-		all_units = units.setup(team.starting_units, team.units)
+			team_name = team.name
+			team_color = team.base_color
+			team_palette = team.palette
+			resource_setter(team.starting_resources)
+			all_units = units.setup(team.starting_units, team.units)
 		_check_ready()
+var team_name : String:
+	set(text):
+		team_name = text
+		selector.set_team_name(text)
+var team_color : Color:
+	set(color):
+		team_color = color
+		colors.set_colors(color, team_palette)
+var team_palette : int:
+	set(val):
+		team_palette = val
+		colors.set_colors(team_color, val)
 
-func remote_sender():
-	var ti : int = team.starting_resources.titanium
-	var ga : int = team.starting_resources.gallium
-	var al : int = team.starting_resources.aluminium
-	var co : int = team.starting_resources.cobalt
-	remote_res_setter.rpc(ti, ga, al, co)
-@rpc("any_peer", "call_local", "reliable")
-func remote_res_setter(ti:int,ga:int,al:int,co:int):
-	resources.ti = ti
-	resources.ga = ga
-	resources.al = al
-	resources.co = co
-
+func resource_setter(res:Dictionary):
+	for i in 4:
+		resources.set_val_i(i, res[ resources.ele_strs[i] ])

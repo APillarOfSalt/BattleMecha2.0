@@ -1,0 +1,169 @@
+[gd_scene load_steps=7 format=3 uid="uid://cug76xhpchqev"]
+
+[ext_resource type="Script" path="res://scoring_config_handler.gd" id="1_7ne63"]
+[ext_resource type="PackedScene" uid="uid://dbb13q35m6byq" path="res://score_state_disp.tscn" id="1_swacd"]
+[ext_resource type="Script" path="res://scoring_config_data_handler.gd" id="2_3jeys"]
+[ext_resource type="Script" path="res://scoring_config_from_container.gd" id="2_mt5x4"]
+[ext_resource type="Texture2D" uid="uid://cxbs6hcltfqb3" path="res://assets/new.png" id="3_5h7bb"]
+[ext_resource type="Texture2D" uid="uid://dohioa3qjg5gi" path="res://assets/sav.png" id="3_cgkrk"]
+
+[node name="scoring_config" type="PanelContainer"]
+custom_minimum_size = Vector2(850, 0)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 0
+
+[node name="v" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="title" type="PanelContainer" parent="v"]
+layout_mode = 2
+
+[node name="m" type="MarginContainer" parent="v/title"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="Label" type="Label" parent="v/title/m"]
+layout_mode = 2
+text = "Scoring Configuration"
+horizontal_alignment = 1
+
+[node name="m" type="MarginContainer" parent="v"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="content" type="VBoxContainer" parent="v/m"]
+layout_mode = 2
+theme_override_constants/separation = 8
+script = ExtResource("1_7ne63")
+
+[node name="title" type="HBoxContainer" parent="v/m/content"]
+layout_mode = 2
+size_flags_horizontal = 4
+alignment = 1
+script = ExtResource("2_3jeys")
+
+[node name="save_batch" type="Button" parent="v/m/content/title"]
+layout_mode = 2
+tooltip_text = "Save Batch"
+icon = ExtResource("3_5h7bb")
+icon_alignment = 1
+
+[node name="Button2" type="Button" parent="v/m/content/title"]
+layout_mode = 2
+disabled = true
+text = "Reset"
+icon_alignment = 1
+
+[node name="op" type="OptionButton" parent="v/m/content/title"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+item_count = 1
+selected = 0
+popup/item_0/text = "+ New Score Config"
+popup/item_0/id = 0
+
+[node name="name_edit" type="LineEdit" parent="v/m/content/title"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Config Name"
+alignment = 1
+
+[node name="save" type="Button" parent="v/m/content/title"]
+layout_mode = 2
+tooltip_text = "Save Config"
+icon = ExtResource("3_cgkrk")
+icon_alignment = 1
+
+[node name="states_l" type="Label" parent="v/m/content/title"]
+layout_mode = 2
+text = " Total States :"
+
+[node name="states_val" type="SpinBox" parent="v/m/content/title"]
+layout_mode = 2
+min_value = 2.0
+value = 3.0
+rounded = true
+alignment = 1
+
+[node name="trans_l" type="Label" parent="v/m/content/title"]
+layout_mode = 2
+text = " Total Steps :"
+
+[node name="steps_val" type="SpinBox" parent="v/m/content/title"]
+layout_mode = 2
+min_value = 2.0
+value = 3.0
+rounded = true
+alignment = 1
+
+[node name="from_to_title" type="HBoxContainer" parent="v/m/content"]
+custom_minimum_size = Vector2(788, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Label" type="Label" parent="v/m/content/from_to_title"]
+layout_mode = 2
+text = " State From :"
+
+[node name="from_val" type="SpinBox" parent="v/m/content/from_to_title"]
+layout_mode = 2
+max_value = 4.0
+value = 1.0
+
+[node name="Label2" type="Label" parent="v/m/content/from_to_title"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = " State To :"
+
+[node name="to_val" type="SpinBox" parent="v/m/content/from_to_title"]
+layout_mode = 2
+size_flags_horizontal = 0
+max_value = 4.0
+value = 2.0
+
+[node name="from_to" type="ScrollContainer" parent="v/m/content"]
+layout_mode = 2
+size_flags_vertical = 3
+vertical_scroll_mode = 0
+script = ExtResource("2_mt5x4")
+
+[node name="h" type="HBoxContainer" parent="v/m/content/from_to"]
+layout_mode = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="from" parent="v/m/content/from_to/h" instance=ExtResource("1_swacd")]
+layout_mode = 2
+
+[node name="h" type="HBoxContainer" parent="v/m/content/from_to/h"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="0" parent="v/m/content/from_to/h/h" instance=ExtResource("1_swacd")]
+layout_mode = 2
+
+[node name="to" parent="v/m/content/from_to/h" instance=ExtResource("1_swacd")]
+layout_mode = 2
+to_from = 0
+
+[connection signal="pressed" from="v/m/content/title/save_batch" to="v/m/content/title" method="_on_save_batch_pressed"]
+[connection signal="item_selected" from="v/m/content/title/op" to="v/m/content/title" method="_on_op_item_selected"]
+[connection signal="text_changed" from="v/m/content/title/name_edit" to="v/m/content/title" method="_on_name_edit_text_changed"]
+[connection signal="pressed" from="v/m/content/title/save" to="v/m/content/title" method="_on_save_pressed"]
+[connection signal="value_changed" from="v/m/content/title/states_val" to="v/m/content" method="_on_states_val_value_changed"]
+[connection signal="value_changed" from="v/m/content/title/steps_val" to="v/m/content" method="_on_steps_val_value_changed"]
+[connection signal="value_changed" from="v/m/content/from_to_title/from_val" to="v/m/content" method="_on_from_val_value_changed"]
+[connection signal="value_changed" from="v/m/content/from_to_title/to_val" to="v/m/content" method="_on_to_val_value_changed"]

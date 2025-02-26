@@ -1,5 +1,9 @@
 extends Container
 
+func _on_folder_pressed():
+	var path : String = ProjectSettings.globalize_path(DataLoader.default_module_dir)
+	OS.shell_show_in_file_manager(path, true)
+
 @onready var op_sel : OptionButton = $title/sizing/sel_op
 func _ready():
 	refresh_from_dataloader()
@@ -180,5 +184,4 @@ func _on_shape_edit_shape_changed():
 
 func _on_batch_save_pressed():
 	DataLoader.modules_to_memory()
-
 

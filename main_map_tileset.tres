@@ -1,47 +1,80 @@
-[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://cc3shgi4yyt5c"]
+[gd_resource type="TileSet" load_steps=7 format=3 uid="uid://cc3shgi4yyt5c"]
 
 [ext_resource type="Texture2D" uid="uid://bkq5cnnrp0304" path="res://assets/tileset64x64.png" id="1_3kh3p"]
+[ext_resource type="Texture2D" uid="uid://cwrdwxrhy1dks" path="res://assets/nums64x64.png" id="2_udkva"]
+[ext_resource type="Texture2D" uid="uid://7jb3driv4xuc" path="res://assets/targeting64x64.png" id="3_nwerk"]
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_j5vd5"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_e5llk"]
 texture = ExtResource("1_3kh3p")
 texture_region_size = Vector2i(64, 64)
-0:0/next_alternative_id = 8
+0:0/next_alternative_id = 9
 0:0/0 = 0
 0:0/1 = 1
-0:0/1/modulate = Color(1, 0, 0, 1)
+0:0/1/modulate = Color(0.88, 0, 0, 1)
 0:0/2 = 2
-0:0/2/modulate = Color(0, 1, 0, 1)
+0:0/2/modulate = Color(0, 0.88, 0, 1)
 0:0/3 = 3
 0:0/3/modulate = Color(0, 0, 1, 1)
 0:0/4 = 4
-0:0/4/modulate = Color(0, 1, 1, 1)
+0:0/4/modulate = Color(0, 0.88, 0.88, 1)
 0:0/5 = 5
-0:0/5/modulate = Color(1, 0, 1, 1)
+0:0/5/modulate = Color(0.88, 0, 0.88, 1)
 0:0/6 = 6
-0:0/6/modulate = Color(1, 1, 0, 1)
+0:0/6/modulate = Color(0.88, 0.88, 0, 1)
 0:0/7 = 7
-0:0/7/modulate = Color(0, 0, 0, 1)
-1:0/next_alternative_id = 10
+0:0/7/modulate = Color(0.1, 0.1, 0.1, 1)
+0:0/8 = 8
+0:0/8/modulate = Color(0.5, 0.5, 0.5, 1)
+1:0/next_alternative_id = 9
 1:0/0 = 0
 1:0/1 = 1
-1:0/1/modulate = Color(1, 0, 0, 1)
+1:0/1/modulate = Color(0.88, 0, 0, 1)
 1:0/2 = 2
-1:0/2/modulate = Color(0, 1, 0, 1)
+1:0/2/modulate = Color(0, 0.88, 0, 1)
 1:0/3 = 3
 1:0/3/modulate = Color(0, 0, 1, 1)
 1:0/4 = 4
-1:0/4/modulate = Color(0, 1, 1, 1)
+1:0/4/modulate = Color(0, 0.88, 0.88, 1)
 1:0/5 = 5
-1:0/5/modulate = Color(1, 0, 1, 1)
+1:0/5/modulate = Color(0.88, 0, 0.88, 1)
 1:0/6 = 6
-1:0/6/modulate = Color(1, 1, 0, 1)
+1:0/6/modulate = Color(0.88, 0.88, 0, 1)
+1:0/7 = 7
+1:0/7/modulate = Color(0.1, 0.1, 0.1, 1)
 1:0/8 = 8
-1:0/8/modulate = Color(0, 0, 0, 1)
-1:0/9 = 9
-1:0/9/modulate = Color(0.589096, 0.589096, 0.589096, 1)
+1:0/8/modulate = Color(0.5, 0.5, 0.5, 1)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_begq0"]
+texture = ExtResource("2_udkva")
+texture_region_size = Vector2i(64, 64)
+0:0/0 = 0
+1:0/next_alternative_id = 2
+1:0/0 = 0
+1:0/1 = 1
+2:0/next_alternative_id = 2
+2:0/0 = 0
+2:0/1 = 1
+3:0/next_alternative_id = 2
+3:0/0 = 0
+3:0/1 = 1
+4:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+4:1/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_o5p5j"]
+texture = ExtResource("3_nwerk")
+texture_region_size = Vector2i(64, 64)
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
 
 [resource]
 tile_shape = 3
 tile_offset_axis = 1
 tile_size = Vector2i(64, 64)
-sources/0 = SubResource("TileSetAtlasSource_j5vd5")
+sources/0 = SubResource("TileSetAtlasSource_e5llk")
+sources/1 = SubResource("TileSetAtlasSource_begq0")
+sources/2 = SubResource("TileSetAtlasSource_o5p5j")

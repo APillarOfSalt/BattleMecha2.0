@@ -80,7 +80,6 @@ text = "Victory Points :"
 
 [node name="Label2" type="Label" parent="victory_points"]
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 0, 0, 1)
 text = "0"
 
 [node name="actions" type="HBoxContainer" parent="."]
@@ -133,6 +132,7 @@ action_cont = NodePath("../actions")
 
 [node name="Button" type="Button" parent="end_turn"]
 layout_mode = 2
+disabled = true
 toggle_mode = true
 
 [node name="h" type="HBoxContainer" parent="end_turn"]
@@ -162,8 +162,7 @@ texture = ExtResource("10_tyap3")
 expand_mode = 1
 stretch_mode = 5
 
-[connection signal="out_of_actions" from="actions" to="." method="_on_actions_out_of_actions"]
-[connection signal="out_of_actions" from="actions" to="end_turn" method="_on_actions_out_of_actions"]
+[connection signal="actions_changed" from="actions" to="." method="_on_actions_actions_changed"]
 [connection signal="focus_entered" from="end_turn/Button" to="end_turn" method="_on_button_focus_entered"]
 [connection signal="focus_exited" from="end_turn/Button" to="end_turn" method="_on_button_focus_exited"]
 [connection signal="mouse_entered" from="end_turn/Button" to="end_turn" method="_on_button_mouse_entered"]

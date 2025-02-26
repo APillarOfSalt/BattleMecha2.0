@@ -28,14 +28,15 @@ func take_node()->Unit_Node:
 	ql.hide()
 	u_spr.show()
 	return linked_node
-func _on_linked_death(node:Unit_Node=null, sale:bool=false):
+func _on_linked_death(node:Unit_Node=null, death_return_sale:int=-1):
 	print(node.name, node.map_obj.id, " dead")
 	if node != linked_node:
 		return
 	node.hide()
-	u_spr.visible = sale
-	w_spr.visible = !sale
-	local_mat.set_shader_parameter("tint", Color(0.0,0.0,0.0, int(sale) ))
+	var is_in_deck : bool = death_return_sale != -1
+	u_spr.visible = is_in_deck
+	w_spr.visible = !is_in_deck
+	local_mat.set_shader_parameter("tint", Color(0.0,0.0,0.0, int(is_in_deck) ))
 	node.queue_free()
 
 var unit : Unit_Data = null:

@@ -10,7 +10,7 @@ func _on_tile_map_full_valid(is_valid:bool):
 func title_disable_checker():
 	var name_invalid : bool = name_valid == VALID.invalid
 	var units_not_selected : bool = -1 in current_team.starting_units
-	$title/save.disabled = name_invalid or !units_valid or !cost_done or units_not_selected
+	save_butt.disabled = name_invalid or !units_valid or !cost_done or units_not_selected
 
 @export var palette_edit : Container = null
 @export var unit_edit : Unit_Editor = null
@@ -21,12 +21,12 @@ func _ready():
 	map.set_units({})
 
 func refresh_teams():
-	$title/team.clear()
-	$title/team.add_item("+ New Team")
+	team_op.clear()
+	team_op.add_item("+ New Team")
 	for t_name:String in DataLoader.teams_by_name.keys():
-		$title/team.add_item(t_name)
+		team_op.add_item(t_name)
 		if t_name == current_team.name:
-			$title/team.selected = $title/team.item_count-1
+			team_op.selected = team_op.item_count-1
 
 
 @onready var current_team : Team_Data = Team_Data.new():
@@ -53,7 +53,7 @@ var og_team_name : String = "":
 		name_edit.text = text
 
 func _on_team_item_selected(index):
-	var team_name : String = $title/team.get_item_text(index)
+	var team_name : String = team_op.get_item_text(index)
 	unit_edit.unit = null
 	if index == 0:
 		cursor.mod_manager.current_mod = null
@@ -69,7 +69,10 @@ func _on_team_item_selected(index):
 		name_valid = _is_name_valid(team_name)
 	title_disable_checker()
 
-@onready var name_edit : LineEdit = $title/h/LineEdit
+@onready var team_op : OptionButton = $title/team
+@onready var save_butt : Button = $title/save
+
+@onready var name_edit : LineEdit = $name/LineEdit
 var team_name : String:
 	set(text):
 		current_team.name = text
@@ -79,12 +82,12 @@ var team_name : String:
 var name_valid : VALID = VALID.invalid:
 	set(val):
 		name_valid = val
-		$title/save.disabled = val == VALID.invalid or !units_valid
-		$title/h/m/invalid.visible = val == VALID.invalid
-		$title/h/m/valid.visible = val == VALID.valid
-		$title/h/m/warning.visible = val == VALID.replace
+		save_butt.disabled = val == VALID.invalid or !units_valid
+		$name/m/invalid.visible = val == VALID.invalid
+		$name/m/valid.visible = val == VALID.valid
+		$name/m/warning.visible = val == VALID.replace
 		if val == VALID.replace:
-			$title/h/m/warning.tooltip_text = str('There is already a team named "',team_name,'".')
+			$name/m/warning.tooltip_text = str('There is already a team named "',team_name,'".')
 func _on_line_edit_text_changed(new_text:String):
 	if name_edit.caret_column > 1:
 		new_text = new_text.strip_edges(true, false)

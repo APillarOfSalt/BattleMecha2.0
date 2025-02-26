@@ -2,14 +2,17 @@ extends Node2D
 class_name Unit_Node
 
 signal state_changed(st:STATES)
-signal is_now_dead(node:Unit_Node, death_sale:bool)
+signal is_now_dead(node:Unit_Node, death_return_sale:int)
+signal is_now_dying(node:Unit_Node)
 signal unit_hovered(unit:Unit_Node, is_hovered:bool)
 signal buy_sell_mode(bs:bool)
 
 func _kill_me():
-	is_now_dead.emit(self, false)
+	map_obj.do_free(-1)
 func _sell_me():
-	is_now_dead.emit(self, true)
+	map_obj.do_free(1)
+func _return_me():
+	map_obj.do_free(0)
 func get_is_dying()->bool:
 	return anim_ctrl.active_anim == anim_ctrl.DEF_ANIM.death
 
@@ -93,13 +96,14 @@ func _ready():
 	ui.position = -ui.offset
 	refresh_afford()
 
-func refresh_afford():
+func refresh_afford(has_actions:bool=true):
 	if state < STATES.roller:
 		return
-	sprite_tint = Color(0.0,0.0,0.0,0.3)
-	if state != STATES.roller or !locally_owned:
-		return
-	sprite_tint.a = float(!controller.check_affordable(unit_data.cost)) * 0.5
+	sprite_tint.a = 0.5
+	if locally_owned and controller.check_affordable(unit_data.cost) and has_actions:
+		sprite_tint.a = 0.0
+	#if state != STATES.roller:
+		#sprite_tint.a = 0.3
 
 func refresh():
 	ui.unit = unit_data
@@ -173,9 +177,9 @@ func cursor_hover(is_hovered:bool):
 		return
 	if outline_size <= outline_width:
 		outline_size = int(is_hovered)*outline_width
-	spr1.z_index = 1
-	spr2.z_index = 1
-	ui.z_index = 0
+	spr1.z_index = 2
+	spr2.z_index = 2
+	ui.z_index = 1
 	if is_hovered:
 		spr1.z_index = 3
 		spr2.z_index = 3
@@ -216,9 +220,6 @@ func animate_attack(wep:Module_Data.Weapon_Data, defense:Array[Unit_Node])->Sign
 	anim_ctrl.setup_atk(wep, defense)
 	return attack_anim_started
 
-func _on_animation_controller_started(end_time_msec):
-	attack_anim_started.emit(end_time_msec)
-
 func get_dmg_type(wep:Module_Data.Weapon_Data)->Module_Data.DMG_TYPES:
 	var dmg_type : Module_Data.DMG_TYPES = -2
 	if wep.subtype == "Melee":
@@ -242,6 +243,6 @@ func calc_cubic():
 		for oddq:Vector2i in mod.hex_shape:
 			cubic_weapons[mod.id].append( map.oddq_to_cubic(oddq, player_num) )
 		if mod.push in range(6):
-			cubic_weapons_push[mod.id] = map.oddq_to_cubic( Global.directions_evenx[mod.push] )
+			cubic_weapons_push[mod.id] = map.oddq_to_cubic( Global.directions_evenx[mod.push], player_num)
 
 

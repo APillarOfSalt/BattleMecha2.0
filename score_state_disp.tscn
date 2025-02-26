@@ -1,0 +1,96 @@
+[gd_scene load_steps=3 format=3 uid="uid://dbb13q35m6byq"]
+
+[ext_resource type="Script" path="res://score_state_display.gd" id="1_3hicr"]
+[ext_resource type="TileSet" uid="uid://cc3shgi4yyt5c" path="res://main_map_tileset.tres" id="2_s4beh"]
+
+[node name="score_state_disp" type="PanelContainer" groups=["score_state_disp"]]
+custom_minimum_size = Vector2(400, 400)
+offset_right = 225.0
+offset_bottom = 250.0
+script = ExtResource("1_3hicr")
+
+[node name="v" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="title" type="PanelContainer" parent="v"]
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="m" type="MarginContainer" parent="v/title"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 2
+
+[node name="step" type="Label" parent="v/title/m"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "Step 0
+"
+
+[node name="Label" type="Label" parent="v/title/m"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+text = "A:0"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="total" type="Label" parent="v/title/m"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+text = "Total : 00"
+horizontal_alignment = 1
+
+[node name="m" type="MarginContainer" parent="v"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="v" type="VBoxContainer" parent="v/m"]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="paste" type="Button" parent="v/m/v"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+disabled = true
+text = "Paste"
+
+[node name="copy" type="Button" parent="v/m/v"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+text = "Copy"
+
+[node name="clear" type="Button" parent="v/m"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+text = "Clear"
+
+[node name="Control" type="Control" parent="v/m"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="TileMap" type="TileMap" parent="v/m/Control"]
+position = Vector2(-26, -14)
+scale = Vector2(0.8, 0.8)
+tile_set = ExtResource("2_s4beh")
+format = 2
+layer_0/name = "base"
+layer_0/tile_data = PackedInt32Array(0, 65536, 524288, 65536, 65536, 65536, 131072, 65536, 65536, 131071, 65536, 65536, 65537, 65536, 65536, 131073, 65536, 65536, 196607, 65536, 65536, 196606, 65536, 65536, 131074, 65536, 65536, 65535, 65536, 393216, 131070, 65536, 393216, 131069, 65536, 393216, 1, 65536, 327680, 65538, 65536, 327680, 65539, 65536, 327680, -65536, 65536, 262144, -131072, 65536, 262144, -196608, 65536, 262144, -196607, 65536, 196608, -131071, 65536, 196608, -65535, 65536, 196608, 2, 65536, 196608, 3, 65536, 196608, -65533, 65536, 196608, -65534, 65536, 196608, -131070, 65536, 196608, -131073, 65536, 131072, -65537, 65536, 131072, -1, 65536, 131072, -65538, 65536, 131072, -2, 65536, 131072, 65534, 65536, 131072, -3, 65536, 131072, 65533, 65536, 131072)
+layer_1/name = "score"
+layer_1/tile_data = PackedInt32Array()
+layer_2/name = "cursor"
+layer_2/tile_data = PackedInt32Array()

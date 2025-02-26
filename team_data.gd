@@ -3,6 +3,12 @@ class_name Team_Data
 var name : String
 var base_color : Color
 var palette : int = -1
+func get_color(ind:int)->Color:
+	if base_color == Color.BLACK or palette == -1:
+		return base_color
+	return ColorHelper.generate_palette( base_color, palette, max(ind+1,4) )[ind]
+
+
 var starting_resources : Dictionary = {
 	"titanium" : 0,
 	"gallium" : 0,

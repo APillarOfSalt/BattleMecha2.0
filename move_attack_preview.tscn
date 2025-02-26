@@ -44,6 +44,7 @@ scale = Vector2(0.623, 0.53)
 tile_set = ExtResource("2_4osnt")
 format = 2
 layer_0/name = "base"
+layer_0/modulate = Color(0.9, 0.9, 0.9, 1)
 layer_0/tile_data = PackedInt32Array(65538, 0, 0, 2, 0, 0, 1, 0, 0, 65536, 0, 0, 131072, 0, 0, 65537, 0, 0, 0, 65536, 0, 131071, 0, 0, 131070, 0, 0, 65534, 0, 0, -2, 0, 0, -65537, 0, 0, -131072, 0, 0, -65536, 0, 0, -131071, 0, 0, -65535, 0, 0, -65534, 0, 0, 65535, 0, 0, -1, 0, 0, -3, 0, 0, 65533, 0, 0, 3, 0, 0, -65533, 0, 0, -131069, 0, 0, -131070, 0, 0, -196607, 0, 0, -196608, 0, 0, -131073, 0, 0, -65538, 0, 0, -65539, 0, 0, -196605, 0, 0, -196606, 0, 0, -262143, 0, 0, -262144, 0, 0, -196609, 0, 0, -131074, 0, 0, -131075, 0, 0)
 layer_1/name = "default"
 layer_1/modulate = Color(0.2, 1, 0.333333, 1)
@@ -56,3 +57,8 @@ layer_3/modulate = Color(1, 0.494118, 0, 1)
 layer_3/tile_data = PackedInt32Array()
 layer_4/name = "cursor"
 layer_4/tile_data = PackedInt32Array()
+
+[node name="CanvasGroup" type="CanvasGroup" parent="."]
+modulate = Color(1, 1, 1, 0.588235)
+position = Vector2(92.5, 139)
+scale = Vector2(0.623, 0.53)

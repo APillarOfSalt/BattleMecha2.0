@@ -2,10 +2,7 @@ extends HBoxContainer
 
 signal local_player_readied(data:Player_Data)
 func _on_local_readied(is_ready):
-	if !is_ready:
-		local_player_readied.emit(null)
-	else:
-		local_player_readied.emit(local_player.get_player_data())
+	local_player_readied.emit(local_player.get_player_data())
 
 @onready var local_player : Container = $local
 var player_num : int:
@@ -41,6 +38,7 @@ func set_player_data(data:Player_Data):
 	var disp = get_player_disp(data.num)
 	disp.player_name = data.name
 	disp.team = data.team
+	disp.is_online = data.team != null
 
 
 

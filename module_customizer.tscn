@@ -28,14 +28,14 @@ size_flags_vertical = 0
 mouse_filter = 2
 
 [node name="anchor" type="Node2D" parent="title/m"]
-position = Vector2(0, 4)
+position = Vector2(2, 3)
 
 [node name="title" type="VBoxContainer" parent="title/m/anchor"]
 custom_minimum_size = Vector2(103, 31)
 offset_right = 98.0
 offset_bottom = 62.0
 mouse_filter = 2
-theme_override_constants/separation = 4
+theme_override_constants/separation = 2
 
 [node name="save" type="Button" parent="title/m/anchor/title"]
 custom_minimum_size = Vector2(80, 0)
@@ -51,6 +51,10 @@ custom_minimum_size = Vector2(98, 0)
 layout_mode = 2
 size_flags_vertical = 4
 text = "Save Batch"
+
+[node name="folder" type="Button" parent="title/m/anchor/title"]
+layout_mode = 2
+text = "Open Folder"
 
 [node name="sizing" type="MarginContainer" parent="title"]
 custom_minimum_size = Vector2(323, 40)
@@ -212,6 +216,7 @@ layout_mode = 2
 
 [connection signal="pressed" from="title/m/anchor/title/save" to="." method="_on_save_pressed"]
 [connection signal="pressed" from="title/m/anchor/title/batch_save" to="." method="_on_batch_save_pressed"]
+[connection signal="pressed" from="title/m/anchor/title/folder" to="." method="_on_folder_pressed"]
 [connection signal="item_selected" from="title/sizing/sel_op" to="." method="_on_sel_op_item_selected"]
 [connection signal="pressed" from="title/new" to="." method="_on_new_pressed"]
 [connection signal="shape_changed" from="h/l/shape_edit" to="." method="_on_shape_edit_shape_changed"]
@@ -219,3 +224,4 @@ layout_mode = 2
 [connection signal="type_selected" from="h/l/h/super" to="h/l/h/sub" method="_set_super"]
 [connection signal="type_selected" from="h/l/h/sub" to="." method="_on_sub_type_selected"]
 [connection signal="text_changed" from="h/r/name" to="." method="_on_name_text_changed"]
+[connection signal="dir_changed" from="h/r/weapon/push" to="h/r/move_atk" method="_on_push_dir_changed"]

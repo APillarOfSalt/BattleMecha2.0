@@ -1,0 +1,114 @@
+[gd_scene load_steps=2 format=3 uid="uid://bppl1kfsjvbl2"]
+
+[ext_resource type="Script" path="res://end_screen.gd" id="1_n8ogb"]
+
+[node name="end_screen" type="PanelContainer"]
+custom_minimum_size = Vector2(200, 175)
+size_flags_horizontal = 4
+size_flags_vertical = 4
+script = ExtResource("1_n8ogb")
+
+[node name="v" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="title" type="PanelContainer" parent="v"]
+layout_mode = 2
+
+[node name="m" type="MarginContainer" parent="v/title"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="Label" type="Label" parent="v/title/m"]
+layout_mode = 2
+text = "Rankings"
+horizontal_alignment = 1
+
+[node name="m" type="MarginContainer" parent="v"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="list" type="VBoxContainer" parent="v/m"]
+layout_mode = 2
+alignment = 1
+
+[node name="p1" type="HBoxContainer" parent="v/m/list"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="v/m/list/p1"]
+layout_mode = 2
+text = "1st Player_Name :"
+horizontal_alignment = 2
+
+[node name="p" type="PanelContainer" parent="v/m/list/p1"]
+layout_mode = 2
+
+[node name="m" type="MarginContainer" parent="v/m/list/p1/p"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="score" type="Label" parent="v/m/list/p1/p/m"]
+layout_mode = 2
+text = "0"
+
+[node name="p2" type="HBoxContainer" parent="v/m/list"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="v/m/list/p2"]
+layout_mode = 2
+text = "2nd Player_Name :"
+horizontal_alignment = 2
+
+[node name="p" type="PanelContainer" parent="v/m/list/p2"]
+layout_mode = 2
+
+[node name="m" type="MarginContainer" parent="v/m/list/p2/p"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="score" type="Label" parent="v/m/list/p2/p/m"]
+layout_mode = 2
+text = "0"
+
+[node name="p3" type="HBoxContainer" parent="v/m/list"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="v/m/list/p3"]
+layout_mode = 2
+text = "3rd Player_Name :"
+horizontal_alignment = 2
+
+[node name="p" type="PanelContainer" parent="v/m/list/p3"]
+layout_mode = 2
+
+[node name="m" type="MarginContainer" parent="v/m/list/p3/p"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="score" type="Label" parent="v/m/list/p3/p/m"]
+layout_mode = 2
+text = "0"
+
+[node name="menu" type="Button" parent="v/m/list"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Back to Menu"

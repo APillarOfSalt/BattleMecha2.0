@@ -2,14 +2,21 @@ extends Container
 class_name Turn_Tracker
 
 @export var anim_curve : Curve = preload("res://main_text_anim_curve.tres")
-@export_range(250,2000) var play_time_msec : int = 2000
+#@export_range(250,2000) var play_time_msec : int = 2000
+@onready var play_time_msec : int = Global.get_wait_msec(10.0)
 
+@rpc("any_peer", "call_local", "reliable")
+func start_overtime():
+	overtime = max(1, overtime)
+var overtime : int = 0
 var round : int = 0
 func get_round_text()->String:
+	if overtime:
+		return str("Overtime ",overtime)
 	return str("Round ",round)
-const PHASE : Array[String] = ["Action","Move","Melee","Ranged"]
-enum PHASES{action=0,move=1,melee=2,ranged=3,MAX}
-var phase : PHASES = -1
+const PHASE : Array[String] = ["Action","Move","Melee","Ranged","End"]
+enum PHASES{action=0,move=1,melee=2,ranged=3,end=4,MAX}
+var phase : int = -1
 func get_phase_text()->String:
 	return str( PHASE[phase]," Phase" )
 
@@ -18,6 +25,7 @@ func advance():
 	phase_ll.text = get_phase_text()
 	if phase == PHASES.action:
 		round += 1
+		overtime += int(round >= Global.turn_limit)
 		round_ll.text = get_round_text()
 	play()
 
@@ -48,7 +56,7 @@ var half_sent : bool = false
 func _process(delta):
 	if anim_msec == 0:
 		return
-	var delta_msec : int = floor(delta * 1000)
+	var delta_msec : int = floor( delta * 1000.0 )
 	anim_msec -= delta_msec
 	if anim_msec <= 0:
 		anim_msec = 0

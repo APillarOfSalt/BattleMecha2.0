@@ -31,13 +31,10 @@ func resolve_overlap(data:Dictionary):
 	var oid_cube : Dictionary = handler.gather_data()
 	for oid:int in oid_cube.keys():
 		var obj : Map_Object = obj_ctrl.all_objects[oid]
-		if !oid in bump_ids: #if not getting bumped, move to push spot
-			obj.cubic = obj.to_pos
-			obj.to_pos += oid_cube[oid]
-		else:
-			var old_pos : Vector3i = obj.to_pos
-			obj.to_pos = obj.cubic
-			obj.cubic = old_pos
+		if !oid in bump_ids: #move to push spot
+			obj.push_cube = oid_cube[oid]
+		else: #getting bumped
+			obj.push_cube = (obj.cubic - obj.to_pos).sign()
 
 class Cube_Option_Handler:
 	var cube_options : Array[Cube_Options] = []
@@ -96,7 +93,7 @@ class Cube_Option_Handler:
 			if !ws in ws_oid.keys():
 				ws_oid[ws] = []
 			ws_oid[ws].append(oid)
-		var ops : Array[Cube_Options]
+		var ops : Array[Cube_Options] = []
 		for oid in ws_oid[smallest]:
 			ops.append( get_op(oid) )
 		return ops
@@ -109,8 +106,8 @@ class Cube_Option_Handler:
 			if wid > -1:
 				size = unit.unit_data.get_module(wid).size
 			var cube := Vector3i(0,0,0)
-			if wid in unit.cubic_weapons_cube:
-				cube = unit.cubic_weapons_cube[wid]
+			if wid in unit.cubic_weapons_push:
+				cube = unit.cubic_weapons_push[wid]
 			var op := Cube_Options.new(oid, wid, size, cube)
 			oid_po_index[oid] = cube_options.size()
 			cube_options.append(op)
@@ -120,10 +117,10 @@ class Cube_Option_Handler:
 		var from_id : int = -1
 		var oid : int #to be cubed obj_id
 		var wid : int = -1 #unit's weapon_id
-		var w_s : int = 0 #unit's weapon.size
+		var w_s : int = 1 #unit's weapon.size
 		var w_p := Vector3i(0,0,0) #unit's weapon's cube
 		var cubes : Dictionary# = {wep_size:int : [from_oid:int], }
-		func _init( u_id:int, w_id:int=-1, _ws:int=0, _wp:=Vector3i(0,0,0) ):
+		func _init( u_id:int, w_id:int=-1, _ws:int=1, _wp:=Vector3i(0,0,0) ):
 			oid = u_id
 			wid = w_id
 			w_s = _ws

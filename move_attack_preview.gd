@@ -8,10 +8,14 @@ extends PanelContainer
 			return
 		_refresh()
 @export var push_dir : int = -1
+func _on_push_dir_changed(dir:int):
+	push_dir = dir
+	refresh()
 
 
 func _ready():
 	_refresh()
+	shader_mat.shader = mat_shader
 
 func _refresh():
 	$m/move.visible = !mode
@@ -53,41 +57,33 @@ func get_equal_pos(pos:Vector2i, prev_next:bool):
 	#false : prev, 60deg ccw
 	return cubic_to_oddq(Vector3i(cube.y, cube.z, cube.x))
 
-var tiles : Array = []:
-	set(arr):
-		tiles = arr
-		$map.clear_layer(1)
-		for vec in arr:
-			$map.set_cell(1, vec, 0, Vector2i(1,0))
-			set_push_vec(vec, true)
-var bonus_tiles : Array = []:
-	set(arr):
-		bonus_tiles = arr
-		$map.clear_layer(2)
-		for vec in arr:
-			$map.set_cell(2, vec, 0, Vector2i(1,0))
-			set_push_vec(vec, true)
+var tiles : Array = []
+var bonus_tiles : Array = []
 
 func set_data(data:Array):
 	tiles = data
+	refresh()
 
 func clear():
 	tiles = []
 	bonus_tiles = []
+	refresh()
 
 func get_data()->Array[Vector2i]:
 	return $map.get_used_cells_by_id(1)
 
 func refresh():
+	for i in 3:
+		$map.clear_layer(i+1)
 	for line in lines.values():
 		line.queue_free()
 	lines.clear()
-	for i in 6:
-		for num in tiles[i]:
-			var map_pos : Vector2i = cubic_to_oddq( (DIRS_CUBE[i].sign())*Vector3i((DIRS_CUBE[i]*(num+1))).abs() )
-			print("Setting Cell :",map_pos)
-			$map.set_cell(2, map_pos, 0, Vector2i(1,0))
-			set_push_vec(map_pos, true)
+	for vec in tiles:
+		$map.set_cell(1, vec, 0, Vector2i(1,0))
+		set_push_vec(vec, true)
+	for vec in bonus_tiles:
+		$map.set_cell(2, vec, 0, Vector2i(1,0))
+		set_push_vec(vec, true)
 
 var lines : Dictionary = {}
 func set_push_vec(map_pos:Vector2i, io:bool):
@@ -99,13 +95,7 @@ func set_push_vec(map_pos:Vector2i, io:bool):
 	var push_vec : Vector2i = Global.get_relative(map_pos.x, (push_dir + pos_dir) % 6 )
 	var push_map : Vector2i = map_pos + push_vec
 	if io:
-		var line := Line2D.new()
-		$map.add_child(line)
-		line.position = loc_pos
-		line.add_point( Vector2(0,0) )
-		var push_pos : Vector2 = $map.map_to_local(push_map)
-		line.add_point( push_pos - loc_pos )
-		lines[map_pos] = line
+		create_arrow(map_pos, push_map)
 		$map.set_cell(3, push_map, 0, Vector2i(0,0))
 	elif map_pos in lines.keys():
 		lines[map_pos].queue_free()
@@ -124,3 +114,34 @@ func _physics_process(_delta):
 		elif Input.is_action_just_pressed("rmb"):
 			$map.set_cell(1, cursor_map_pos)
 			set_push_vec(cursor_map_pos, false)
+
+var shader_mat := ShaderMaterial.new()
+const mat_shader : Shader = preload("res://alpha_overlaps.gdshader")
+
+func create_arrow(map_pos:Vector2i, push_map:Vector2i):
+	var loc_pos : Vector2 = $map.map_to_local(map_pos)
+	var line := Line2D.new()
+	$CanvasGroup.add_child(line)
+	line.width = 6
+	line.material = shader_mat
+	line.position = loc_pos
+	line.add_point( Vector2(0,0) )
+	var to_point : Vector2 = $map.map_to_local(push_map) - loc_pos
+	create_arrow_head(line, to_point)
+	line.add_point( to_point.limit_length(42) )
+	lines[map_pos] = line
+	
+
+func create_arrow_head(line:Line2D, to_point:Vector2):
+	var rot : float = deg_to_rad(45)
+	for i in 2:
+		var head := Line2D.new()
+		line.add_child(head)
+		head.width = 6
+		head.material = shader_mat
+		head.end_cap_mode = Line2D.LINE_CAP_BOX
+		head.begin_cap_mode = Line2D.LINE_CAP_BOX
+		head.position = to_point.limit_length(45)
+		head.add_point( Vector2(0,0) )
+		head.add_point( -to_point.limit_length(15).rotated(rot) )
+		rot *= -1

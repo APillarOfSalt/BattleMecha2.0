@@ -49,6 +49,8 @@ func _ready():
 	set_val("co", cobalt)
 
 func refresh_vis():
+	if !is_inside_tree():
+		await ready
 	for i in 4:
 		var s : String = ele_strs[i]
 		var vis : bool = self[s] != 0 or (override_visible & vis_flags[s.substr(0,2)])
@@ -62,6 +64,7 @@ func refresh_vis():
 			col = [Color.LIME_GREEN,Color.ORANGE_RED][int(!flip_colors)]
 		elements_l[i].add_theme_color_override("font_color",col)
 		get_node(str("c",i)).visible = vis
+	await get_tree().create_timer(0).timeout
 
 @export var titanium : int = 0: 
 	set(val):
@@ -90,13 +93,14 @@ func refresh_vis():
 
 func get_val(index:int)->int:
 	return self[ele_strs[index]]
-func set_val(res:String, val:int):
-	var index : int = vis_indicies[res]
+func set_val_i(index:int, val:int):
 	elements_l[index].text = str(val)
 	if !flip_colors:
 		elements_l[index].text = elements_l[index].text.replace("-","+")
 	#var toggle : bool = val != 0 and override_visible | flag
 	refresh_vis()
+func set_val(res:String, val:int):
+	set_val_i(vis_indicies[res], val)
 func set_cost(cost:Dictionary):
 	for i in ele_strs:
 		if i in cost:

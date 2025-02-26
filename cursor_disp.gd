@@ -65,9 +65,9 @@ func _physics_process(_delta):
 		cursor.global_position = get_global_mouse_position()
 	else:
 		cursor.global_position += Vector2(input_map[2], input_map[3]) * cursor_speed
-	if map is TileMap:
-		map_pos = map.local_to_map( map.to_local( cursor.global_position ) )
-		$c/hex.global_position = map.to_global( map.map_to_local(map_pos) )
+	#if map is TileMap:
+		#map_pos = map.local_to_map( map.to_local( cursor.global_position ) )
+		#$c/hex.global_position = map.to_global( map.map_to_local(map_pos) )
 
 var input_map : Dictionary = {
 	JOY_AXIS_LEFT_X : 0.0, #L-Stick X

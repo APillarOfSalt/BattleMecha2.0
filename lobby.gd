@@ -62,7 +62,6 @@
 	#Global.local_player = Global.server_controller.instance_id -1
 	#DataLoader.save_game_start(all_data)
 	#if Global.local_player == 0:
-		#await get_tree().create_timer(0.5).timeout
 	#get_tree().change_scene_to_file("res://main_map.tscn")
 #
 #

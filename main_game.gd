@@ -35,12 +35,10 @@ func spawn_unit(unit_id:int, p_num:int):
 	#map._refresh()
 	#map.recolor()
 	#if iid == 1:
-		#await get_tree().create_timer(0.5).timeout
 		#for p_num in Global.player_info_by_num.keys():
 			#var p_data : Player_Data = Global.player_info_by_num[p_num]
 			#spawn_units[p_data.peer_id] = p_data.team.starting_units
 			#create_ui.rpc(p_num, p_data.peer_id)
-		#await get_tree().create_timer(0.01).timeout
 		#do_starting_spawn()
 #var spawn_units : Dictionary = {} #player_num:int : [unit_id:int, x3]
 

@@ -2,8 +2,18 @@ extends VBoxContainer
 class_name Player_UI
 
 signal out_of_actions()
-func _on_actions_out_of_actions():
-	out_of_actions.emit()
+func _on_actions_actions_changed(remain:int):
+	if remain == 0:
+		end_turn_node._on_out_of_actions()
+		out_of_actions.emit()
+	for obj:Map_Object in obj_ctrl.get_all_local_roller_objs():
+		obj.unit.refresh_afford()
+
+var victory_points : int = 0
+func gain_points(val:int):
+	victory_points += val
+	$victory_points/Label2.text = str(victory_points)
+
 @onready var end_turn_node : Container = $end_turn
 
 @export var map : TileMap
@@ -57,6 +67,9 @@ var input_device : int = -3
 func setup(ctrl:Object_Controller, data:Player_Data): #->Array[Unit_Node]:
 	obj_ctrl = ctrl
 	iid = data.iid
+	set_multiplayer_authority(data.peer_id, true)
+	if multiplayer.get_unique_id() != data.peer_id:
+		end_turn_node.locally_owned = false
 	name = str(data.name,".",data.num)
 	player_name = data.name
 	player_num = data.num
@@ -71,23 +84,20 @@ func setup(ctrl:Object_Controller, data:Player_Data): #->Array[Unit_Node]:
 	deck.setup(data.team)
 
 func start_round():
-	actions.remote_set.rpc(actions.total)
+	actions.reset_actions()
 	end_turn_node._reset()
-
-
-
-
-
+func end_action_phase():
+	end_turn_node._set_butt_mouse_off()
 
 
 func request_grab(node:Unit_Node):
-	if held_object != null or actions.current <= 0:
+	if !actions.can_act() or held_object != null:
 		return
 	node.walkables = request_highlight(node, true)
 	node.state = node.STATES.held
 	held_object = node.map_obj
 func request_buy(node:Unit_Node):
-	if actions.current <= 0:
+	if !actions.can_act():
 		return
 	request_grab(node)
 	cost_disp.set_cost(node.unit_data.cost)
@@ -95,7 +105,10 @@ func request_buy(node:Unit_Node):
 func request_drop(node:Unit_Node):
 	cost_disp.clear()
 	cost_disp.modulate.a = 0.0
-	node.state = node.STATES.roller
+	if node.bought:
+		node.state = node.STATES.deploy
+	else:
+		node.state = node.STATES.roller
 	held_object = null
 func check_affordable(cost:Dictionary)->bool:
 	for key:String in cost:
@@ -111,7 +124,7 @@ func _on_unit_bs_mode(bs:bool):
 	else:
 		cost_disp.set_cost(held_object.unit.unit_data.cost)
 func request_purchase(node:Unit_Node)->bool:
-	if node != held_object.unit or node == null or actions.current <= 0:
+	if !actions.can_act() or node != held_object.unit or node == null:
 		return false
 	var new_cube : Vector3i = cursor.cubic
 	if !new_cube in highlighting_tiles:
@@ -122,7 +135,7 @@ func request_purchase(node:Unit_Node)->bool:
 		apply_cost_to_res()
 	return request_move(node)
 func request_move(node:Unit_Node)->bool:
-	if node != held_object.unit or node == null or actions.current <= 0:
+	if !actions.can_act() or node != held_object.unit or node == null:
 		return false
 	var new_cube : Vector3i = cursor.cubic
 	if !new_cube in highlighting_tiles:
@@ -131,7 +144,7 @@ func request_move(node:Unit_Node)->bool:
 	node.to_cube = new_cube
 	node.turn_over = true
 	node.state = node.STATES.deploy
-	actions.remote_set.rpc( actions.current - 1 )
+	actions.spend_action()
 	held_object = null
 	return true
 
@@ -203,25 +216,34 @@ func unit_sale(unit:Unit_Node):
 		print("oop",unit)
 		return false
 	res_disp.mod_cost_by(unit.unit_data.sale)
+	_remote_res_set.rpc(ti, ga, al, co)
+@rpc("any_peer", "call_remote", "reliable")
+func _remote_res_set(_ti:int,_ga:int,_al:int,_co:int):
+	ti = _ti
+	ga = _ga
+	al = _al
+	co = _co
 
-@rpc("any_peer", "call_local", "reliable")
-func sell_unit(unit:Unit_Node):
-	print("RPC:sell_unit(unit:Unit_Node):[id:",unit.map_obj.id,",name:",unit.unit_data.name,"]\n",
-		"from:",multiplayer.get_remote_sender_id(),
-		", p:",Global.server_controller.instance_id,
-		", on:",multiplayer.get_unique_id(),"\n","@:",Time.get_ticks_msec())
-	if unit.player_num != player_num:
-		print("oop",unit)
-		return false
-	cost_disp.set_cost(unit.unit_data.sale)
-	cost_disp.flip_colors = true
-	apply_cost_to_res()
-	cost_disp.flip_colors = false
+#@rpc("any_peer", "call_local", "reliable")
+#func sell_unit(unit:Unit_Node):
+	#print("RPC:sell_unit(unit:Unit_Node):[id:",unit.map_obj.id,",name:",unit.unit_data.name,"]\n",
+		#"from:",multiplayer.get_remote_sender_id(),
+		#", p:",Global.server_controller.instance_id,
+		#", on:",multiplayer.get_unique_id(),"\n","@:",Time.get_ticks_msec())
+	#if unit.player_num != player_num:
+		#print("oop",unit)
+		#return false
+	#cost_disp.set_cost(unit.unit_data.sale)
+	#cost_disp.flip_colors = true
+	#apply_cost_to_res()
+	#cost_disp.flip_colors = false
 
 func apply_cost_to_res():
 	res_disp.add_with(cost_disp)
 	cost_disp.clear()
 	cost_disp.modulate.a = 0.0
+	_remote_res_set.rpc(ti, ga, al, co)
+	
 
 @onready var cost_disp : Cost_Data = $cost
 var c_ti : int:
@@ -244,5 +266,7 @@ var c_co : int:
 		co = val
 		cost_disp.cobalt = val
 	get: return cost_disp.cobalt
+
+
 
 

@@ -1,7 +1,11 @@
 extends Node2D
 class_name Object_Controller
 
+signal out_of_units()
 signal move_phase_finished()
+signal combat_move_finished()
+
+@export var turn_tracker : Turn_Tracker = null
 
 @onready var map : TileMap = get_parent()
 var local_player : int:
@@ -17,6 +21,13 @@ func get_all_combat_objs()->Array[Map_Object]:
 		if obj.unit.state != obj.unit.STATES.roller:
 			objs.append(obj)
 	return objs
+func get_all_local_roller_objs()->Array[Map_Object]:
+	var objs : Array[Map_Object] = []
+	for obj in local_objs:
+		if obj.unit.state == obj.unit.STATES.roller:
+			objs.append(obj)
+	return objs
+
 
 var local_objs : Array[Map_Object]
 var remote_objs : Array[Map_Object]
@@ -35,11 +46,17 @@ func get_objs_arr(is_local:bool)->Array[Map_Object]:
 func start_round():
 	print("starting round", local_player)
 	for i in 3:
-		var cube : Vector3i = map.oddq_to_cubic( map.local_rollers[i] )
-		var obj : Map_Object = get_first_obj_at( cube )
-		if obj == null:
-			local_unit_spawn(-1, i)
-			await get_tree().create_timer(0.1).timeout
+		var obj : Map_Object = get_first_obj_at( map.oddq_to_cubic( map.local_rollers[i] ) )
+		if obj != null:
+			obj_removal.rpc(obj.id, 0)
+		if !local_unit_spawn(-1, i):
+			out_of_units.emit()
+		await Global.create_wait_timer(0.5)
+		
+
+func confirm_push():
+	for obj:Map_Object in all_objects.values():
+		obj.confirm_combat_move()
 
 #false: start of turn, true: move phase
 @rpc("any_peer", "call_local", "reliable")
@@ -85,7 +102,7 @@ func _on_server_positions(data:Dictionary):
 				all_objects[obj_id].to_pos = Global.vec3_from_json(data[key][key2].to)
 			elif key2 is int:
 				all_objects[obj_id].to_pos = data[key][key2].to
-	is_moving = move_time_msec
+	do_move()
 
 @rpc("any_peer", "call_local", "reliable")
 func do_local_sale():
@@ -100,25 +117,33 @@ func do_local_sale():
 			sell.append(obj.unit)
 	for unit:Unit_Node in sell:
 		unit._sell_me()
-func _local_obj_removal(unit:Unit_Node, sale:bool=false):
-	obj_removal.rpc(unit.map_obj.id, sale)
+func _local_obj_removal(unit:Unit_Node, death_return_sale:int=-1):
+	unit.is_now_dead.disconnect(_local_obj_removal)
+	obj_removal.rpc(unit.map_obj.id, death_return_sale)
 @rpc("any_peer", "call_local", "reliable")
-func obj_removal(obj_id:int, sale:bool=false):
-	print("RPC:obj_removal(obj_id:int, sale:bool=false):[",obj_id,",",sale,"]\n",
+func obj_removal(obj_id:int, death_return_sale:int=-1):
+	print("RPC:obj_removal(obj_id:int, sale:bool=false):[",obj_id,",",death_return_sale,"]\n",
 		"from:",multiplayer.get_remote_sender_id(),", on:",multiplayer.get_unique_id(),
 		"p:",Global.server_controller.instance_id,"@:",Time.get_ticks_msec())
 	var arr : Array = get_objs_arr_for_id(obj_id)
 	var removal : Array = []
 	for i in arr.size():
+		if arr[i] == null:
+			arr.remove_at(i)
+			break
 		if arr[i].id == obj_id:
 			arr.remove_at(i)
 			break
-	all_objects[obj_id].do_free(sale)
-	all_objects.erase(obj_id)
+	if obj_id in all_objects.keys():
+		if !all_objects[obj_id].dying:
+			all_objects[obj_id].do_free(death_return_sale)
+		all_objects.erase(obj_id)
 
 
-func local_unit_spawn(unit_id:int,r_index:int):
+func local_unit_spawn(unit_id:int,r_index:int)->bool:
 	var obj_cube : Vector3i = map.oddq_to_cubic(map.local_rollers[r_index])
+	if Global.player_info_by_num[local_player].ui.deck.has_ran_out():
+		return false
 	var obj : Map_Object = map_obj_scene.instantiate()
 	if unit_id == -1:
 		unit_id = Global.player_info_by_num[local_player].ui.deck.rand_unit_id()
@@ -136,6 +161,7 @@ func local_unit_spawn(unit_id:int,r_index:int):
 	obj.unit.is_now_dead.connect(_local_obj_removal)
 	_remote_unit_spawn.rpc(obj_id, obj_cube, local_player, obj.unit.unit_data.id)
 	print("local OBJ:",obj.name,"UNIT:",obj.unit.name)
+	return true
 
 @rpc("any_peer", "call_remote", "reliable")
 func _remote_unit_spawn(obj_id:int, cube:Vector3i,p_num:int,unit_id:int):
@@ -226,8 +252,10 @@ func get_objs_at(cubic:Vector3i)->Array[Map_Object]:
 
 
 
-
-@export_range(250,2000) var move_time_msec : int = 1200
+func do_move():
+	is_moving = move_time_msec
+#@export_range(250,2000) var move_time_msec : int = 1200
+@onready var move_time_msec : int = Global.get_wait_msec(3.0)
 var is_moving : int = 0:
 	set(val):
 		if val <= 0:
@@ -236,13 +264,16 @@ var is_moving : int = 0:
 		else:
 			is_moving = val
 func _finish_phase():
-	move_phase_finished.emit()
+	if turn_tracker.phase == turn_tracker.PHASES.move:
+		move_phase_finished.emit()
+	else:
+		combat_move_finished.emit()
 func _physics_process(delta):
 	if is_moving:
 		is_moving -= floor(delta * 1000.0)
 		var ratio : float = float(is_moving)/float(move_time_msec)
 		for obj:Map_Object in all_objects.values():
-			obj.tween_pos(1.0-ratio)
+			obj.tween_pos(1.0 - ratio, turn_tracker.phase == turn_tracker.PHASES.move)
 
 
 #false:melee, true:ranged

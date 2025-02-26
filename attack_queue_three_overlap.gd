@@ -4,7 +4,7 @@ extends PanelContainer
 
 signal animation_finished()
 func is_anim_playing()->bool:
-	return anims_completed > -1
+	return anim_playing > -1
 
 @onready var a_spr : Sprite2D = $m/h/a/center/Sprite2D
 var a_unit : Unit_Node = null
@@ -28,26 +28,39 @@ func setup(a:Unit_Node, a_wep:Module_Data, b:Unit_Node, b_wep:Module_Data,c:Unit
 	c_weapon = c_wep
 
 func play():
-	a_unit.attack_anim_complete.connect(_on_anim_complete)
+	if a_weapon == null:
+		a_unit.anim_ctrl.finished_defense.connect(_on_anim_complete)
+	else:
+		a_unit.anim_ctrl.finished.connect(_on_anim_complete)
+	if b_weapon == null:
+		b_unit.anim_ctrl.finished_defense.connect(_on_anim_complete)
+	else:
+		b_unit.anim_ctrl.finished.connect(_on_anim_complete)
+	if c_weapon == null:
+		c_unit.anim_ctrl.finished_defense.connect(_on_anim_complete)
+	else:
+		c_unit.anim_ctrl.finished.connect(_on_anim_complete)
 	a_unit.animate_attack(a_weapon, [b_unit,c_unit])
-	b_unit.attack_anim_complete.connect(_on_anim_complete)
 	b_unit.animate_attack(b_weapon, [a_unit,c_unit])
-	c_unit.attack_anim_complete.connect(_on_anim_complete)
 	c_unit.animate_attack(c_weapon, [a_unit,b_unit])
-	anims_completed = 0
+	a_unit.anim_ctrl._play()
+	b_unit.anim_ctrl._play()
+	c_unit.anim_ctrl._play()
+	anim_playing = 0
 
-var anims_completed : int = -1
+var anim_playing : int = -1
+
 func _on_anim_complete():
-	anims_completed += 1
-	if anims_completed == 3:
-		anims_completed = -1
-		var data : Dictionary = {}
-		data[a_unit.player_num] = {}
-		data[b_unit.player_num] = {}
-		data[c_unit.player_num] = {}
-		data[a_unit.player_num][a_unit.map_obj.id] = {"cube":a_unit.cubic, "to":a_unit.to_cube}
-		data[b_unit.player_num][b_unit.map_obj.id] = {"cube":b_unit.cubic, "to":b_unit.to_cube}
-		data[c_unit.player_num][c_unit.map_obj.id] = {"cube":c_unit.cubic, "to":c_unit.to_cube}
-		obj_ctrl._on_server_positions(data)
+	anim_playing += 1
+	print(a_unit.player_num, ":", b_unit.player_num, ":", c_unit.player_num, ":", anim_playing)
+	if anim_playing >= 3:
+		anim_playing = -1
+		await Global.create_wait_timer()
 		animation_finished.emit()
-		queue_free()
+
+func get_nodes()->Array[Unit_Node]:
+	return [a_unit, b_unit, c_unit]
+func get_atk_cube()->Vector3i:
+	return a_unit.map_obj.to_pos
+func get_aim_cubes()->Array[Vector3i]:
+	return []

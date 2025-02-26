@@ -58,9 +58,12 @@ func recolor():
 	var tiles : Array = [local_tiles, next_tiles, prev_tiles]
 	var shared : Array = [next_shared, not_shared, prev_shared]
 	var trash : Array = [prev_trash, local_trash, next_trash]
+	var mix_color : Vector3
 	for i in 3:
 		var index : int = (local_player + i) % 3
-		var color : Color = Global.player_info_by_num[index].team.base_color
+		var team : Team_Data = Global.player_info_by_num[index].team
+		var color : Color = team.base_color
+		tile_set.get_source(1).get_tile_data(Vector2i(index+1,0), 1).modulate = team.get_color(1)
 		get_cell_tile_data(0, rollers[i][0]).modulate = color
 		get_cell_tile_data(0, tiles[i][0]).modulate = color
 		var next : int = (local_player + i+1) % 3
@@ -68,6 +71,12 @@ func recolor():
 		var mix : Color = Global.mix_colors( color, col_n )
 		get_cell_tile_data(0, shared[i][0]).modulate = mix
 		get_cell_tile_data(0, trash[i][0]).modulate = mix
+		mix_color.x += color.r
+		mix_color.y += color.g
+		mix_color.z += color.b
+	mix_color /= 3.0
+	get_cell_tile_data(0, Vector2i(0,0)).modulate = Color(mix_color.x, mix_color.y, mix_color.z)
+	clear_layer(2)
 
 @onready var obj_ctrl : Object_Controller = $obj_controller 
 
@@ -94,7 +103,7 @@ func get_walkables(ignore_objs:bool=false)->Array[Vector3i]:
 			walkables.append(cube)
 	return walkables
 func all_walkable_tiles()->Array[Vector3i]:
-	var tiles : Array[Vector3i] = []
+	var tiles : Array[Vector3i] = [Vector3i(0,0,0)]
 	for arr in [local_tiles, local_trash,
 	next_shared, next_tiles,
 	not_shared , prev_tiles, prev_shared ]:
@@ -104,7 +113,7 @@ func all_walkable_tiles()->Array[Vector3i]:
 
 enum TRASH_FILTER{no=0, allow=1, only=2}
 func set_highlight(area:Array, is_on:bool, trash:TRASH_FILTER=TRASH_FILTER.allow)->Array:#Vector3i
-	var allowed_moves : Array
+	var allowed_moves : Array = []
 	var arr2 : Array = []
 	for cubic in area:
 		var map_pos : Vector2i = cubic_to_oddq(cubic)
@@ -172,5 +181,8 @@ func get_equal_cube(cube:Vector3i, prev_next:bool)->Vector3i:
 		return Vector3i(cube.z, cube.x, cube.y)
 	#false : prev, 60deg ccw
 	return Vector3i(cube.y, cube.z, cube.x)
-	
+
+
+
+
 

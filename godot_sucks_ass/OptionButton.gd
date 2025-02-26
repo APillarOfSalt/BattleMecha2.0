@@ -91,7 +91,7 @@ var no_doubles : bool = false
 func hide_popup():
 	anchor.hide()
 	no_doubles = true
-	await get_tree().create_timer(0.01).timeout
+	await Global.create_wait_timer(0)
 	no_doubles = false
 func _on_pressed():
 	show_popup()

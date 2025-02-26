@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://b408bnxlgbuum"]
+[gd_scene load_steps=12 format=3 uid="uid://b408bnxlgbuum"]
 
 [ext_resource type="Script" path="res://multiplayer_lobby.gd" id="1_u2fgg"]
 [ext_resource type="Script" path="res://multiplayer_lobby_netcode.gd" id="2_2t1uu"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://time_color_label.gd" id="5_js2oa"]
 [ext_resource type="PackedScene" uid="uid://c1pkj6iruuudg" path="res://lobby_display.tscn" id="6_rg0cf"]
 [ext_resource type="Script" path="res://multiplayer_lobby_player_module.gd" id="7_4c0n0"]
+[ext_resource type="Script" path="res://lobby_game_settings.gd" id="7_rc0hl"]
 [ext_resource type="Script" path="res://multiplayer_lobby_countdown.gd" id="8_xtbkb"]
 [ext_resource type="PackedScene" uid="uid://28reccnlibjq" path="res://chat.tscn" id="9_34aei"]
 
@@ -22,7 +23,7 @@ script = ExtResource("1_u2fgg")
 [node name="v" type="VBoxContainer" parent="."]
 layout_mode = 2
 mouse_filter = 2
-theme_override_constants/separation = 8
+theme_override_constants/separation = 4
 
 [node name="title" type="MarginContainer" parent="v"]
 layout_mode = 2
@@ -65,54 +66,59 @@ mouse_filter = 2
 layout_mode = 2
 mouse_filter = 2
 
-[node name="conn_host" type="VBoxContainer" parent="v/main/left"]
+[node name="top" type="HBoxContainer" parent="v/main/left"]
+layout_mode = 2
+alignment = 1
+
+[node name="conn_host" type="VBoxContainer" parent="v/main/left/top"]
 custom_minimum_size = Vector2(613, 0)
 layout_mode = 2
 size_flags_horizontal = 4
+size_flags_vertical = 4
 mouse_filter = 2
 theme_override_constants/separation = 0
 script = ExtResource("2_2t1uu")
 
-[node name="title" type="PanelContainer" parent="v/main/left/conn_host"]
+[node name="title" type="PanelContainer" parent="v/main/left/top/conn_host"]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="h" type="HBoxContainer" parent="v/main/left/conn_host/title"]
+[node name="h" type="HBoxContainer" parent="v/main/left/top/conn_host/title"]
 layout_mode = 2
 size_flags_horizontal = 0
 mouse_filter = 2
 theme_override_constants/separation = -6
 
-[node name="toggle" type="CheckButton" parent="v/main/left/conn_host/title/h"]
+[node name="toggle" type="CheckButton" parent="v/main/left/top/conn_host/title/h"]
 layout_mode = 2
 
-[node name="v" type="VBoxContainer" parent="v/main/left/conn_host/title/h"]
+[node name="v" type="VBoxContainer" parent="v/main/left/top/conn_host/title/h"]
 modulate = Color(0.7, 0.7, 0.7, 1)
 custom_minimum_size = Vector2(66, 0)
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = -3
 
-[node name="Label" type="Label" parent="v/main/left/conn_host/title/h/v"]
+[node name="Label" type="Label" parent="v/main/left/top/conn_host/title/h/v"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "Switch to:"
 horizontal_alignment = 1
 
-[node name="join" type="Label" parent="v/main/left/conn_host/title/h/v"]
+[node name="join" type="Label" parent="v/main/left/top/conn_host/title/h/v"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "Hosting"
 horizontal_alignment = 1
 
-[node name="host" type="Label" parent="v/main/left/conn_host/title/h/v"]
+[node name="host" type="Label" parent="v/main/left/top/conn_host/title/h/v"]
 visible = false
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "Connecting"
 horizontal_alignment = 1
 
-[node name="m" type="MarginContainer" parent="v/main/left/conn_host/title"]
+[node name="m" type="MarginContainer" parent="v/main/left/top/conn_host/title"]
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/margin_left = 4
@@ -120,27 +126,27 @@ theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="host" type="Label" parent="v/main/left/conn_host/title/m"]
+[node name="host" type="Label" parent="v/main/left/top/conn_host/title/m"]
 visible = false
 layout_mode = 2
 text = "Host a Server"
 horizontal_alignment = 1
 
-[node name="conn" type="Label" parent="v/main/left/conn_host/title/m"]
+[node name="conn" type="Label" parent="v/main/left/top/conn_host/title/m"]
 layout_mode = 2
 text = "Connect to Server"
 horizontal_alignment = 1
 
-[node name="join" parent="v/main/left/conn_host" instance=ExtResource("3_33gik")]
+[node name="join" parent="v/main/left/top/conn_host" instance=ExtResource("3_33gik")]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="host" parent="v/main/left/conn_host" instance=ExtResource("4_7yxdw")]
+[node name="host" parent="v/main/left/top/conn_host" instance=ExtResource("4_7yxdw")]
 visible = false
 layout_mode = 2
 mouse_filter = 2
 
-[node name="connect_err" type="Label" parent="v/main/left/conn_host"]
+[node name="connect_err" type="Label" parent="v/main/left/top/conn_host"]
 modulate = Color(0.5, 0.5, 0.5, 1)
 custom_minimum_size = Vector2(360, 0)
 layout_mode = 2
@@ -154,9 +160,74 @@ repeat_text = Array[String](["Offline"])
 r_holds_msec = Array[int]([0, 1000])
 repeat_colors = Array[Color]([Color(0.501961, 0.501961, 0.501961, 0), Color(0.827, 0.827, 0.827, 1)])
 
+[node name="game_settings" type="VBoxContainer" parent="v/main/left/top"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+script = ExtResource("7_rc0hl")
+
+[node name="title" type="PanelContainer" parent="v/main/left/top/game_settings"]
+layout_mode = 2
+
+[node name="m" type="MarginContainer" parent="v/main/left/top/game_settings/title"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="Label" type="Label" parent="v/main/left/top/game_settings/title/m"]
+layout_mode = 2
+text = "Game Settings"
+horizontal_alignment = 1
+
+[node name="speed" type="HBoxContainer" parent="v/main/left/top/game_settings"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="v/main/left/top/game_settings/speed"]
+layout_mode = 2
+text = "Game Speed :"
+
+[node name="HSlider" type="HSlider" parent="v/main/left/top/game_settings/speed"]
+modulate = Color(0.411765, 0.411765, 0.411765, 1)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+max_value = 16.0
+value = 8.0
+scrollable = false
+tick_count = 3
+ticks_on_borders = true
+
+[node name="limits" type="HBoxContainer" parent="v/main/left/top/game_settings"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="v/main/left/top/game_settings/limits"]
+layout_mode = 2
+text = "Limits :"
+horizontal_alignment = 2
+
+[node name="rounds" type="SpinBox" parent="v/main/left/top/game_settings/limits"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 15.0
+max_value = 50.0
+value = 20.0
+suffix = "Rounds"
+
+[node name="points" type="SpinBox" parent="v/main/left/top/game_settings/limits"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 6.0
+max_value = 50.0
+value = 20.0
+suffix = "Points"
+
 [node name="players" type="HBoxContainer" parent="v/main/left"]
 custom_minimum_size = Vector2(908, 0)
 layout_mode = 2
+size_flags_vertical = 3
 mouse_filter = 2
 script = ExtResource("7_4c0n0")
 
@@ -175,6 +246,7 @@ size_flags_horizontal = 0
 
 [node name="chat" parent="v/main" instance=ExtResource("9_34aei")]
 layout_mode = 2
+size_flags_vertical = 3
 
 [node name="center" type="MarginContainer" parent="."]
 visible = false
@@ -202,14 +274,21 @@ text = "3"
 
 [connection signal="changes_made" from="v/title" to="." method="_on_title_changes_made"]
 [connection signal="pressed" from="v/title/bg/main_menu" to="v/title" method="_on_main_menu_pressed"]
-[connection signal="client_joined" from="v/main/left/conn_host" to="v/title" method="_on_conn_host_client_joined"]
-[connection signal="client_left" from="v/main/left/conn_host" to="v/title" method="_on_conn_host_client_left"]
-[connection signal="server_joined" from="v/main/left/conn_host" to="v/title" method="_on_conn_host_server_joined"]
-[connection signal="server_left" from="v/main/left/conn_host" to="v/title" method="_on_conn_host_server_left"]
-[connection signal="server_started" from="v/main/left/conn_host" to="v/title" method="_on_conn_host_server_started"]
-[connection signal="server_stopped" from="v/main/left/conn_host" to="v/title" method="_on_conn_host_server_stopped"]
-[connection signal="toggled" from="v/main/left/conn_host/title/h/toggle" to="v/main/left/conn_host" method="_on_toggle_toggled"]
-[connection signal="connection_status" from="v/main/left/conn_host/join" to="v/main/left/conn_host" method="_on_join_connection_status"]
-[connection signal="server_status" from="v/main/left/conn_host/host" to="v/main/left/conn_host" method="_on_host_server_status"]
+[connection signal="client_joined" from="v/main/left/top/conn_host" to="v/title" method="_on_conn_host_client_joined"]
+[connection signal="client_joined" from="v/main/left/top/conn_host" to="v/main/left/top/game_settings" method="_on_conn_host_client_joined"]
+[connection signal="client_left" from="v/main/left/top/conn_host" to="v/title" method="_on_conn_host_client_left"]
+[connection signal="server_joined" from="v/main/left/top/conn_host" to="v/title" method="_on_conn_host_server_joined"]
+[connection signal="server_left" from="v/main/left/top/conn_host" to="v/title" method="_on_conn_host_server_left"]
+[connection signal="server_started" from="v/main/left/top/conn_host" to="v/title" method="_on_conn_host_server_started"]
+[connection signal="server_started" from="v/main/left/top/conn_host" to="v/main/left/top/game_settings" method="_on_conn_host_server_started"]
+[connection signal="server_stopped" from="v/main/left/top/conn_host" to="v/title" method="_on_conn_host_server_stopped"]
+[connection signal="server_stopped" from="v/main/left/top/conn_host" to="v/main/left/top/game_settings" method="_on_conn_host_server_stopped"]
+[connection signal="toggled" from="v/main/left/top/conn_host/title/h/toggle" to="v/main/left/top/conn_host" method="_on_toggle_toggled"]
+[connection signal="connection_status" from="v/main/left/top/conn_host/join" to="v/main/left/top/conn_host" method="_on_join_connection_status"]
+[connection signal="server_status" from="v/main/left/top/conn_host/host" to="v/main/left/top/conn_host" method="_on_host_server_status"]
+[connection signal="drag_ended" from="v/main/left/top/game_settings/speed/HSlider" to="v/main/left/top/game_settings" method="_on_h_slider_drag_ended"]
+[connection signal="value_changed" from="v/main/left/top/game_settings/limits/rounds" to="v/main/left/top/game_settings" method="_on_rounds_value_changed"]
+[connection signal="value_changed" from="v/main/left/top/game_settings/limits/points" to="v/main/left/top/game_settings" method="_on_points_value_changed"]
 [connection signal="local_player_readied" from="v/main/left/players" to="." method="_on_players_local_player_readied"]
 [connection signal="readied" from="v/main/left/players/local" to="v/main/left/players" method="_on_local_readied"]
+[connection signal="countdown_complete" from="center" to="." method="_on_center_countdown_complete"]

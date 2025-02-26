@@ -49,14 +49,14 @@ var unit : Unit_Data:
 		s2sprite.position = spr_cont.size * 0.5
 
 func _ready():
-	if !show_cost:
-		cost.hide()
-	if !show_name:
-		title_cont.hide()
-	if get_parent().get("unit_data") != null:
+	cost.visible = show_cost
+	title_cont.visible = show_name
+	if unit is Unit_Data:
+		s1sprite.visible = show_local_sprite and unit.size == 1
+		s2sprite.visible = show_local_sprite and unit.size == 2
+	if get_parent() is Unit_Node:
 		unit_node = get_parent()
-	if unit_node != null:
-		unit = unit_node.unit_data
+		unit = get_parent().unit_data
 
 var unit_size : bool = false:
 	set(toggle):
@@ -69,7 +69,7 @@ const sprite_sizes : Array = [Vector2(70,50), Vector2(80,60)]
 @onready var spr_cont : Container = $v/sprite
 @onready var s1sprite : Sprite2D = $v/sprite/sprite1
 @onready var s2sprite : Sprite2D = $v/sprite/sprite2
-@onready var stats : Unit_UI_Stats =  $v/stats
+@onready var stats : Unit_UI_Stats = $v/stats
 @onready var cost : Container = $v/cost
 
 var offset : Vector2:

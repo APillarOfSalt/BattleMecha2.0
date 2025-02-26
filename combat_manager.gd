@@ -1,6 +1,6 @@
 extends Control
 
-signal finished()
+#signal finished()
 
 var is_host : bool:
 	get: return get_parent().is_host()
@@ -9,7 +9,7 @@ var player_num : int:
 
 @export var map : TileMap = null
 @export var obj_ctrl : Object_Controller = null
-@onready var sniffer : Node = $combat_sniffer
+@export var sniffer : Combat_Sniffer = null
 @onready var queue : Combat_Display = $v/combat_queue
 @onready var turn_tracker : Turn_Tracker = $turn_tracker
 var phase : bool: #false:melee ; true:ranged
@@ -23,51 +23,55 @@ func rpc_clear(do4:bool=false):
 		map.clear_layer(4)
 
 func _setup():
+	print("start sniff")
 	sniffer.overlap_tiles.clear()
 	sniffer.attacks.clear()
 	rpc_clear.rpc()
 	var objs : Array[Map_Object] = obj_ctrl.get_all_combat_objs()
+	if !objs.size():
+		_on_sniffer_on_search_complete()
+		return
 	sniffer.setup(objs)
-	print("start sniff")
 
 
 
 #var overlap_tiles : Array[Vector3i]
 #attacks[from_vec3i][obj.id][wep.id][to_vec3i] = obj_ids
-func _on_combat_sniffer_on_search_complete():
+func _on_sniffer_on_search_complete():
 	print("end sniff- Over:",sniffer.overlap_tiles,", Atks:", sniffer.attacks)
-	sniffer.overlap_tiles
 	last_was_overlap = bool( sniffer.overlap_tiles.size() )
 	if last_was_overlap:
 		_do_overlap_atks()
 	elif sniffer.attacks.keys().size():
 		_do_atks()
 	else:
-		print("no combat, advancing...")
+		print('advance @_on_combat_sniffer_on_search_complete()-> "no combat, advancing"')
 		rpc_clear.rpc()
 		get_parent()._advance.rpc()
 		return
-	await get_tree().create_timer(0.1).timeout
+	await Global.create_wait_timer(0.5)
 	queue._play.rpc()
 
 func _do_overlap_atks():
 	for overlap_cube:Vector3i in sniffer.overlap_tiles:
 		queue.create_combat_at(overlap_cube)
-		await get_tree().create_timer(0.01).timeout
+		await Global.create_wait_timer()
 func _do_atks():
-	for tile:Vector2i in sniffer.attacks.keys():
-		for atk_id:int in sniffer.attacks[tile].keys():
-			for wep_id:int in sniffer.attacks[tile][atk_id].keys():
+	for from_cube:Vector3i in sniffer.attacks.keys():
+		for atk_id:int in sniffer.attacks[from_cube].keys():
+			for wep_id:int in sniffer.attacks[from_cube][atk_id].keys():
 				var def_ids : Array = []
-				for to_cube:Vector3i in sniffer.attacks[tile][atk_id][wep_id].keys():
-					def_ids.append_array( sniffer.attacks[tile][atk_id][wep_id][to_cube] )
-				print("creating combat-> from:",atk_id,", at:",tile,"with:",wep_id,
+				for to_cube:Vector3i in sniffer.attacks[from_cube][atk_id][wep_id].keys():
+					def_ids.append_array( sniffer.attacks[from_cube][atk_id][wep_id][to_cube] )
+				print("creating combat-> from:",atk_id,", at:",from_cube,"with:",wep_id,
 					"\n to:",def_ids)
 				queue.create_atk_node.rpc(atk_id, wep_id, def_ids)
-				await get_tree().create_timer(0.01).timeout
+				await Global.create_wait_timer()
 
 
 
 func _on_combat_queue_attacks_complete():
 	print("attack_queue finished playing : ", player_num)
-	finished.emit()
+	obj_ctrl.do_move()
+
+

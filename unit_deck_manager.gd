@@ -36,14 +36,16 @@ func rand_unit_id()->int:
 	for i in 20:
 		var index : int = ( i + offset ) % 20
 		var cont = deck_cont.get_child(index)
-		if cont.linked_node == null:
+		if !cont.get_is_dead() and cont.linked_node == null:
 			return cont.unit.id
 	return -1
 func get_unit(id:int)->Unit_Node:
 	for i in 20:
 		var cont = deck_cont.get_child(i)
 		var toggle : bool = cont.unit.id == id
-		if toggle and cont.linked_node == null:
+		if toggle and !cont.get_is_dead() and cont.linked_node == null:
 			return cont.take_node()
 	return null
 
+func has_ran_out()->bool:
+	return rand_unit_id() == -1

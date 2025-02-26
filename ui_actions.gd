@@ -1,12 +1,25 @@
 extends HBoxContainer
 
-signal out_of_actions()
+signal actions_changed(remain:int)
 
-@rpc("any_peer", "call_local", "reliable")
+func can_act()->bool:
+	return current > 0
+func reset_actions():
+	current = total
+	remote_set.rpc(current)
+	actions_changed.emit(current)
+func spend_action()->bool:
+	if current <= 0:
+		return false
+	current -= 1
+	remote_set.rpc(current)
+	actions_changed.emit(current)
+	return true
+
+@rpc("any_peer", "call_remote", "reliable")
 func remote_set(val:int):
 	current = val
-	if val == 0:
-		out_of_actions.emit()
+
 var current : int = 0:
 	set(val):
 		current = val

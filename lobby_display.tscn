@@ -86,6 +86,7 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 
 [node name="conn" type="Sprite2D" parent="title/m/client/m/h/m/anchor"]
+modulate = Color(0, 0, 0, 1)
 position = Vector2(0, 1)
 texture = ExtResource("2_invjt")
 hframes = 4
@@ -340,6 +341,7 @@ theme_override_styles/separator = SubResource("StyleBoxLine_oxl55")
 
 [node name="ready" type="Button" parent="."]
 layout_mode = 2
+size_flags_vertical = 3
 disabled = true
 toggle_mode = true
 text = "Set Ready"

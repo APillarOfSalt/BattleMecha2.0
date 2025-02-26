@@ -23,34 +23,38 @@ func setup(atk:Unit_Node, wep:Module_Data, def:Array):
 		push = atk.cubic_weapons_push[wep.id]
 	for defender : Unit_Node in def:
 		defenders.append(defender)
-		defenders_uis.append(_create_defender(defender))
+		var def_node = defender.ui._duplicate(true, false, true)
+		def_node.show_local_sprite = true
+		$h/def.add_child(def_node)
+		defenders_uis.append(def_node)
+		if push == Vector3i(0,0,0):
+			break
+		defender.map_obj.push_cube = push
 
-var def_push : Dictionary = {}
-func _create_defender(def:Unit_Node)->Unit_Ui:
-	var def_node = def.ui._duplicate(true, false, true)
-	$h/def.add_child(def_node)
-	defenders_uis.append(def_node)
-	def_push.clear()
-	if push == Vector3i(0,0,0):
-		return def_node
-	if !def.player_num in def_push.keys():
-		def_push[def.player_num] = {}
-	var obj : Map_Object = def.map_obj
-	if !obj.id in def_push[def.player_num]:
-		def_push[def.player_num][obj.id] = {}
-	def_push[def.player_num][obj.id].cube = obj.to_pos
-	def_push[def.player_num][obj.id].to = obj.to_pos + push
-	return def_node
-
+var num_anims : int = 0
 func play():
+	num_anims = defenders.size()+1
 	attacker.anim_ctrl.finished.connect(_on_anim_complete)
+	for defender in defenders:
+		defender.anim_ctrl.finished_defense.connect(_on_anim_complete)
 	attacker.anim_ctrl.setup_atk(weapon, defenders)
 	attacker.anim_ctrl._play()
-	if def_push.size():
-		obj_ctrl._on_server_positions(def_push)
 	anim_playing = true
 var anim_playing : bool = false
 func _on_anim_complete():
-	anim_playing = false
-	await get_tree().create_timer(0.01).timeout
-	animation_finished.emit()
+	num_anims -= 1
+	if num_anims <= 0:
+		anim_playing = false
+		animation_finished.emit()
+
+func get_nodes()->Array[Unit_Node]:
+	var nds := defenders.duplicate(false)
+	nds.push_front(attacker)
+	return nds
+func get_atk_cube()->Vector3i:
+	return attacker.map_obj.to_pos
+func get_aim_cubes()->Array[Vector3i]:
+	var aims : Array[Vector3i] = []
+	for defender in defenders:
+		aims.append(defender.map_obj.to_pos)
+	return aims

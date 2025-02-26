@@ -13,11 +13,11 @@ var map_pos : Vector2i:
 	set(pos):
 		if pos == map_pos:
 			return
-		map.set_cell(3,map_pos)
+		map.set_cell(2,map_pos)
 		if turn_tracker.round:
 			highlight_on_map.rpc(local_player, cubic, false)
 		map_pos = pos
-		map.set_cell(3,map_pos, 0, Vector2i(0,0))
+		map.set_cell(2,map_pos, 0, Vector2i(0,0))
 		if turn_tracker.round:
 			highlight_on_map.rpc(local_player, cubic, true)
 		if held_object != null:
@@ -39,12 +39,12 @@ var cubic : Vector3i:
 func highlight_on_map(num:int, cube:Vector3i, toggle:bool):
 	var oddq : Vector2i = map.cubic_to_oddq(cube)
 	if !toggle:
-		map.set_cell(3,oddq)
+		map.set_cell(2,oddq)
 		return
 	var tile = 2
 	if (local_player + 1) % 3 == num:
 		tile = 3
-	map.set_cell(3,oddq,0,Vector2i(1,0),tile)
+	map.set_cell(2,oddq,1,Vector2i(num,0),1)
 	
 
 

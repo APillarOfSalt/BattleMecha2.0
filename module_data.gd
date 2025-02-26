@@ -1,7 +1,7 @@
 extends Resource
 class_name Module_Data
 
-enum DMG_TYPES{percussive=0, voltaic=1, concussive=2}
+enum DMG_TYPES{untyped=-1, percussive=0, voltaic=1, concussive=2}
 
 var id : int
 var size : int

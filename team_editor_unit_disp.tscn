@@ -66,5 +66,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 1
 
+[node name="Area2D" type="Area2D" parent="."]
+
 [connection signal="pressed" from="h/resel" to="." method="_on_resel_pressed"]
 [connection signal="pressed" from="h/edit" to="." method="_on_edit_pressed"]

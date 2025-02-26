@@ -13,6 +13,21 @@ func _init():
 func to_main_menu_scene():
 	get_tree().change_scene_to_file("res://main_menu.tscn")
 
+const timer_bounds_msec := Vector2i(200,400)
+var game_speed : float = 0.5
+func get_wait_msec(multiplier:float=1.0)->int:
+	return lerp(timer_bounds_msec.x, timer_bounds_msec.y, multiplier * game_speed)
+func create_wait_timer(multiplier:float=-1.0):
+	var time_msec : int = 0
+	if multiplier > -1.0:
+		time_msec = get_wait_msec(multiplier)
+	var time_sec : float = float(time_msec)*0.001
+	print(game_speed,",", multiplier,":",time_msec)
+	return get_tree().create_timer(time_sec).timeout
+
+var turn_limit : int = -1
+var points_to_win : int = -1
+
 var local_player : int = -1
 var player_info_by_num : Dictionary = {}
 
@@ -167,8 +182,19 @@ func get_shape_without(shape:String, isolate:String)->String:
 	return final
 
 
+
 func int_to_hex(val:int)->String:
 	return ("%02x" % val).to_upper()
+#0==a, 1==b... etc ; 26==A, 27==B... etc  ;  if is_upper: 0==A... etc
+func get_letter_from_int(val:int, is_upper:bool=false)->String:
+	is_upper = is_upper or val >= 26
+	while val < 0:
+		val += 26
+	val = val % 26
+	var offset : int = ["a","A"][int(is_upper)].unicode_at(0)
+	return char(val+offset)
+
+
 
 func color_from_json(col_string:String, default:Color=Color.BLACK)->Color:
 	var color : Color = default

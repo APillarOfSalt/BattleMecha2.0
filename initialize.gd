@@ -1,7 +1,7 @@
 extends Node
 
 func _ready():
-	await get_tree().create_timer(0.01).timeout
+	await Global.create_wait_timer()
 	Global.to_main_menu_scene()
 
 func update_text():
