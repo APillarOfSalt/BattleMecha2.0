@@ -21,8 +21,10 @@ func setup(atk:Unit_Node, wep:Module_Data, def:Array):
 	weapon = wep
 	if wep.push >= 0:
 		push = atk.cubic_weapons_push[wep.id]
+	all_nodes.append(attacker)
 	for defender : Unit_Node in def:
 		defenders.append(defender)
+		all_nodes.append(defender)
 		var def_node = defender.ui._duplicate(true, false, true)
 		def_node.show_local_sprite = true
 		$h/def.add_child(def_node)
@@ -46,10 +48,9 @@ func _on_anim_complete():
 		anim_playing = false
 		animation_finished.emit(self)
 
+var all_nodes : Array[Unit_Node] = []
 func get_nodes()->Array[Unit_Node]:
-	var nds := defenders.duplicate(false)
-	nds.push_front(attacker)
-	return nds
+	return all_nodes
 func get_atk_cube()->Vector3i:
 	return attacker.map_obj.to_pos
 func get_aim_cubes()->Array[Vector3i]:

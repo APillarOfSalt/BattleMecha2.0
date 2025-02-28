@@ -18,7 +18,6 @@ signal new_map_pos(pos:Vector2i)
 		map = tilemap
 		if !is_inside_tree():
 			await ready
-		$c/hex.visible = map is TileMap
 var map_pos : Vector2i = Vector2i(-1,-1):
 	set(pos):
 		map_pos = pos

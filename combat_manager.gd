@@ -36,30 +36,18 @@ func _setup():
 	for combat:Array in overlaps:
 		queue.create_combat_with(combat)
 		await Global.create_wait_timer()
-	if last_was_overlap:
-		return
-	print("no overlaps found")
-	var attackers : Dictionary = obj_ctrl.gather_attacks(phase) #atk_obj_id:int : { weapon_module_id:int : [def_obj_id:int, etc...] }
-	printerr("number of attacks found :",attackers.size())
-	for atk_id:int in attackers.keys():
-		for wep_id:int in attackers[atk_id].keys():
-			var def_ids : Array = attackers[atk_id][wep_id]
-			print("creating combat-> from:",atk_id,"with:",wep_id,
-				"\n to:",def_ids)
-			queue.create_atk_node.rpc(atk_id, wep_id, def_ids)
-			await Global.create_wait_timer()
+	if !last_was_overlap:
+		print("no overlaps found")
+		var attackers : Dictionary = obj_ctrl.gather_attacks(phase) #atk_obj_id:int : { weapon_module_id:int : [def_obj_id:int, etc...] }
+		printerr("number of attacks found :",attackers.size())
+		for atk_id:int in attackers.keys():
+			for wep_id:int in attackers[atk_id].keys():
+				var def_ids : Array = attackers[atk_id][wep_id]
+				print("creating combat-> from:",atk_id,"with:",wep_id,
+					"\n to:",def_ids)
+				queue.create_atk_node.rpc(atk_id, wep_id, def_ids)
+				await Global.create_wait_timer()
 	queue._play.rpc()
-	
-	
-	
-	#sniffer.overlap_tiles.clear()
-	#sniffer.attacks.clear()
-	#rpc_clear.rpc()
-	#var objs : Array[Map_Object] = obj_ctrl.get_all_combat_objs()
-	#if !objs.size():
-		#_on_sniffer_on_search_complete()
-		#return
-	#sniffer.setup(objs)
 
 
 

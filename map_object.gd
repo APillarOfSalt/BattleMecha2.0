@@ -14,9 +14,6 @@ func glo_pos_from_cube(cube:Vector3i)->Vector2:
 func _start_turn():
 	turn_over = false
 
-func play_death()->Signal:
-	unit.def_anim_ctrl._play_death()
-	return unit.def_anim_ctrl.finished
 
 var turn_over : bool = false:
 	set(toggle):
@@ -34,12 +31,21 @@ func check_afforable()->bool:
 	return ui.check_affordable(unit.unit_data.cost)
 
 var id : int = -1
-var dying : bool = false
+var dying : bool = false:
+	set(toggle):
+		dying = toggle
 func do_free(death_return_sale:int=-1):
 	dying = true
 	if death_return_sale == 1:
 		ui.unit_sale(unit)
 	unit.is_now_dead.emit(unit, death_return_sale)
+func get_is_dying()->bool:
+	dying = dying or unit.stats.hp <= 0
+	return dying
+
+func play_death()->Signal:
+	unit.def_anim_ctrl._play_death()
+	return unit.def_anim_ctrl.finished
 
 func setup(oid:int, cube:Vector3i,p_num:int,unit_id:int, local:bool):
 	id = oid
@@ -91,11 +97,10 @@ func get_state_is_ready()->bool:
 
 
 func confirm_combat_move():
-	if cursor.push_cube == Vector3i(0,0,0):
+	if push_cube == Vector3i(0,0,0):
 		return
-	cubic = to_pos
-	to_pos += cursor.push_cube
-	cursor.push_cube = Vector3i(0,0,0)
+	cubic = to_pos + push_cube
+	push_cube = Vector3i(0,0,0)
 func confirm_move():
 	cubic = to_pos
 	_start_turn()
@@ -110,6 +115,10 @@ var cubic : Vector3i:
 		to_pos = vec
 		global_position = glo_pos_from_cube(vec)
 		unit.global_position = glo_pos_from_cube(vec)
+var push_cube : Vector3i:
+	set(vec): cursor.push_cube = vec
+	get: return cursor.push_cube
+
 
 func get_movement(use_cubic:bool=false):
 	var affordable : bool = check_afforable() or bought
@@ -121,16 +130,26 @@ func get_movement(use_cubic:bool=false):
 				movement[-1] += cubic
 	return movement
 
+const overlap_padding : int = 24
+var glo_from := Vector2(-1,-1)
+func start_tween():
+	glo_from = unit.global_position
 #false:Push ; true:Move
 func tween_pos(ratio:float, push_move:bool=false):
 	var to : Vector3i = to_pos # true to_pos
-	var from : Vector3i = cubic # true cubic
 	if !push_move: #push
-		if cursor.push_cube == Vector3i(0,0,0):
+		if push_cube == Vector3i(0,0,0):
 			return
-		from = to_pos # false to_pos
-		to += cursor.push_cube # false to_pos+cubic
-	unit.global_position = glo_pos_from_cube(from).lerp( glo_pos_from_cube(to), ratio )
+		to += push_cube # false to_pos+cubic
+	var glo_to : Vector2 = glo_pos_from_cube(to)
+	var from_to : Vector2 = glo_to - glo_from
+	if check_overlaps(to).size():
+		from_to -= from_to.limit_length(overlap_padding)
+	unit.global_position = glo_from + (from_to * ratio) 
 
-
-
+func check_overlaps(cube:Vector3i):
+	var others : Array[int] = []
+	for obj:Map_Object in get_tree().get_nodes_in_group("map_obj"):
+		if obj.id != id and obj.to_pos + obj.push_cube == cube:
+			others.append(obj.id)
+	return others

@@ -34,13 +34,14 @@ func _play():
 	attacks.pop_front().play()
 	return true
 func _on_anim_finished(atk:Container):
-	await Global.create_wait_timer(1)
-	for unit in atk.get_nodes():
-		if unit.map_obj.dying:
-			printerr("unit is dying...")
-			await unit.is_now_dead
-		else:
-			printerr("obj_id:",unit.map_obj.id, ", is dying:", unit.map_obj.dying)
+	#await Global.create_wait_timer(1)
+	#for unit in atk.get_nodes():
+		#printerr(unit.map_obj.id,":",unit.unit_data.name," @:",Time.get_ticks_msec())
+		#if unit.map_obj.get_is_dying():
+			#printerr("unit is dying...",unit.map_obj.id)
+			#await unit.is_now_dead
+		#else:
+			#printerr("obj_id:",unit.map_obj.id, ", is dying:", unit.map_obj.unit.stats.hp)
 	atk.queue_free()
 	#sniffer.update_tiles(attacks)
 	while attacks.size():

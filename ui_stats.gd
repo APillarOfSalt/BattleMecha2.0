@@ -1,7 +1,8 @@
 extends GridContainer
 class_name Unit_UI_Stats
 
-var is_alive : bool = hp > 0
+var is_alive : bool:
+	get: return hp > 0
 var unit_name : String = ""
 func _on_hit()->bool: #false:dead ; true:Still alive
 	print(unit_name, ": HP:",hp,",",next_hp,"; SH:",shield,",",next_shield)
@@ -11,11 +12,11 @@ func _on_hit()->bool: #false:dead ; true:Still alive
 	hp_nd._refresh()
 	shield_nd.current = shield
 	shield_nd._refresh()
-	if hp <= 0:
-		return false
-	return true
+	print(unit_name, ": HP:",hp,"; SH:",shield," @:",Time.get_ticks_msec())
+	return is_alive
 
-func _setup_next_damage(val:int, type:Module_Data.DMG_TYPES)->bool: #true if shield broke
+func _setup_next_damage(val:int, type:int)->bool: #true if shield broke
+	print("dmg setup on peer:",multiplayer.get_unique_id(),":",unit_name,":",val,":",type)
 	var has_shield : bool = shield >= 1
 	next_hp = hp
 	next_shield = shield

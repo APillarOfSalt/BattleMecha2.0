@@ -82,3 +82,5 @@ func we_hate_godot():
 	position = -offset
 	s1sprite.position = spr_cont.size * 0.5
 	s2sprite.position = spr_cont.size * 0.5
+
+

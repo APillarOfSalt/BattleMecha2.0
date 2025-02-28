@@ -51,7 +51,7 @@ func highlight_on_map(num:int, cube:Vector3i, toggle:bool):
 		tile = 3
 	map.set_cell(2,oddq,1,Vector2i(num,0),1)
 
-
+var can_act_override : bool = true
 var is_action_phase : bool:
 	get:
 		is_action_phase = turn_tracker.phase == turn_tracker.PHASES.action
@@ -69,11 +69,11 @@ func get_can_act()->bool:
 	return can_act
 
 func _process(_delta):
-	if turn_tracker.phase  < 0:
+	if turn_tracker.phase < 0:
 		return
 	global_position = get_global_mouse_position()
 	map_pos = map.local_to_map(position)
-	if !get_can_act():
+	if !get_can_act() or !can_act_override:
 		return
 	var accept : bool = Input.is_action_just_pressed("ui_accept") or Input.is_action_just_pressed("lmb")
 	var cancel : bool = Input.is_action_just_pressed("ui_cancel") or Input.is_action_just_pressed("rmb")

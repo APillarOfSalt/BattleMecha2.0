@@ -124,6 +124,7 @@ func _advance():
 		", on:",multiplayer.get_unique_id(),"@:",Time.get_ticks_msec())
 	turn_tracker.advance()
 	local_ui.end_action_phase()
+	map_cursor.can_act_override = false
 	await turn_tracker.anim_complete
 	if turn_tracker.phase == turn_tracker.PHASES.action:
 		if !is_host():
@@ -174,12 +175,11 @@ func start_round(not_first:bool=false):
 		return
 	if turn_tracker.round > 1:
 		await obj_ctrl.start_round()
-	if get_player_num() < 2:
-		await Global.create_wait_timer(1)
 	start_round.rpc_id( get_next_peer_id(), true)
 @rpc("authority", "call_local", "reliable")
 func finalize_start():
 	local_ui.start_round()
+	map_cursor.can_act_override = true
 
 var server_data : Dictionary = {}
 @rpc("any_peer", "call_local", "reliable")

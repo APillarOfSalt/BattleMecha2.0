@@ -7,7 +7,7 @@
 [ext_resource type="Script" path="res://map_obj_highlight.gd" id="5_kfrsh"]
 [ext_resource type="Script" path="res://map_obj_combat_highlight.gd" id="6_urnyk"]
 
-[node name="obj" type="Node2D"]
+[node name="obj" type="Node2D" groups=["map_obj"]]
 script = ExtResource("1_0jr3w")
 
 [node name="bg" type="Sprite2D" parent="."]

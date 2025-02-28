@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://doxg561wf43a4" path="res://animation_controller_defense.tscn" id="5_i7suh"]
 [ext_resource type="PackedScene" uid="uid://dgvh2ku6pfa3k" path="res://animation_controller_offense.tscn" id="6_cd80x"]
 
-[node name="unit_node" type="Node2D" groups=["input", "map_obj", "object"]]
+[node name="unit_node" type="Node2D" groups=["input"]]
 script = ExtResource("1_iu7dp")
 
 [node name="anchor" type="Node2D" parent="."]
@@ -28,15 +28,12 @@ hframes = 3
 vframes = 2
 
 [node name="def_anim" parent="anchor" instance=ExtResource("5_i7suh")]
+z_index = 3
 
 [node name="atk_anim" parent="anchor" instance=ExtResource("6_cd80x")]
-z_index = 3
+z_index = 4
 
 [node name="unit_ui" parent="anchor" instance=ExtResource("2_iaqrp")]
 visible = false
-z_index = 1
+z_index = 2
 offset_bottom = 132.0
-
-[node name="Label" type="Label" parent="."]
-offset_right = 40.0
-offset_bottom = 23.0

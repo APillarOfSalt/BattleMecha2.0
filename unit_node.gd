@@ -148,10 +148,6 @@ func calc_cubic():
 		if mod.push in range(6):
 			cubic_weapons_push[mod.id] = map.oddq_to_cubic( Global.directions_evenx[mod.push], player_num)
 
-func _process(delta):
-	$Label.text = ["Display:-2","Roller:-1","Held:0","Deployed:1","Ready:2"][state+2]
-	$Label.text += str("\n turn over:",map_obj.turn_over,", bought:",map_obj.bought)
-	
 #func _start_turn():
 	#turn_over = false
 	#sprite_tint.a = 0.0

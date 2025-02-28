@@ -39,9 +39,6 @@ func tuck_rollers():
 		_local_obj_removal(obj.unit, 0)
 		await Global.create_wait_timer(0.5)
 
-func confirm_push():
-	for obj:Map_Object in all_objects.values():
-		obj.confirm_combat_move()
 
 #false: start of turn, true: move phase
 @rpc("any_peer", "call_local", "reliable")
@@ -183,9 +180,18 @@ func check_unit_deaths():
 			signal_count += 1
 func _on_unit_death():
 	signal_count -= 1
+	if signal_count == 0:
+		confirm_push()
+		combat_move_finished.emit()
+
+func confirm_push():
+	for obj:Map_Object in all_objects.values():
+		obj.confirm_combat_move()
 
 func do_move():
 	is_moving = move_time_msec
+	for obj:Map_Object in all_objects.values():
+		obj.start_tween()
 	if turn_tracker.phase != turn_tracker.PHASES.move:
 		check_unit_deaths()
 #@export_range(250,2000) var move_time_msec : int = 1200
@@ -200,16 +206,22 @@ var is_moving : int = 0:
 func _finish_phase():
 	if turn_tracker.phase == turn_tracker.PHASES.move:
 		move_phase_finished.emit()
-	else:
-		await signal_count == 0
+	elif signal_count == 0:
 		confirm_push()
 		combat_move_finished.emit()
 func _physics_process(delta):
 	if is_moving:
 		is_moving -= floor(delta * 1000.0)
 		var ratio : float = float(is_moving)/float(move_time_msec)
-		for obj:Map_Object in all_objects.values():
-			obj.tween_pos(1.0 - ratio, turn_tracker.phase == turn_tracker.PHASES.move)
+		var to_remove : Array = []
+		for obj_id:int in all_objects.keys():
+			var obj = all_objects[obj_id]
+			if obj == null:
+				to_remove.append(obj_id)
+			else:
+				obj.tween_pos(1.0 - ratio, turn_tracker.phase == turn_tracker.PHASES.move)
+		for obj_id:int in to_remove:
+			all_objects.erase(obj_id)
 
 #called by combat_manager
 func gather_all_overlaps()->Array[Array]: #[ [obj:Map_Object,etc...], [overlap2]... ]
@@ -240,12 +252,12 @@ func gather_attacks(melee_ranged:bool)->Dictionary:
 			for cube:Vector3i in obj.unit.cubic_weapons[wep_id]:
 				cube += obj.to_pos
 				if cube in obj_tiles.keys():
-					if !obj.id in attacks.keys():
-						attacks[obj.id] = {}
-					if !wep_id in attacks[obj.id].keys():
-						attacks[obj.id][wep_id] = []
 					for def_id:int in obj_tiles[cube]:
 						if all_objects[def_id].player_num != obj.player_num:
+							if !obj.id in attacks.keys():
+								attacks[obj.id] = {}
+							if !wep_id in attacks[obj.id].keys():
+								attacks[obj.id][wep_id] = []
 							attacks[obj.id][wep_id].append(def_id)
 	return attacks
 

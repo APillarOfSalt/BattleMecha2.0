@@ -64,10 +64,13 @@ func _on_animation_player_animation_finished(anim_name:String):
 	stats._on_hit()
 	finished.emit()
 
-func _play_death():
+@rpc("any_peer", "call_remote", "reliable")
+func _play_death(local:bool=true):
 	active_anim = ANIM.death
 	active_anim_name = ANIMS[active_anim].anim
 	play_msec = Time.get_ticks_msec()+100
+	if local:
+		_play_death.rpc(false)
 
 
 const STRS : Dictionary = {
