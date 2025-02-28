@@ -2,7 +2,7 @@ extends PanelContainer
 
 @export var obj_ctrl : Object_Controller = null
 
-signal animation_finished()
+signal animation_finished(nd:Container)
 func is_anim_playing()->bool:
 	return anim_playing
 
@@ -34,18 +34,17 @@ func setup(atk:Unit_Node, wep:Module_Data, def:Array):
 var num_anims : int = 0
 func play():
 	num_anims = defenders.size()+1
-	attacker.anim_ctrl.finished.connect(_on_anim_complete)
+	attacker.atk_anim_ctrl.finished.connect(_on_anim_complete)
 	for defender in defenders:
-		defender.anim_ctrl.finished_defense.connect(_on_anim_complete)
-	attacker.anim_ctrl.setup_atk(weapon, defenders)
-	attacker.anim_ctrl._play()
+		defender.def_anim_ctrl.finished.connect(_on_anim_complete)
+	attacker.animate_attack(weapon, defenders)
 	anim_playing = true
 var anim_playing : bool = false
 func _on_anim_complete():
 	num_anims -= 1
 	if num_anims <= 0:
 		anim_playing = false
-		animation_finished.emit()
+		animation_finished.emit(self)
 
 func get_nodes()->Array[Unit_Node]:
 	var nds := defenders.duplicate(false)

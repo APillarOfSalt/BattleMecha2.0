@@ -1,7 +1,7 @@
 extends VBoxContainer
 
 func _start_the_game():
-	Global.game_speed = float(16-game_speed )/16.0
+	Global.game_speed = float(17-game_speed )/16.0
 	Global.turn_limit = rounds_max
 	Global.points_to_win = points_max
 
@@ -22,13 +22,18 @@ func remote_spd_set(val:int):
 
 func _on_conn_host_client_joined(iid):
 	remote_spd_set.rpc(game_speed)
+	remote_rounds_set.rpc(rounds_max)
+	remote_points_set.rpc(points_max)
 func _on_conn_host_server_started():
 	spd_slider.mouse_filter = Control.MOUSE_FILTER_STOP
 	spd_slider.modulate = Color.WHITE
+	rounds_spin.editable = true
+	points_spin.editable = true
 func _on_conn_host_server_stopped():
 	spd_slider.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	spd_slider.modulate = Color.DIM_GRAY
-
+	rounds_spin.editable = false
+	points_spin.editable = false
 
 @onready var rounds_spin : SpinBox = $limits/rounds
 @onready var rounds_max : int = rounds_spin.value

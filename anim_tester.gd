@@ -3,8 +3,8 @@ extends VBoxContainer
 @onready var op : OptionButton = $OptionButton
 @onready var atk_unit : Unit_Node = $p/center/atk
 @onready var def_unit : Unit_Node = $p/def
-@onready var fx_atk : Animation_Controller = atk_unit.anim_ctrl
-@onready var fx_def : Animation_Controller = def_unit.anim_ctrl
+@onready var fx_atk : Offensive_Animation_Controller = atk_unit.atk_anim_ctrl
+@onready var fx_def : Defensive_Animation_Controller = def_unit.def_anim_ctrl
 
 func _ready():
 	for i in 2:

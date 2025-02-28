@@ -39,9 +39,9 @@ var unit : Unit_Data:
 		title_cont.visible = show_name
 		cost.visible = show_cost
 		if show_local_sprite:
-			s1sprite.visible = unit.size == 1
+			s1sprite.visible = unit.size != 2
 			s2sprite.visible = unit.size == 2
-			if unit.size == 1:
+			if unit.size != 2:
 				s1sprite.frame_coords = unit.atlas
 			else:
 				s2sprite.frame_coords = unit.atlas

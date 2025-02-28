@@ -80,7 +80,12 @@ func recolor():
 
 @onready var obj_ctrl : Object_Controller = $obj_controller 
 
-
+func is_trash(cube:Vector3i)->bool:
+	return map_at(cube) == AT_VALS.trash
+func is_roller(cube:Vector3i)->bool:
+	return map_at(cube) == AT_VALS.roller
+func is_tile(cube:Vector3i)->bool:
+	return map_at(cube) == AT_VALS.tile
 enum AT_VALS{empty=0, tile=1, trash=2, roller=3}
 func map_at(cubic:Vector3i)->AT_VALS:
 	var oddq : Vector2i = cubic_to_oddq(cubic)

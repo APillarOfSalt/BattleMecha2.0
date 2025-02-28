@@ -1,11 +1,12 @@
-[gd_scene load_steps=7 format=3 uid="uid://dd5hhdonrol7"]
+[gd_scene load_steps=8 format=3 uid="uid://dd5hhdonrol7"]
 
 [ext_resource type="Script" path="res://unit_node.gd" id="1_iu7dp"]
 [ext_resource type="Texture2D" uid="uid://nb7t8xgq5g1s" path="res://assets/s1spritesheet.png" id="2_36tew"]
 [ext_resource type="Material" uid="uid://bejs5gld5logf" path="res://assets/outlineShader.tres" id="2_54gxa"]
 [ext_resource type="PackedScene" uid="uid://cniipby2quw4p" path="res://unit_ui.tscn" id="2_iaqrp"]
 [ext_resource type="Texture2D" uid="uid://bht6ck5fmq3n" path="res://assets/s2spritesheet.png" id="3_2lgta"]
-[ext_resource type="PackedScene" uid="uid://dgvh2ku6pfa3k" path="res://animation_controller.tscn" id="7_njcuy"]
+[ext_resource type="PackedScene" uid="uid://doxg561wf43a4" path="res://animation_controller_defense.tscn" id="5_i7suh"]
+[ext_resource type="PackedScene" uid="uid://dgvh2ku6pfa3k" path="res://animation_controller_offense.tscn" id="6_cd80x"]
 
 [node name="unit_node" type="Node2D" groups=["input", "map_obj", "object"]]
 script = ExtResource("1_iu7dp")
@@ -26,10 +27,16 @@ texture = ExtResource("3_2lgta")
 hframes = 3
 vframes = 2
 
-[node name="animation_controller" parent="anchor" instance=ExtResource("7_njcuy")]
+[node name="def_anim" parent="anchor" instance=ExtResource("5_i7suh")]
+
+[node name="atk_anim" parent="anchor" instance=ExtResource("6_cd80x")]
 z_index = 3
 
 [node name="unit_ui" parent="anchor" instance=ExtResource("2_iaqrp")]
 visible = false
 z_index = 1
 offset_bottom = 132.0
+
+[node name="Label" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0

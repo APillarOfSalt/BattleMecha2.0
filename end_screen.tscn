@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://end_screen.gd" id="1_n8ogb"]
 
 [node name="end_screen" type="PanelContainer"]
-custom_minimum_size = Vector2(200, 175)
+custom_minimum_size = Vector2(300, 200)
 size_flags_horizontal = 4
 size_flags_vertical = 4
 script = ExtResource("1_n8ogb")
@@ -24,11 +24,13 @@ theme_override_constants/margin_bottom = 4
 
 [node name="Label" type="Label" parent="v/title/m"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 32
 text = "Rankings"
 horizontal_alignment = 1
 
 [node name="m" type="MarginContainer" parent="v"]
 layout_mode = 2
+size_flags_vertical = 3
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
@@ -39,15 +41,25 @@ layout_mode = 2
 alignment = 1
 
 [node name="p1" type="HBoxContainer" parent="v/m/list"]
+visible = false
 layout_mode = 2
 alignment = 1
 
+[node name="Label2" type="Label" parent="v/m/list/p1"]
+custom_minimum_size = Vector2(44, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "1st"
+horizontal_alignment = 2
+
 [node name="Label" type="Label" parent="v/m/list/p1"]
 layout_mode = 2
-text = "1st Player_Name :"
+theme_override_font_sizes/font_size = 24
+text = "Player_Name :"
 horizontal_alignment = 2
 
 [node name="p" type="PanelContainer" parent="v/m/list/p1"]
+custom_minimum_size = Vector2(31, 0)
 layout_mode = 2
 
 [node name="m" type="MarginContainer" parent="v/m/list/p1/p"]
@@ -59,18 +71,30 @@ theme_override_constants/margin_bottom = 4
 
 [node name="score" type="Label" parent="v/m/list/p1/p/m"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 24
 text = "0"
+horizontal_alignment = 1
 
 [node name="p2" type="HBoxContainer" parent="v/m/list"]
+visible = false
 layout_mode = 2
 alignment = 1
 
+[node name="Label2" type="Label" parent="v/m/list/p2"]
+custom_minimum_size = Vector2(44, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "2nd"
+horizontal_alignment = 2
+
 [node name="Label" type="Label" parent="v/m/list/p2"]
 layout_mode = 2
-text = "2nd Player_Name :"
+theme_override_font_sizes/font_size = 24
+text = "Player_Name :"
 horizontal_alignment = 2
 
 [node name="p" type="PanelContainer" parent="v/m/list/p2"]
+custom_minimum_size = Vector2(31, 0)
 layout_mode = 2
 
 [node name="m" type="MarginContainer" parent="v/m/list/p2/p"]
@@ -82,18 +106,30 @@ theme_override_constants/margin_bottom = 4
 
 [node name="score" type="Label" parent="v/m/list/p2/p/m"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 24
 text = "0"
+horizontal_alignment = 1
 
 [node name="p3" type="HBoxContainer" parent="v/m/list"]
+visible = false
 layout_mode = 2
 alignment = 1
 
+[node name="Label2" type="Label" parent="v/m/list/p3"]
+custom_minimum_size = Vector2(44, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "3rd"
+horizontal_alignment = 2
+
 [node name="Label" type="Label" parent="v/m/list/p3"]
 layout_mode = 2
-text = "3rd Player_Name :"
+theme_override_font_sizes/font_size = 24
+text = "Player_Name :"
 horizontal_alignment = 2
 
 [node name="p" type="PanelContainer" parent="v/m/list/p3"]
+custom_minimum_size = Vector2(31, 0)
 layout_mode = 2
 
 [node name="m" type="MarginContainer" parent="v/m/list/p3/p"]
@@ -105,10 +141,14 @@ theme_override_constants/margin_bottom = 4
 
 [node name="score" type="Label" parent="v/m/list/p3/p/m"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 24
 text = "0"
+horizontal_alignment = 1
 
 [node name="menu" type="Button" parent="v/m/list"]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Back to Menu"
+
+[connection signal="pressed" from="v/m/list/menu" to="." method="_on_menu_pressed"]

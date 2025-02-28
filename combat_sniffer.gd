@@ -106,7 +106,9 @@ var current_wep_tiles : Array = []
 		rpc_set_cell.rpc(0, current_wep_tile, 0)
 		var defenders : Array[Map_Object] = []
 		var objs : Array = obj_ctrl.get_objs_at(current_wep_tile)
-		for obj in objs:
+		for obj:Map_Object in objs:
+			if obj.player_num == current_check_obj.player_num:
+				continue
 			if obj.unit.state != obj.unit.STATES.roller:
 				defenders.append(obj)
 		if defenders.size():
@@ -135,7 +137,11 @@ func do_next_check():
 		current_check_wep = current_check_obj_weps.pop_front()
 		return true
 	elif search_objs.size():
-		current_check_obj = search_objs.pop_front()
+		var next_obj = search_objs.pop_front()
+		while next_obj == null and search_objs.size():
+			next_obj= search_objs.pop_front()
+		if next_obj != null:
+			current_check_obj = next_obj
 		return true
 	current_check_obj = null
 	current_check_wep = null

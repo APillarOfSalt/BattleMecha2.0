@@ -1,7 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://cayxj0xclk051"]
+[gd_scene load_steps=7 format=3 uid="uid://cayxj0xclk051"]
 
 [ext_resource type="Script" path="res://map_object.gd" id="1_0jr3w"]
 [ext_resource type="Texture2D" uid="uid://03ql30rodced" path="res://assets/unit_space.png" id="2_lwbe7"]
+[ext_resource type="Script" path="res://map_obj_cursor.gd" id="3_f7p12"]
+[ext_resource type="TileSet" uid="uid://cc3shgi4yyt5c" path="res://main_map_tileset.tres" id="4_hn7lb"]
+[ext_resource type="Script" path="res://map_obj_highlight.gd" id="5_kfrsh"]
+[ext_resource type="Script" path="res://map_obj_combat_highlight.gd" id="6_urnyk"]
 
 [node name="obj" type="Node2D"]
 script = ExtResource("1_0jr3w")
@@ -14,7 +18,31 @@ offset = Vector2(-1, 0)
 hframes = 3
 frame = 1
 
-[node name="fg" type="Sprite2D" parent="."]
+[node name="cursor_manager" type="Sprite2D" parent="."]
 visible = false
 texture = ExtResource("2_lwbe7")
 hframes = 3
+script = ExtResource("3_f7p12")
+
+[node name="combat_highlight" type="TileMap" parent="cursor_manager"]
+position = Vector2(-32, -32)
+tile_set = ExtResource("4_hn7lb")
+format = 2
+layer_0/name = "atk"
+layer_0/modulate = Color(1, 0, 0, 0.490196)
+layer_1/name = "search"
+layer_1/modulate = Color(1, 0.490196, 0, 0.490196)
+layer_1/tile_data = PackedInt32Array()
+script = ExtResource("6_urnyk")
+
+[node name="movement_highlight" type="TileMap" parent="."]
+modulate = Color(1, 1, 1, 0.498039)
+position = Vector2(-32, -32)
+tile_set = ExtResource("4_hn7lb")
+format = 2
+layer_0/name = "move"
+layer_0/modulate = Color(1, 1, 1, 0.490196)
+layer_1/name = "cant_move"
+layer_1/modulate = Color(0.5, 0.5, 0.5, 0.498039)
+layer_1/tile_data = PackedInt32Array()
+script = ExtResource("5_kfrsh")

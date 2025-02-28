@@ -1,16 +1,21 @@
 extends PanelContainer
 
-var first : int = -1
-var first_score : int = -1
-var second : int = -1
-var second_score : int = -1
-var third : int = -1
-var third_score : int = -1
+
+func _on_menu_pressed():
+	Global.to_main_menu_scene()
+#func _ready():
+	#Global.player_info_by_num = {0:{"name":"Zero"},1:{"name":"One"},2:{"name":"Two"}}
+	#_setup({0:0, 1:6, 2:3})
 
 func _setup(scores:Dictionary):
-	show()
 	var vals : Array = scores.values()
 	vals.sort_custom(func c(a,b)->bool:return a>b)
+	var first : int
+	var first_score : int
+	var second : int
+	var second_score : int
+	var third : int
+	var third_score : int
 	first_score = vals[0]
 	second_score = vals[1]
 	third_score = vals[2]
@@ -22,12 +27,17 @@ func _setup(scores:Dictionary):
 			second = p_num
 		elif val == third_score:
 			third = p_num
-	$v/m/list/p1/Label.text = Global.player_info_by_num[first].name
-	$v/m/list/p1/p/m/score.text = str("1st ", first_score )
-	$v/m/list/p2/Label.text = Global.player_info_by_num[second].name
-	$v/m/list/p1/p/m/score.text = str("2nd ",  second_score )
-	$v/m/list/p3/Label.text = Global.player_info_by_num[third].name
-	$v/m/list/p1/p/m/score.text = str("3rd ", third_score )
+	_show_scores.rpc(first, first_score, second, second_score, third, third_score)
+
+@rpc("authority", "call_local", "reliable")
+func _show_scores(f:int,fs:int,s:int,ss:int,t:int,ts:int):
+	show()
+	$v/m/list/p1/Label.text = Global.player_info_by_num[f].name
+	$v/m/list/p1/p/m/score.text = str(fs)
+	$v/m/list/p2/Label.text = Global.player_info_by_num[s].name
+	$v/m/list/p2/p/m/score.text = str(ss)
+	$v/m/list/p3/Label.text = Global.player_info_by_num[t].name
+	$v/m/list/p3/p/m/score.text = str(ts)
 	tick = Time.get_ticks_msec()
 
 var tick_speed_msec : int = 777
@@ -42,8 +52,3 @@ func _process(delta):
 			return
 	tick = -1
 
-
-
-	
-	
-	

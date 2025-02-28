@@ -7,12 +7,20 @@ func _on_actions_actions_changed(remain:int):
 		end_turn_node._on_out_of_actions()
 		out_of_actions.emit()
 	for obj:Map_Object in obj_ctrl.get_all_local_roller_objs():
-		obj.unit.refresh_afford()
+		obj.unit.refresh_afford(remain)
 
 var victory_points : int = 0
 func gain_points(val:int):
 	victory_points += val
 	$victory_points/Label2.text = str(victory_points)
+
+func start_round():
+	actions.reset_actions()
+	end_turn_node._reset()
+	for obj:Map_Object in obj_ctrl.get_all_local_roller_objs():
+		obj._start_turn()
+func end_action_phase():
+	end_turn_node._set_butt_mouse_off()
 
 @onready var end_turn_node : Container = $end_turn
 
@@ -83,111 +91,6 @@ func setup(ctrl:Object_Controller, data:Player_Data): #->Array[Unit_Node]:
 	co = data.team.starting_resources.cobalt
 	deck.setup(data.team)
 
-func start_round():
-	actions.reset_actions()
-	end_turn_node._reset()
-func end_action_phase():
-	end_turn_node._set_butt_mouse_off()
-
-
-func request_grab(node:Unit_Node):
-	if !actions.can_act() or held_object != null:
-		return
-	node.walkables = request_highlight(node, true)
-	node.state = node.STATES.held
-	held_object = node.map_obj
-func request_buy(node:Unit_Node):
-	if !actions.can_act():
-		return
-	request_grab(node)
-	cost_disp.set_cost(node.unit_data.cost)
-	cost_disp.modulate.a = 0.5
-func request_drop(node:Unit_Node):
-	cost_disp.clear()
-	cost_disp.modulate.a = 0.0
-	if node.bought:
-		node.state = node.STATES.deploy
-	else:
-		node.state = node.STATES.roller
-	held_object = null
-func check_affordable(cost:Dictionary)->bool:
-	for key:String in cost:
-		if self[key.substr(0,2)] < cost[key]:
-			return false
-	return true
-func _on_unit_bs_mode(bs:bool):
-	if held_object == null:
-		return
-	cost_disp.flip_colors = bs
-	if bs:
-		cost_disp.set_cost(held_object.unit.unit_data.sale)
-	else:
-		cost_disp.set_cost(held_object.unit.unit_data.cost)
-func request_purchase(node:Unit_Node)->bool:
-	if !actions.can_act() or node != held_object.unit or node == null:
-		return false
-	var new_cube : Vector3i = cursor.cubic
-	if !new_cube in highlighting_tiles:
-		return false
-	if map.map_at(new_cube) != map.AT_VALS.trash:
-		if !check_affordable(node.unit_data.cost):
-			return false
-		apply_cost_to_res()
-	return request_move(node)
-func request_move(node:Unit_Node)->bool:
-	if !actions.can_act() or node != held_object.unit or node == null:
-		return false
-	var new_cube : Vector3i = cursor.cubic
-	if !new_cube in highlighting_tiles:
-		return false
-	map.set_highlight(highlighting_tiles, false)
-	node.to_cube = new_cube
-	node.turn_over = true
-	node.state = node.STATES.deploy
-	actions.spend_action()
-	held_object = null
-	return true
-
-
-var held_object : Map_Object = null:
-	set(obj):
-		if held_object != null:
-			if obj != null:
-				return
-			held_object.unit.buy_sell_mode.disconnect(_on_unit_bs_mode)
-			held_object.unit.held = null
-			map.clear_highlight()
-		held_object = obj
-		cursor.held_object = obj
-		if obj != null:
-			obj.unit.held = cursor
-			obj.unit.buy_sell_mode.connect(_on_unit_bs_mode)
-
-func get_unit_trash_filter(unit:Unit_Node)->int:
-	if unit.turn_over:
-		return map.TRASH_FILTER.no
-	if unit.state == unit.STATES.roller:
-		if !check_affordable(unit.unit_data.cost):
-			return map.TRASH_FILTER.only
-	return map.TRASH_FILTER.allow
-
-var highlighting_unit : Unit_Node = null
-var highlighting_tiles : Array[Vector3i] = []
-func request_highlight(unit:Unit_Node, is_plan:bool)->Array: #allowed moves
-	if (unit != highlighting_unit and !is_plan) or held_object != null:
-		return []
-	map.set_highlight(highlighting_tiles, false)
-	highlighting_tiles.clear()
-	highlighting_unit = unit
-	if !is_plan:
-		return []
-	var walkables : Array = map.get_walkables(false)
-	for cube in unit.cubic_movement:
-		var move_to : Vector3i = cube + unit.cubic
-		if move_to in walkables:
-			highlighting_tiles.append(move_to)
-	return map.set_highlight(highlighting_tiles, true, get_unit_trash_filter(unit))
-
 @onready var deck : Deck_Manager = $deck
 @onready var res_disp : Cost_Data = $resources
 var ti : int:
@@ -224,19 +127,11 @@ func _remote_res_set(_ti:int,_ga:int,_al:int,_co:int):
 	al = _al
 	co = _co
 
-#@rpc("any_peer", "call_local", "reliable")
-#func sell_unit(unit:Unit_Node):
-	#print("RPC:sell_unit(unit:Unit_Node):[id:",unit.map_obj.id,",name:",unit.unit_data.name,"]\n",
-		#"from:",multiplayer.get_remote_sender_id(),
-		#", p:",Global.server_controller.instance_id,
-		#", on:",multiplayer.get_unique_id(),"\n","@:",Time.get_ticks_msec())
-	#if unit.player_num != player_num:
-		#print("oop",unit)
-		#return false
-	#cost_disp.set_cost(unit.unit_data.sale)
-	#cost_disp.flip_colors = true
-	#apply_cost_to_res()
-	#cost_disp.flip_colors = false
+func check_affordable(cost:Dictionary)->bool:
+	for key:String in cost:
+		if self[key.substr(0,2)] < cost[key]:
+			return false
+	return true
 
 func apply_cost_to_res():
 	res_disp.add_with(cost_disp)
@@ -269,4 +164,17 @@ var c_co : int:
 
 
 
+#@rpc("any_peer", "call_local", "reliable")
+#func sell_unit(unit:Unit_Node):
+	#print("RPC:sell_unit(unit:Unit_Node):[id:",unit.map_obj.id,",name:",unit.unit_data.name,"]\n",
+		#"from:",multiplayer.get_remote_sender_id(),
+		#", p:",Global.server_controller.instance_id,
+		#", on:",multiplayer.get_unique_id(),"\n","@:",Time.get_ticks_msec())
+	#if unit.player_num != player_num:
+		#print("oop",unit)
+		#return false
+	#cost_disp.set_cost(unit.unit_data.sale)
+	#cost_disp.flip_colors = true
+	#apply_cost_to_res()
+	#cost_disp.flip_colors = false
 

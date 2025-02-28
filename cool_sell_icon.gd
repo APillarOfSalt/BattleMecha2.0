@@ -1,5 +1,6 @@
 extends Node2D
 
+@export var turntracker : Turn_Tracker
 @export var cursor : Map_Cursor
 @onready var w : Sprite2D = $w
 @onready var b : Sprite2D = $b
@@ -15,9 +16,9 @@ func _ready():
 		map_pos = get_parent().local_trash[index]
 	position = get_parent().map_to_local( map_pos )
 func _on_cursor_new_pos():
-	if cursor.map_pos == map_pos:
+	if cursor.map_pos == map_pos and turntracker.phase == turntracker.PHASES.action:
 		animate_vis(true)
-	elif cursor.map_pos != map_pos:
+	else:
 		animate_vis(false)
 @export var tick_speed_msec : int = 100
 @onready var tick : int = T

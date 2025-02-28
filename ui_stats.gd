@@ -1,7 +1,7 @@
 extends GridContainer
 class_name Unit_UI_Stats
 
-
+var is_alive : bool = hp > 0
 var unit_name : String = ""
 func _on_hit()->bool: #false:dead ; true:Still alive
 	print(unit_name, ": HP:",hp,",",next_hp,"; SH:",shield,",",next_shield)

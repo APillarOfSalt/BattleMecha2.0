@@ -8,7 +8,7 @@ const ui_scene : PackedScene = preload("res://main_map_player_ui.tscn")
 @onready var player_ui_cont = $combat_manager/v/players
 @onready var turn_tracker = $combat_manager/turn_tracker
 @onready var combat_manager = $combat_manager
-@onready var combat_queue = $combat_manager/v/combat_queue
+@onready var combat_queue = $combat_manager/v/m/combat_queue
 
 
 func is_host()->bool:
@@ -20,13 +20,13 @@ func get_player_num()->int:
 func get_next_peer_id()->int:
 	return Global.player_info_by_num[ get_iid() % 3 ].peer_id
 
-
+@onready var local_cursor : Map_Cursor = $map/map_cursor
 var local_ui : Player_UI = null
 var player_uis : Dictionary #p_num : int : Player_UI
 
 func _on_scoring_give_points_to(num:int, val:int):
+	player_uis[num].gain_points(val)
 	give_score.rpc(num, val)
-	local_ui.gain_points(val)
 @rpc("any_peer", "call_remote", "reliable")
 func give_score(num,val):
 	player_uis[num].gain_points(val)
@@ -76,6 +76,7 @@ func create_ui(num:int, peer_id:int):
 		return
 	await Global.create_wait_timer(1)
 	local_ui = ui
+	local_cursor.local_ui = ui
 	ui.out_of_actions.connect(_check_advance)
 	if num < 2:
 		create_ui.rpc(num+1, get_next_peer_id() )
@@ -138,22 +139,25 @@ func _advance():
 	elif is_host(): #combat phases
 		combat_manager._setup()
 
+var scores : Dictionary = {}
 func _on_scoring_finished():
 	if !is_host():
 		return
+	obj_ctrl.tuck_rollers.rpc()
 	await Global.create_wait_timer(0.1)
-	if !turn_tracker.overtime:
+	for ui in player_uis.values():
+		if ui.victory_points >= Global.points_to_win:
+			turn_tracker.start_overtime.rpc()
+		scores[ui.player_num] = ui.victory_points
+	var has_tie : bool = false
+	for score in scores.values():
+		if scores.values().count(score) > 1:
+			printerr("found tie")
+			has_tie = true
+			break
+	if !turn_tracker.overtime or has_tie:
 		_advance.rpc()
 	else:
-		var scores : Dictionary = {}
-		for ui in player_uis.values():
-			if ui.victory_points >= Global.points_to_win:
-				turn_tracker.start_overtime.rpc()
-			scores[ui.player_num] = ui.victory_points
-		for score in scores.values():
-			if scores.values().count(score) > 1:
-				_advance.rpc()
-				return
 		$combat_manager/end_screen._setup(scores)
 
 func _on_obj_controller_out_of_units():
@@ -207,7 +211,6 @@ func _recieve_positions_clients(json:String):
 var combat_complete_count : int = 0
 func _on_obj_controller_combat_move_finished():
 	_on_combat_complete.rpc_id(1, get_player_num())
-	obj_ctrl.confirm_push()
 @rpc("any_peer", "call_local", "reliable")
 func _on_combat_complete(p_num:int=-1):
 	print( "RPC:_on_combat_complete(p_num:int):[",p_num,"]\n",
@@ -221,6 +224,9 @@ func _on_combat_complete(p_num:int=-1):
 	combat_complete_count += 1
 	combat_complete_count %= 3
 	if combat_complete_count:
+		return
+	if combat_manager.last_was_overlap:
+		combat_manager._setup()
 		return
 	print("advance @_on_combat_complete(",p_num,")",combat_complete_count)
 	_advance.rpc()

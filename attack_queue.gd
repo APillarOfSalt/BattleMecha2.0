@@ -12,7 +12,7 @@ const three_scene : PackedScene = preload( "res://attack_queue_three_overlap.tsc
 @export var map : TileMap = null
 @export var obj_ctrl : Object_Controller = null
 @export var turn_tracker : Turn_Tracker = null
-@export var sniffer : Combat_Sniffer = null
+#@export var sniffer : Combat_Sniffer = null
 
 func debug_create_attack(atk:Unit_Node, wep:Module_Data.Weapon_Data, def:Unit_Node):
 	var atk_node = one_atk_scene.instantiate()
@@ -29,24 +29,30 @@ func _play():
 		", on:",multiplayer.get_unique_id(),"\n","@:",Time.get_ticks_msec())
 	if !attacks.size():
 		print("out of attacks")
-		return false
-	attacks.front().play()
-	return true
-func _on_anim_finished():
-	await Global.create_wait_timer(0.1)
-	var atk = attacks.pop_front()
-	for obj in obj_ctrl.get_all_combat_objs():
-		if obj.dying:
-			print("unit is dying...")
-			await obj.unit_node.is_now_dead
-	atk.queue_free()
-	sniffer.update_tiles(attacks)
-	if attacks.size():
-		print("playing next attack")
-		attacks.front().play()
-	else:
 		attacks_complete.emit()
-		print("attacks completed; emitting...")
+		return false
+	attacks.pop_front().play()
+	return true
+func _on_anim_finished(atk:Container):
+	await Global.create_wait_timer(1)
+	for unit in atk.get_nodes():
+		if unit.map_obj.dying:
+			printerr("unit is dying...")
+			await unit.is_now_dead
+		else:
+			printerr("obj_id:",unit.map_obj.id, ", is dying:", unit.map_obj.dying)
+	atk.queue_free()
+	#sniffer.update_tiles(attacks)
+	while attacks.size():
+		if attacks.front() == null:
+			attacks.pop_front()
+			continue
+		if attacks.front() != atk:
+			print("playing next attack")
+			attacks.pop_front().play()
+			return
+	attacks_complete.emit()
+	print("attacks completed; emitting...")
 
 
 var attacks : Array
@@ -68,8 +74,8 @@ func create_atk_node(atk_id:int,mod_id:int,def_ids:Array):
 	atk_node.animation_finished.connect(_on_anim_finished)
 	atk_node.obj_ctrl = obj_ctrl
 	add_child(atk_node)
-	atk_node.setup(attacker, weapon, defense)
 	attacks.append(atk_node)
+	atk_node.setup(attacker, weapon, defense)
 
 @rpc("authority", "call_local", "reliable")
 func create_overlap_push(a_id:int,b_id:int,c_id:int=-1):
@@ -87,13 +93,13 @@ func create_overlap_push(a_id:int,b_id:int,c_id:int=-1):
 	add_child(atk_node)
 	attacks.append(atk_node)
 	if no_c:
-		atk_node.setup(a_unit, null, b_unit, null)
 		push_ctrl.resolve_overlap_abc(a_obj_id, -1, b_obj_id, -1)
+		atk_node.setup(a_unit, null, b_unit, null)
 	else:
 		var c_unit : Unit_Node = obj_ctrl.all_objects[c_id].unit
 		var c_obj_id : int = c_unit.map_obj.id
-		atk_node.setup(a_unit, null, b_unit, null, c_unit, null)
 		push_ctrl.resolve_overlap_abc(a_obj_id, -1, b_obj_id, -1, c_obj_id, -1)
+		atk_node.setup(a_unit, null, b_unit, null, c_unit, null)
 
 @rpc("authority", "call_local", "reliable")
 func create_overlap_node(a_id:int,a_wep_id:int, b_id:int,b_wep_id:int,c_id:int=-1,c_wep_id:int=-1):
@@ -114,17 +120,15 @@ func create_overlap_node(a_id:int,a_wep_id:int, b_id:int,b_wep_id:int,c_id:int=-
 	add_child(atk_node)
 	attacks.append(atk_node)
 	if no_c:
-		atk_node.setup(a_unit, a_wep, b_unit, b_wep)
 		push_ctrl.resolve_overlap_abc(a_obj_id, a_wep_id, b_obj_id, b_wep_id)
+		atk_node.setup(a_unit, a_wep, b_unit, b_wep)
 	else:
 		var c_unit : Unit_Node = obj_ctrl.all_objects[c_id].unit
-		var c_wep : Module_Data.Weapon_Data = a_unit.unit_data.get_module(c_wep_id)
-		var c_obj_id : int = c_unit.map_obj.id
-		atk_node.setup(a_unit, a_wep, b_unit, b_wep, c_unit, c_wep)
-		push_ctrl.resolve_overlap_abc(a_obj_id, a_wep_id, b_obj_id, b_wep_id, c_obj_id, c_wep_id)
+		push_ctrl.resolve_overlap_abc(a_obj_id, a_wep_id, b_obj_id, b_wep_id, c_unit.map_obj.id, c_wep_id)
+		atk_node.setup(a_unit, a_wep, b_unit, b_wep, c_unit, c_unit.unit_data.get_module(c_wep_id))
 
 #false:Melee, true:Ranged
-func gather_weapons(objs:Array[Map_Object], melee_ranged:bool)->Dictionary:
+func gather_weapons(objs:Array, melee_ranged:bool)->Dictionary:
 	var obj_weps : Dictionary = {} #obj_id:int : [wep_id:int, etc...]
 	for obj in objs:
 		obj_weps[obj.id] = []
@@ -137,21 +141,19 @@ func gather_weapons(objs:Array[Map_Object], melee_ranged:bool)->Dictionary:
 			obj_weps[obj.id].append(wep_id)
 	return obj_weps
 
-
-func create_combat_at(cube:Vector3i):
-	var objs : Array[Map_Object] = obj_ctrl.get_objs_at(cube)
-	var weapons : Dictionary = {}
+func create_combat_with(objs:Array):
+	var obj_weps : Dictionary = {} #obj_id:int : [wep_id:int, etc...]
 	if objs.size() > 1: #overlap
-		weapons = gather_weapons(objs, false) #only melee
+		obj_weps = gather_weapons(objs, false) #only melee
 	else:
-		weapons = gather_weapons(objs, turn_tracker.phase == turn_tracker.PHASES.ranged)
-	if weapons.keys().size() > 1: #overlap
-		queue_overlap_attacks(weapons)
+		obj_weps = gather_weapons(objs, turn_tracker.phase == turn_tracker.PHASES.ranged)
+	if obj_weps.keys().size() > 1: #overlap
+		queue_overlap_attacks(obj_weps)
 		return
-	elif weapons.size() == 0: #no units error
+	elif obj_weps.size() == 0: #no units error
 		print("oop")
 		return
-	var atk_id : int = weapons.keys()[0]
+	var atk_id : int = obj_weps.keys()[0]
 	var atk : Map_Object = null
 	var def : Array[int] = []
 	for obj in objs:
@@ -159,7 +161,7 @@ func create_combat_at(cube:Vector3i):
 			atk = obj
 		else:
 			def.append(obj.id)
-	for wep_id:int in weapons[atk_id]:
+	for wep_id:int in obj_weps[atk_id]:
 		create_atk_node.rpc(atk_id, wep_id, def)
 
 func queue_overlap_attacks(obj_weps:Dictionary):
@@ -177,7 +179,6 @@ func queue_overlap_attacks(obj_weps:Dictionary):
 			_:
 				print("oop")
 		return
-	
 	for i in max_num:
 		i = max_num - i - 1
 		var this_atk : Dictionary = {} #obj_id:int : weapon_id:int
@@ -220,3 +221,7 @@ func queue_overlap_attacks(obj_weps:Dictionary):
 				#obj.to_pos = obj.cubic
 				#obj.cubic = old_pos
 	
+
+#func create_combat_at(cube:Vector3i):
+	#var objs : Array[Map_Object] = obj_ctrl.get_objs_at(cube)
+	#create_combat_with(objs)

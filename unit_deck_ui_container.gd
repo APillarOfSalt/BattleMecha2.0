@@ -37,6 +37,7 @@ func _on_linked_death(node:Unit_Node=null, death_return_sale:int=-1):
 	u_spr.visible = is_in_deck
 	w_spr.visible = !is_in_deck
 	local_mat.set_shader_parameter("tint", Color(0.0,0.0,0.0, int(is_in_deck) ))
+	node.map_obj.queue_free()
 	node.queue_free()
 
 var unit : Unit_Data = null:
@@ -57,7 +58,7 @@ func _on_unit_hovered(unit:Unit_Node, is_hovered:bool):
 		return
 	is_emitting = true
 	local_mat.set_shader_parameter("width", int(is_hovered)*unit_outline_width)
-	linked_node.cursor_hover(is_hovered)
+	linked_node.map_obj.cursor.cursor_hover(is_hovered)
 	is_emitting = false
 
 func _on_empty_mouse_entered():

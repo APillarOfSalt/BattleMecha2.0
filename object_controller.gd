@@ -12,47 +12,32 @@ var local_player : int:
 	get: return get_parent().local_player
 const map_obj_scene : PackedScene = preload("res://map_object.tscn")
 
-func obj_id_exists(obj_id:int)->bool:
-	return obj_id in all_objects.keys()
-var all_objects : Dictionary = {} #obj_id:int : Map_Object
-func get_all_combat_objs()->Array[Map_Object]:
-	var objs : Array[Map_Object] = []
-	for obj in all_objects.values():
-		if obj.unit.state != obj.unit.STATES.roller:
-			objs.append(obj)
-	return objs
+func start_round():
+	print("starting round; p_num:", local_player)
+	for i in 3:
+		if !local_unit_spawn(-1, i):
+			out_of_units.emit()
+			return
+		await Global.create_wait_timer(0.5)
+
 func get_all_local_roller_objs()->Array[Map_Object]:
 	var objs : Array[Map_Object] = []
 	for obj in local_objs:
 		if obj.unit.state == obj.unit.STATES.roller:
 			objs.append(obj)
 	return objs
-
-
-var local_objs : Array[Map_Object]
-var remote_objs : Array[Map_Object]
-func is_obj_local(obj:Map_Object)->bool:
-	return is_obj_id_local(obj.id)
-func is_obj_id_local(obj_id:int)->bool:
-	for obj:Map_Object in local_objs:
-		if obj.id == obj_id:
-			return true
-	return false
-func get_objs_arr_for_id(obj_id:int)->Array[Map_Object]:
-	return get_objs_arr(is_obj_id_local(obj_id))
-func get_objs_arr(is_local:bool)->Array[Map_Object]:
-	return [remote_objs, local_objs][int(is_local)]
-
-func start_round():
-	print("starting round", local_player)
-	for i in 3:
-		var obj : Map_Object = get_first_obj_at( map.oddq_to_cubic( map.local_rollers[i] ) )
-		if obj != null:
-			obj_removal.rpc(obj.id, 0)
-		if !local_unit_spawn(-1, i):
-			out_of_units.emit()
+@rpc("authority", "call_local", "reliable")
+func tuck_rollers():
+	print("tucking rollers; p_num:", local_player)
+	for obj in all_objects.values():
+		obj.confirm_move()
+	var removal : Array[Map_Object] = []
+	for obj in local_objs:
+		if map.is_roller(obj.to_pos):
+			removal.append(obj)
+	for obj in removal:
+		_local_obj_removal(obj.unit, 0)
 		await Global.create_wait_timer(0.5)
-		
 
 func confirm_push():
 	for obj:Map_Object in all_objects.values():
@@ -73,8 +58,6 @@ func confirm_positions(start_move:bool)->Dictionary:
 			data[obj.id] = {"cube":obj.cubic, "to":obj.to_pos}
 		return data
 	#start phase
-	for obj in all_objects.values():
-		obj.confirm_move()
 	return {}
 
 func _on_server_positions(data:Dictionary):
@@ -109,36 +92,47 @@ func do_local_sale():
 	print("RPC:do_local_sale()):[]\n",
 		"from:",multiplayer.get_remote_sender_id(),", p:",Global.server_controller.instance_id,
 		", on:",multiplayer.get_unique_id(),"@:",Time.get_ticks_msec())
-	var sell : Array[Unit_Node] = []
+	var sell : Array[Map_Object] = []
 	for obj in local_objs:
-		var map_at : int = map.map_at(obj.to_pos)
-		if map_at == map.AT_VALS.trash:
-			print(obj.to_pos)
-			sell.append(obj.unit)
-	for unit:Unit_Node in sell:
-		unit._sell_me()
+		if map.is_trash(obj.to_pos):
+			sell.append(obj)
+	for obj:Map_Object in sell:
+		obj.do_free(1)
 func _local_obj_removal(unit:Unit_Node, death_return_sale:int=-1):
 	unit.is_now_dead.disconnect(_local_obj_removal)
-	obj_removal.rpc(unit.map_obj.id, death_return_sale)
-@rpc("any_peer", "call_local", "reliable")
-func obj_removal(obj_id:int, death_return_sale:int=-1):
+	var obj_id : int = unit.map_obj.id
+	obj_removal(obj_id, death_return_sale, true)
+	obj_removal.rpc(obj_id, death_return_sale)
+@rpc("any_peer", "call_remote", "reliable")
+func obj_removal(obj_id:int, death_return_sale:int=-1, local:bool=false):
 	print("RPC:obj_removal(obj_id:int, sale:bool=false):[",obj_id,",",death_return_sale,"]\n",
 		"from:",multiplayer.get_remote_sender_id(),", on:",multiplayer.get_unique_id(),
 		"p:",Global.server_controller.instance_id,"@:",Time.get_ticks_msec())
-	var arr : Array = get_objs_arr_for_id(obj_id)
-	var removal : Array = []
-	for i in arr.size():
-		if arr[i] == null:
-			arr.remove_at(i)
-			break
-		if arr[i].id == obj_id:
-			arr.remove_at(i)
-			break
+	if local:
+		local_obj_removal(obj_id)
+	else:
+		remote_obj_removal(obj_id)
 	if obj_id in all_objects.keys():
-		if !all_objects[obj_id].dying:
-			all_objects[obj_id].do_free(death_return_sale)
+		if all_objects[obj_id] != null:
+			if !all_objects[obj_id].dying:
+				all_objects[obj_id].do_free(death_return_sale)
 		all_objects.erase(obj_id)
-
+func local_obj_removal(obj_id:int):
+	for i in local_objs.size():
+		if local_objs[i] == null:
+			local_objs.remove_at(i)
+			break
+		if local_objs[i].id == obj_id:
+			local_objs.remove_at(i)
+			break
+func remote_obj_removal(obj_id:int):
+	for i in remote_objs.size():
+		if remote_objs[i] == null:
+			remote_objs.remove_at(i)
+			break
+		if remote_objs[i].id == obj_id:
+			remote_objs.remove_at(i)
+			break
 
 func local_unit_spawn(unit_id:int,r_index:int)->bool:
 	var obj_cube : Vector3i = map.oddq_to_cubic(map.local_rollers[r_index])
@@ -163,6 +157,9 @@ func local_unit_spawn(unit_id:int,r_index:int)->bool:
 	print("local OBJ:",obj.name,"UNIT:",obj.unit.name)
 	return true
 
+func obj_id_exists(obj_id:int)->bool:
+	return obj_id in all_objects.keys()
+
 @rpc("any_peer", "call_remote", "reliable")
 func _remote_unit_spawn(obj_id:int, cube:Vector3i,p_num:int,unit_id:int):
 	print("RPC:_remote_unit_spawn(cube:Vector3i,p_num:int,unit_id:int):[",cube,",",p_num,",",unit_id,"]\n",
@@ -177,19 +174,80 @@ func _remote_unit_spawn(obj_id:int, cube:Vector3i,p_num:int,unit_id:int):
 	print("remote OBJ:",obj.name,"UNIT:",obj.unit.name)
 
 
+var signal_count : int = 0
+func check_unit_deaths():
+	signal_count = 0
+	for obj:Map_Object in local_objs:
+		if obj.unit.stats.hp <= 0:
+			obj.play_death().connect(_on_unit_death)
+			signal_count += 1
+func _on_unit_death():
+	signal_count -= 1
 
+func do_move():
+	is_moving = move_time_msec
+	if turn_tracker.phase != turn_tracker.PHASES.move:
+		check_unit_deaths()
+#@export_range(250,2000) var move_time_msec : int = 1200
+@onready var move_time_msec : int = Global.get_wait_msec(3.0)
+var is_moving : int = 0:
+	set(val):
+		if val <= 0:
+			is_moving = 0
+			_finish_phase()
+		else:
+			is_moving = val
+func _finish_phase():
+	if turn_tracker.phase == turn_tracker.PHASES.move:
+		move_phase_finished.emit()
+	else:
+		await signal_count == 0
+		confirm_push()
+		combat_move_finished.emit()
+func _physics_process(delta):
+	if is_moving:
+		is_moving -= floor(delta * 1000.0)
+		var ratio : float = float(is_moving)/float(move_time_msec)
+		for obj:Map_Object in all_objects.values():
+			obj.tween_pos(1.0 - ratio, turn_tracker.phase == turn_tracker.PHASES.move)
 
+#called by combat_manager
+func gather_all_overlaps()->Array[Array]: #[ [obj:Map_Object,etc...], [overlap2]... ]
+	var tile_objs : Dictionary = {}
+	for obj in all_objects.values():
+		if !obj.to_pos in tile_objs.keys():
+			tile_objs[obj.to_pos] = []
+		tile_objs[obj.to_pos].append(obj)
+	var overlaps : Array[Array]
+	for tile in tile_objs:
+		if tile_objs[tile].size() > 1:
+			overlaps.append(tile_objs[tile])
+	return overlaps
 
-
-
-
-
-
-
-
-
-
-
+#false:melee, true:ranged
+func gather_attacks(melee_ranged:bool)->Dictionary:
+	var attacks : Dictionary = {} #atk_obj_id:int : { weapon_module_id:int : [def_obj_id:int, etc...] }
+	var obj_tiles : Dictionary = get_obj_tiles()
+	for obj:Map_Object in all_objects.values():
+		if obj.unit.state == Unit_Node.STATES.roller:
+			continue
+		for wep_id:int in obj.unit.cubic_weapons.keys():
+			var subtype : String = obj.unit.unit_data.get_module(wep_id).subtype
+			if subtype != "Melee" and !melee_ranged:
+				continue
+			elif subtype == "Melee" and melee_ranged:
+				continue
+			for cube:Vector3i in obj.unit.cubic_weapons[wep_id]:
+				cube += obj.to_pos
+				if cube in obj_tiles.keys():
+					if !obj.id in attacks.keys():
+						attacks[obj.id] = {}
+					if !wep_id in attacks[obj.id].keys():
+						attacks[obj.id][wep_id] = []
+					for def_id:int in obj_tiles[cube]:
+						if all_objects[def_id].player_num != obj.player_num:
+							attacks[obj.id][wep_id].append(def_id)
+	return attacks
 
 func get_obj_tiles()->Dictionary:
 	var obj_tiles : Dictionary = {} #tile:Vector3i : [obj_id:int, etc...]
@@ -200,6 +258,40 @@ func get_obj_tiles()->Dictionary:
 			obj_tiles[obj.to_pos] = []
 		obj_tiles[obj.to_pos].append(obj.id)
 	return obj_tiles
+
+
+
+
+
+
+
+
+
+
+#func get_all_combat_objs()->Array[Map_Object]:
+	#var objs : Array[Map_Object] = []
+	#for obj in all_objects.values():
+		#if obj.unit.state != obj.unit.STATES.roller:
+			#objs.append(obj)
+	#return objs
+
+
+
+var all_objects : Dictionary = {} #obj_id:int : Map_Object
+var local_objs : Array[Map_Object]
+var remote_objs : Array[Map_Object]
+#func is_obj_local(obj:Map_Object)->bool:
+	#return is_obj_id_local(obj.id)
+func is_obj_id_local(obj_id:int)->bool:
+	for obj:Map_Object in local_objs:
+		if obj.id == obj_id:
+			return true
+	return false
+func get_objs_arr_for_id(obj_id:int)->Array[Map_Object]:
+	return get_objs_arr(is_obj_id_local(obj_id))
+func get_objs_arr(is_local:bool)->Array[Map_Object]:
+	return [remote_objs, local_objs][int(is_local)]
+
 
 func gather_melee_overlap()->Array[Vector3i]:
 	var obj_tiles : Dictionary = get_obj_tiles()
@@ -252,48 +344,5 @@ func get_objs_at(cubic:Vector3i)->Array[Map_Object]:
 
 
 
-func do_move():
-	is_moving = move_time_msec
-#@export_range(250,2000) var move_time_msec : int = 1200
-@onready var move_time_msec : int = Global.get_wait_msec(3.0)
-var is_moving : int = 0:
-	set(val):
-		if val <= 0:
-			is_moving = 0
-			_finish_phase()
-		else:
-			is_moving = val
-func _finish_phase():
-	if turn_tracker.phase == turn_tracker.PHASES.move:
-		move_phase_finished.emit()
-	else:
-		combat_move_finished.emit()
-func _physics_process(delta):
-	if is_moving:
-		is_moving -= floor(delta * 1000.0)
-		var ratio : float = float(is_moving)/float(move_time_msec)
-		for obj:Map_Object in all_objects.values():
-			obj.tween_pos(1.0 - ratio, turn_tracker.phase == turn_tracker.PHASES.move)
 
-
-#false:melee, true:ranged
-func gather_attacks(melee_ranged:bool)->Dictionary:
-	var attacks : Dictionary = {} #atk_obj_id:int : { weapon_module_id:int : [def_obj_id:int, etc...] }
-	var obj_tiles : Dictionary = get_obj_tiles()
-	for obj:Map_Object in all_objects.values():
-		for wep_id:int in obj.unit.cubic_weapons.keys():
-			var subtype : String = obj.unit.unit_data.get_module(wep_id).subtype
-			if subtype != "Melee" and !melee_ranged:
-				continue
-			elif subtype == "Melee" and melee_ranged:
-				continue
-			for cube:Vector3i in obj.unit.cubic_weapons[wep_id]:
-				if cube in obj_tiles.keys():
-					if !obj.id in attacks.keys():
-						attacks[obj.id] = {}
-					if !wep_id in attacks[obj.id].keys():
-						attacks[obj.id][wep_id] = []
-					for def_id:int in obj_tiles[cube]:
-						attacks[obj.id][wep_id].append(def_id)
-	return attacks
 

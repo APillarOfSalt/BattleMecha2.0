@@ -3,7 +3,7 @@ extends MarginContainer
 
 @onready var obj_ctrl : Object_Controller = $map/obj_controller
 @onready var turn_tracker : Turn_Tracker = $main_text
-@onready var combat_manager : Combat_Manager = $manager
+@onready var combat_manager = $manager
 @onready var combat_display : Combat_Display = $manager/display
 @onready var local_cursor : Map_Cursor = $map/map_cursor
 @onready var player_ui_cont : Container = $manager/players

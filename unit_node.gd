@@ -7,39 +7,18 @@ signal is_now_dying(node:Unit_Node)
 signal unit_hovered(unit:Unit_Node, is_hovered:bool)
 signal buy_sell_mode(bs:bool)
 
-func _kill_me():
-	map_obj.do_free(-1)
-func _sell_me():
-	map_obj.do_free(1)
-func _return_me():
-	map_obj.do_free(0)
-func get_is_dying()->bool:
-	return anim_ctrl.active_anim == anim_ctrl.DEF_ANIM.death
-
 const mat : Material = preload("res://assets/outlineShader.tres")
 const shader : Shader = preload("res://outline.gdshader")
 
 var map_obj : Map_Object = null
 
-var bought : bool = false
 var player_num : int = -1
 var locally_owned : bool = false
-var turn_over : bool = false:
-	set(toggle):
-		turn_over = toggle
-		tint_outline = toggle
-		sprite_tint.a = int(toggle)*0.5
-		if !toggle:
-			refresh_afford()
 
 var player_color : Color:
 	set(color):
 		player_color = color
 		spr_mat.set_shader_parameter("color", player_color)
-		var hsv : Vector4 = Global.rgb_to_hsv(player_color)
-		hsv *= Vector4(0,0.9,0.9,1.0)
-		var accent := Color.from_hsv(hsv.x, hsv.y, hsv.z, hsv.w)
-
 
 var unit_data : Unit_Data = null:
 	set(data):
@@ -53,12 +32,6 @@ var unit_data : Unit_Data = null:
 var hp : int = 0
 var armor : int = 0
 var shield : int = 0
-
-func _start_turn():
-	turn_over = false
-	sprite_tint.a = 0.0
-	if state == STATES.roller:
-		refresh_afford()
 
 
 @rpc("any_peer", "call_remote", "reliable")
@@ -91,19 +64,19 @@ func _ready():
 	spr1.material = spr_mat
 	spr2.material = spr_mat
 	stats = ui.stats
-	anim_ctrl.stats = stats
+	atk_anim_ctrl.stats = stats
+	def_anim_ctrl.stats = stats
 	refresh()
 	ui.position = -ui.offset
 	refresh_afford()
 
 func refresh_afford(has_actions:bool=true):
+	sprite_tint.a = 0.0
 	if state < STATES.roller:
 		return
 	sprite_tint.a = 0.5
 	if locally_owned and controller.check_affordable(unit_data.cost) and has_actions:
 		sprite_tint.a = 0.0
-	#if state != STATES.roller:
-		#sprite_tint.a = 0.3
 
 func refresh():
 	ui.unit = unit_data
@@ -140,7 +113,9 @@ var sprite_tint : Color = Color(0,0,0,0):
 @onready var spr2 : Sprite2D = $anchor/s2
 @onready var spr_scale : Vector2 = spr1.scale
 @onready var ui : Container = $anchor/unit_ui
-@onready var anim_ctrl : Animation_Controller = $anchor/animation_controller
+@onready var atk_anim_ctrl : Offensive_Animation_Controller = $anchor/atk_anim
+@onready var def_anim_ctrl : Defensive_Animation_Controller = $anchor/def_anim
+
 var stats : Unit_UI_Stats = null
 
 var cubic_movement : Array[Vector3i] = []
@@ -152,85 +127,13 @@ var controller : Player_UI = null
 var cubic : Vector3i
 var to_cube : Vector3i = cubic
 
-var buy_sell : bool = false:
-	set(toggle):
-		buy_sell = toggle
-		buy_sell_mode.emit(buy_sell)
-var held : Map_Cursor = null:
-	set(cursor):
-		held = cursor
-		if map_obj != null:
-			map_obj.held = cursor
-		if cursor == null:
-			outline_size = min(outline_size,outline_width)
-			anchor.position = Vector2(0,0)
-		else:
-			outline_size = outline_width*2
-var walkables : Array = []
-var hovered : bool = false
-func cursor_hover(is_hovered:bool):
-	if hovered and !is_hovered:
-		hovered = false
-	elif !hovered and is_hovered:
-		hovered = true
-	else: #if the hover state isn't being changed
-		return
-	if outline_size <= outline_width:
-		outline_size = int(is_hovered)*outline_width
-	spr1.z_index = 2
-	spr2.z_index = 2
-	ui.z_index = 1
-	if is_hovered:
-		spr1.z_index = 3
-		spr2.z_index = 3
-		ui.z_index = 2
-		ui.popup()
-	elif state > STATES.held:
-		ui.hide()
-	if controller != null:
-		controller.request_highlight(self, is_hovered)
-		unit_hovered.emit(self, is_hovered)
+func animate_push():
+	def_anim_ctrl._setup_defense(Module_Data.DMG_TYPES.untyped, 1)
+	def_anim_ctrl._play()
 
-func cursor_accept():
-	if !locally_owned:
-		return
-	if state == STATES.roller:
-		controller.request_buy(self)
-	elif state == STATES.deploy and !turn_over:
-		controller.request_grab(self)
-	elif state == STATES.held and held != null:
-		if held.cubic == cubic:
-			controller.request_drop(self)
-		elif !bought:
-			bought = controller.request_purchase(self)
-			if !bought:
-				return
-		else:
-			controller.request_move(self)
-
-func cursor_cancel():
-	if !locally_owned:
-		return
-	if state == STATES.held:
-		controller.request_drop(self)
-
-signal attack_anim_started(end_time_msec:int)
-signal attack_anim_complete()
-func animate_attack(wep:Module_Data.Weapon_Data, defense:Array[Unit_Node])->Signal:
-	anim_ctrl.setup_atk(wep, defense)
-	return attack_anim_started
-
-func get_dmg_type(wep:Module_Data.Weapon_Data)->Module_Data.DMG_TYPES:
-	var dmg_type : Module_Data.DMG_TYPES = -2
-	if wep.subtype == "Melee":
-		dmg_type = Module_Data.DMG_TYPES.percussive
-	elif wep.subtype == "Rifle":
-		dmg_type = Module_Data.DMG_TYPES.percussive
-	elif wep.subtype == "Laser" or wep.subtype == "Coil":
-		dmg_type = Module_Data.DMG_TYPES.voltaic
-	elif wep.subtype == "Cannon" or wep.subtype == "Launcher":
-		dmg_type = Module_Data.DMG_TYPES.concussive
-	return dmg_type
+func animate_attack(wep:Module_Data.Weapon_Data, defense:Array[Unit_Node]):
+	atk_anim_ctrl.setup_atk(wep, defense)
+	atk_anim_ctrl._play()
 
 func calc_cubic():
 	cubic_movement.clear()
@@ -245,4 +148,84 @@ func calc_cubic():
 		if mod.push in range(6):
 			cubic_weapons_push[mod.id] = map.oddq_to_cubic( Global.directions_evenx[mod.push], player_num)
 
+func _process(delta):
+	$Label.text = ["Display:-2","Roller:-1","Held:0","Deployed:1","Ready:2"][state+2]
+	$Label.text += str("\n turn over:",map_obj.turn_over,", bought:",map_obj.bought)
+	
+#func _start_turn():
+	#turn_over = false
+	#sprite_tint.a = 0.0
+	#if state == STATES.roller:
+		#refresh_afford()
+#var walkables : Array = []
+#func get_dmg_type(wep:Module_Data.Weapon_Data)->Module_Data.DMG_TYPES:
+	#var dmg_type : Module_Data.DMG_TYPES = -2
+	#if wep.subtype == "Melee":
+		#dmg_type = Module_Data.DMG_TYPES.percussive
+	#elif wep.subtype == "Rifle":
+		#dmg_type = Module_Data.DMG_TYPES.percussive
+	#elif wep.subtype == "Laser" or wep.subtype == "Coil":
+		#dmg_type = Module_Data.DMG_TYPES.voltaic
+	#elif wep.subtype == "Cannon" or wep.subtype == "Launcher":
+		#dmg_type = Module_Data.DMG_TYPES.concussive
+	#return dmg_type
+#var buy_sell : bool = false:
+	#set(toggle):
+		#buy_sell = toggle
+		#buy_sell_mode.emit(buy_sell)
+#var held : Map_Cursor = null:
+	#set(cursor):
+		#held = cursor
+		#if map_obj != null:
+			#map_obj.held = cursor
+		#if cursor == null:
+			#outline_size = min(outline_size,outline_width)
+			#anchor.position = Vector2(0,0)
+		#else:
+			#outline_size = outline_width*2
+#var hovered : bool = false
+#func cursor_hover(is_hovered:bool):
+	#if hovered and !is_hovered:
+		#hovered = false
+	#elif !hovered and is_hovered:
+		#hovered = true
+	#else: #if the hover state isn't being changed
+		#return
+	#if outline_size <= outline_width:
+		#outline_size = int(is_hovered)*outline_width
+	#spr1.z_index = 2
+	#spr2.z_index = 2
+	#ui.z_index = 1
+	#if is_hovered:
+		#spr1.z_index = 3
+		#spr2.z_index = 3
+		#ui.z_index = 2
+		#ui.popup()
+	#elif state > STATES.held:
+		#ui.hide()
+	#if controller != null:
+		#controller.request_highlight(self, is_hovered)
+		#unit_hovered.emit(self, is_hovered)
+#func cursor_accept():
+	#if !locally_owned:
+		#return
+	#if state == STATES.roller:
+		#controller.request_buy(self)
+	#elif state == STATES.deploy and !turn_over:
+		#controller.request_grab(self)
+	#elif state == STATES.held and held != null:
+		#if held.cubic == cubic:
+			#controller.request_drop(self)
+		#elif !bought:
+			#bought = controller.request_purchase(self)
+			#if !bought:
+				#return
+		#else:
+			#controller.request_move(self)
+#
+#func cursor_cancel():
+	#if !locally_owned:
+		#return
+	#if state == STATES.held:
+		#controller.request_drop(self)
 

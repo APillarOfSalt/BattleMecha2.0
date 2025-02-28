@@ -25,7 +25,7 @@ mouse_filter = 1
 [node name="def" parent="p" instance=ExtResource("2_61ovy")]
 state = -2
 
-[node name="Label" type="Label" parent="p/def"]
+[node name="Label2" type="Label" parent="p/def"]
 offset_left = -32.0
 offset_top = -44.0
 offset_right = 34.0
@@ -40,7 +40,7 @@ size_flags_vertical = 4
 [node name="atk" parent="p/center" instance=ExtResource("2_61ovy")]
 state = -2
 
-[node name="Label" type="Label" parent="p/center/atk"]
+[node name="Label2" type="Label" parent="p/center/atk"]
 offset_left = -32.0
 offset_top = -44.0
 offset_right = 34.0

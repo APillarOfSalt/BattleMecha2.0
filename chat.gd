@@ -5,8 +5,9 @@ var player_num:int:
 	get:return Global.server_controller.instance_id-1
 var player_name : String = ""
 var player_color : Color = Color.WHITE
-
+@export var hide_title : bool = false
 func _ready():
+	$title.visible = !hide_title
 	$disp/list/START.text = str(Time.get_ticks_msec())
 @onready var list : Container = $disp/list
 @onready var edit : TextEdit = $h/TextEdit

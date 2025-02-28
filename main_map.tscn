@@ -12,7 +12,7 @@
 [ext_resource type="Script" path="res://attack_queue.gd" id="8_kf8ph"]
 [ext_resource type="Script" path="res://combat_manager.gd" id="8_n664b"]
 [ext_resource type="Script" path="res://combat_push_controller.gd" id="10_1jicj"]
-[ext_resource type="Script" path="res://combat_sniffer.gd" id="10_nk03j"]
+[ext_resource type="PackedScene" uid="uid://28reccnlibjq" path="res://chat.tscn" id="14_04wrg"]
 [ext_resource type="PackedScene" uid="uid://bppl1kfsjvbl2" path="res://end_screen.tscn" id="14_wkf65"]
 
 [node name="Node" type="Node"]
@@ -24,15 +24,18 @@ position = Vector2(256, 243)
 tile_set = ExtResource("3_a1jsy")
 format = 2
 layer_0/name = "main"
+layer_0/z_index = -1
 layer_0/tile_data = PackedInt32Array(131072, 65536, 65536, 1, 65536, 327680, 65537, 65536, 65536, 131073, 65536, 65536, 2, 65536, 196608, 196608, 65536, 65536, -1, 65536, 131072, 0, 65536, 524288, -131074, 65536, 131072, -65538, 65536, 131072, -2, 65536, 131072, -3, 65536, 131072, 65532, 65536, 131072, -5, 0, 131072, -4, 65536, 131072, -65539, 65536, 131072, -131075, 65536, 131072, -196611, 0, 131072, -65540, 0, 131072, -196608, 65536, 262144, -131072, 65536, 262144, -65536, 65536, 262144, -65535, 65536, 196608, -65533, 65536, 196608, -65534, 65536, 196608, -131071, 65536, 196608, -196607, 65536, 196608, -262143, 65536, 196608, -196606, 65536, 196608, -131070, 65536, 196608, -131069, 65536, 196608, 131069, 65536, 393216, 131070, 65536, 393216, 65535, 65536, 393216, 65536, 65536, 65536, 131071, 65536, 65536, 196606, 65536, 65536, 196605, 65536, 65536, 262142, 65536, 65536, 196607, 65536, 65536, 131074, 65536, 65536, 3, 65536, 196608, 65538, 65536, 327680, 65539, 65536, 327680, 327678, 0, 65536, 262144, 0, 65536, 262146, 0, 65536, -262141, 0, 196608, -131068, 0, 196608, -65531, 0, 196608, -196605, 65536, 196608, -65532, 65536, 196608, 4, 65536, 196608, 65540, 65536, 196608, 131075, 65536, 65536, 196610, 65536, 65536, 196609, 65536, 65536, 262143, 65536, 65536, 65534, 65536, 131072, 65533, 65536, 131072, 131068, 65536, 131072, -65537, 65536, 131072, -131073, 65536, 131072, -196609, 65536, 131072, 327679, 0, 262144, 327680, 0, 262144, 262145, 0, 262144, -65541, 0, 327680, -131077, 0, 327680, -131076, 0, 327680, -196604, 0, 393216, -196603, 0, 393216, -131067, 0, 393216)
 layer_1/name = "highlight"
 layer_1/modulate = Color(1, 1, 1, 0.513726)
 layer_1/tile_data = PackedInt32Array()
 layer_2/name = "cursor"
 layer_2/modulate = Color(1, 1, 1, 0.227451)
+layer_2/z_index = 1
 layer_2/tile_data = PackedInt32Array()
 layer_3/name = "atk_preview"
 layer_3/modulate = Color(1, 0, 0, 0.392157)
+layer_3/z_index = 1
 layer_3/tile_data = PackedInt32Array()
 script = ExtResource("4_3rr6f")
 
@@ -48,16 +51,19 @@ script = ExtResource("5_ddrtc")
 turn_tracker = NodePath("../../combat_manager/turn_tracker")
 obj_ctrl = NodePath("../obj_controller")
 
-[node name="trash0" parent="map" node_paths=PackedStringArray("cursor") instance=ExtResource("6_uvass")]
+[node name="trash0" parent="map" node_paths=PackedStringArray("turntracker", "cursor") instance=ExtResource("6_uvass")]
 position = Vector2(-16, 320)
+turntracker = NodePath("../../combat_manager/turn_tracker")
 cursor = NodePath("../map_cursor")
 
-[node name="trash1" parent="map" node_paths=PackedStringArray("cursor") instance=ExtResource("6_uvass")]
+[node name="trash1" parent="map" node_paths=PackedStringArray("turntracker", "cursor") instance=ExtResource("6_uvass")]
+turntracker = NodePath("../../combat_manager/turn_tracker")
 cursor = NodePath("../map_cursor")
 index = 1
 
-[node name="trash2" parent="map" node_paths=PackedStringArray("cursor") instance=ExtResource("6_uvass")]
+[node name="trash2" parent="map" node_paths=PackedStringArray("turntracker", "cursor") instance=ExtResource("6_uvass")]
 position = Vector2(80, 320)
+turntracker = NodePath("../../combat_manager/turn_tracker")
 cursor = NodePath("../map_cursor")
 index = 2
 
@@ -77,25 +83,7 @@ layer_1/tile_data = PackedInt32Array()
 script = ExtResource("8_1dhj1")
 obj_ctrl = NodePath("../obj_controller")
 
-[node name="sniffer" type="TileMap" parent="map" node_paths=PackedStringArray("obj_ctrl", "turn_tracker")]
-modulate = Color(1, 1, 1, 0.486275)
-z_index = 4
-z_as_relative = false
-tile_set = ExtResource("3_a1jsy")
-format = 2
-layer_0/name = "test"
-layer_0/modulate = Color(1, 0.505882, 0, 1)
-layer_0/z_index = 1
-layer_0/navigation_enabled = false
-layer_1/name = "confirm"
-layer_1/modulate = Color(1, 0, 0, 1)
-layer_1/navigation_enabled = false
-layer_1/tile_data = PackedInt32Array()
-script = ExtResource("10_nk03j")
-obj_ctrl = NodePath("../obj_controller")
-turn_tracker = NodePath("../../combat_manager/turn_tracker")
-
-[node name="combat_manager" type="MarginContainer" parent="." node_paths=PackedStringArray("map", "obj_ctrl", "sniffer")]
+[node name="combat_manager" type="MarginContainer" parent="." node_paths=PackedStringArray("map", "obj_ctrl")]
 z_index = 4
 anchors_preset = 15
 anchor_right = 1.0
@@ -105,7 +93,6 @@ grow_vertical = 2
 script = ExtResource("8_n664b")
 map = NodePath("../map")
 obj_ctrl = NodePath("../map/obj_controller")
-sniffer = NodePath("../map/sniffer")
 
 [node name="turn_tracker" parent="combat_manager" instance=ExtResource("8_2j528")]
 custom_minimum_size = Vector2(576, 536)
@@ -132,6 +119,7 @@ text = "Game Info"
 horizontal_alignment = 1
 
 [node name="players" type="HBoxContainer" parent="combat_manager/v"]
+custom_minimum_size = Vector2(0, 306)
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 0
@@ -150,19 +138,28 @@ layout_mode = 2
 text = "Remaining Attacks"
 horizontal_alignment = 1
 
-[node name="combat_queue" type="HBoxContainer" parent="combat_manager/v" node_paths=PackedStringArray("map", "obj_ctrl", "turn_tracker", "sniffer")]
+[node name="m" type="MarginContainer" parent="combat_manager/v"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="combat_queue" type="HBoxContainer" parent="combat_manager/v/m" node_paths=PackedStringArray("map", "obj_ctrl", "turn_tracker")]
 layout_mode = 2
 mouse_filter = 2
 script = ExtResource("8_kf8ph")
-map = NodePath("../../../map")
-obj_ctrl = NodePath("../../../map/obj_controller")
-turn_tracker = NodePath("../../turn_tracker")
-sniffer = NodePath("../../../map/sniffer")
-
-[node name="push_controller" type="Node" parent="combat_manager/v/combat_queue" node_paths=PackedStringArray("map", "obj_ctrl")]
-script = ExtResource("10_1jicj")
 map = NodePath("../../../../map")
 obj_ctrl = NodePath("../../../../map/obj_controller")
+turn_tracker = NodePath("../../../turn_tracker")
+
+[node name="push_controller" type="Node" parent="combat_manager/v/m/combat_queue" node_paths=PackedStringArray("map", "obj_ctrl")]
+script = ExtResource("10_1jicj")
+map = NodePath("../../../../../map")
+obj_ctrl = NodePath("../../../../../map/obj_controller")
+
+[node name="chat" parent="combat_manager/v/m" instance=ExtResource("14_04wrg")]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+hide_title = true
 
 [node name="end_screen" parent="combat_manager" instance=ExtResource("14_wkf65")]
 visible = false
@@ -173,5 +170,4 @@ layout_mode = 2
 [connection signal="out_of_units" from="map/obj_controller" to="." method="_on_obj_controller_out_of_units"]
 [connection signal="finished" from="map/scoring" to="." method="_on_scoring_finished"]
 [connection signal="give_points_to" from="map/scoring" to="." method="_on_scoring_give_points_to"]
-[connection signal="on_search_complete" from="map/sniffer" to="combat_manager" method="_on_sniffer_on_search_complete"]
-[connection signal="attacks_complete" from="combat_manager/v/combat_queue" to="combat_manager" method="_on_combat_queue_attacks_complete"]
+[connection signal="attacks_complete" from="combat_manager/v/m/combat_queue" to="combat_manager" method="_on_combat_queue_attacks_complete"]

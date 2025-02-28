@@ -73,6 +73,17 @@ class Weapon_Data:
 			abilities.append(i.strip_edges())
 	func _duplicate()->Weapon_Data:
 		return Weapon_Data.new(_to_dictionary())
+	func get_dmg_type()->DMG_TYPES:
+		var dmg_type : DMG_TYPES = -2
+		if subtype == "Melee":
+			dmg_type = DMG_TYPES.percussive
+		elif subtype == "Rifle":
+			dmg_type = DMG_TYPES.percussive
+		elif subtype == "Laser" or subtype == "Coil":
+			dmg_type = DMG_TYPES.voltaic
+		elif subtype == "Cannon" or subtype == "Launcher":
+			dmg_type = DMG_TYPES.concussive
+		return dmg_type
 class Shield_Data:
 	extends Module_Data
 	var start : int

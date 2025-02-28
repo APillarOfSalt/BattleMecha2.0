@@ -2,10 +2,9 @@ extends PanelContainer
 
 @export var obj_ctrl : Object_Controller = null
 
-signal animation_finished()
+signal animation_finished(nd:Container)
 func is_anim_playing()->bool:
 	return anim_playing > -1
-
 @onready var a_spr : Sprite2D = $m/h/a/center/Sprite2D
 var a_unit : Unit_Node = null
 var a_weapon : Module_Data.Weapon_Data = null
@@ -16,6 +15,7 @@ var b_weapon : Module_Data.Weapon_Data = null
 var c_unit : Unit_Node = null
 var c_weapon : Module_Data.Weapon_Data = null
 
+var push_only : bool = false
 func setup(a:Unit_Node, a_wep:Module_Data, b:Unit_Node, b_wep:Module_Data,c:Unit_Node,c_wep:Module_Data):
 	a_unit = a
 	a_spr.frame_coords = a_unit.unit_data.atlas
@@ -26,26 +26,21 @@ func setup(a:Unit_Node, a_wep:Module_Data, b:Unit_Node, b_wep:Module_Data,c:Unit
 	c_unit = c
 	c_spr.frame_coords = c_unit.unit_data.atlas
 	c_weapon = c_wep
+	push_only = a_weapon == null and b_weapon == null and c_weapon == null
 
 func play():
-	if a_weapon == null:
-		a_unit.anim_ctrl.finished_defense.connect(_on_anim_complete)
-	else:
-		a_unit.anim_ctrl.finished.connect(_on_anim_complete)
-	if b_weapon == null:
-		b_unit.anim_ctrl.finished_defense.connect(_on_anim_complete)
-	else:
-		b_unit.anim_ctrl.finished.connect(_on_anim_complete)
-	if c_weapon == null:
-		c_unit.anim_ctrl.finished_defense.connect(_on_anim_complete)
-	else:
-		c_unit.anim_ctrl.finished.connect(_on_anim_complete)
-	a_unit.animate_attack(a_weapon, [b_unit,c_unit])
-	b_unit.animate_attack(b_weapon, [a_unit,c_unit])
-	c_unit.animate_attack(c_weapon, [a_unit,b_unit])
-	a_unit.anim_ctrl._play()
-	b_unit.anim_ctrl._play()
-	c_unit.anim_ctrl._play()
+	var units : Array = get_nodes()
+	for i in 3:
+		var unit : Unit_Node = units[i]
+		var wep : Module_Data.Weapon_Data = [a_weapon, b_weapon, c_weapon][i]
+		if wep == null:
+			unit.def_anim_ctrl.finished.connect(_on_anim_complete)
+			if push_only:
+				unit.animate_push()
+		else:
+			unit.atk_anim_ctrl.finished.connect(_on_anim_complete)
+			var others : Array[Unit_Node] = [units[(i+1)%3],units[(i+2)%3]]
+			unit.animate_attack(wep, others)
 	anim_playing = 0
 
 var anim_playing : int = -1
@@ -56,7 +51,7 @@ func _on_anim_complete():
 	if anim_playing >= 3:
 		anim_playing = -1
 		await Global.create_wait_timer()
-		animation_finished.emit()
+		animation_finished.emit(self)
 
 func get_nodes()->Array[Unit_Node]:
 	return [a_unit, b_unit, c_unit]
