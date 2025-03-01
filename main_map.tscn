@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://bt6uanrmhqtwm"]
+[gd_scene load_steps=16 format=3 uid="uid://bt6uanrmhqtwm"]
 
 [ext_resource type="Script" path="res://scenes/main_map/main_multiplayer_manager.gd" id="1_4qvhw"]
 [ext_resource type="TileSet" uid="uid://cc3shgi4yyt5c" path="res://main_map_tileset.tres" id="3_a1jsy"]
@@ -14,6 +14,7 @@
 [ext_resource type="Script" path="res://combat_push_controller.gd" id="10_1jicj"]
 [ext_resource type="PackedScene" uid="uid://28reccnlibjq" path="res://chat.tscn" id="14_04wrg"]
 [ext_resource type="PackedScene" uid="uid://bppl1kfsjvbl2" path="res://end_screen.tscn" id="14_wkf65"]
+[ext_resource type="PackedScene" uid="uid://bkjmjh0f171yy" path="res://unit_inspector.tscn" id="15_8ny8i"]
 
 [node name="Node" type="Node"]
 script = ExtResource("1_4qvhw")
@@ -124,36 +125,45 @@ layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 0
 
-[node name="title2" type="PanelContainer" parent="combat_manager/v"]
-layout_mode = 2
-size_flags_vertical = 8
-mouse_filter = 2
-
-[node name="m" type="MarginContainer" parent="combat_manager/v/title2"]
-layout_mode = 2
-mouse_filter = 2
-
-[node name="Label" type="Label" parent="combat_manager/v/title2/m"]
-layout_mode = 2
-text = "Remaining Attacks"
-horizontal_alignment = 1
-
 [node name="m" type="MarginContainer" parent="combat_manager/v"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="combat_queue" type="HBoxContainer" parent="combat_manager/v/m" node_paths=PackedStringArray("map", "obj_ctrl", "turn_tracker")]
+[node name="atks" type="VBoxContainer" parent="combat_manager/v/m"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="subtitle" type="PanelContainer" parent="combat_manager/v/m/atks"]
+layout_mode = 2
+size_flags_vertical = 8
+mouse_filter = 2
+
+[node name="m" type="MarginContainer" parent="combat_manager/v/m/atks/subtitle"]
 layout_mode = 2
 mouse_filter = 2
-script = ExtResource("8_kf8ph")
-map = NodePath("../../../../map")
-obj_ctrl = NodePath("../../../../map/obj_controller")
-turn_tracker = NodePath("../../../turn_tracker")
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
 
-[node name="push_controller" type="Node" parent="combat_manager/v/m/combat_queue" node_paths=PackedStringArray("map", "obj_ctrl")]
-script = ExtResource("10_1jicj")
+[node name="Label" type="Label" parent="combat_manager/v/m/atks/subtitle/m"]
+layout_mode = 2
+text = "Remaining Attacks"
+horizontal_alignment = 1
+
+[node name="combat_queue" type="HBoxContainer" parent="combat_manager/v/m/atks" node_paths=PackedStringArray("map", "obj_ctrl", "turn_tracker")]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+script = ExtResource("8_kf8ph")
 map = NodePath("../../../../../map")
 obj_ctrl = NodePath("../../../../../map/obj_controller")
+turn_tracker = NodePath("../../../../turn_tracker")
+
+[node name="push_controller" type="Node" parent="combat_manager/v/m/atks/combat_queue" node_paths=PackedStringArray("map", "obj_ctrl")]
+script = ExtResource("10_1jicj")
+map = NodePath("../../../../../../map")
+obj_ctrl = NodePath("../../../../../../map/obj_controller")
 
 [node name="chat" parent="combat_manager/v/m" instance=ExtResource("14_04wrg")]
 custom_minimum_size = Vector2(400, 0)
@@ -165,9 +175,13 @@ hide_title = true
 visible = false
 layout_mode = 2
 
+[node name="unit_inspector" parent="combat_manager" instance=ExtResource("15_8ny8i")]
+layout_mode = 2
+
 [connection signal="combat_move_finished" from="map/obj_controller" to="." method="_on_obj_controller_combat_move_finished"]
 [connection signal="move_phase_finished" from="map/obj_controller" to="." method="_on_obj_controller_move_phase_finished"]
 [connection signal="out_of_units" from="map/obj_controller" to="." method="_on_obj_controller_out_of_units"]
+[connection signal="new_top_hover" from="map/map_cursor" to="combat_manager/unit_inspector" method="_on_map_cursor_new_top_hover"]
 [connection signal="finished" from="map/scoring" to="." method="_on_scoring_finished"]
 [connection signal="give_points_to" from="map/scoring" to="." method="_on_scoring_give_points_to"]
-[connection signal="attacks_complete" from="combat_manager/v/m/combat_queue" to="combat_manager" method="_on_combat_queue_attacks_complete"]
+[connection signal="attacks_complete" from="combat_manager/v/m/atks/combat_queue" to="combat_manager" method="_on_combat_queue_attacks_complete"]

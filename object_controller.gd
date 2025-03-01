@@ -20,12 +20,6 @@ func start_round():
 			return
 		await Global.create_wait_timer(0.5)
 
-func get_all_local_roller_objs()->Array[Map_Object]:
-	var objs : Array[Map_Object] = []
-	for obj in local_objs:
-		if obj.unit.state == obj.unit.STATES.roller:
-			objs.append(obj)
-	return objs
 @rpc("authority", "call_local", "reliable")
 func tuck_rollers():
 	print("tucking rollers; p_num:", local_player)
@@ -271,7 +265,19 @@ func get_obj_tiles()->Dictionary:
 		obj_tiles[obj.to_pos].append(obj.id)
 	return obj_tiles
 
+func get_all_local_roller_objs()->Array[Map_Object]:
+	var objs : Array[Map_Object] = []
+	for obj in local_objs:
+		if obj.unit.state == obj.unit.STATES.roller:
+			objs.append(obj)
+	return objs
 
+func get_all_roller_objs()->Array[Map_Object]:
+	var objs : Array[Map_Object] = []
+	for obj in all_objects.values():
+		if obj.unit.state == obj.unit.STATES.roller:
+			objs.append(obj)
+	return objs
 
 
 

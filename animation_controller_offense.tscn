@@ -242,6 +242,7 @@ vframes = 9
 frame = 41
 
 [node name="missile_smoke1" type="Sprite2D" parent="from/rotation/emission"]
+visible = false
 position = Vector2(-40, -8)
 rotation = -1.91986
 texture = ExtResource("26_l84la")

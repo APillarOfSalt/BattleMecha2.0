@@ -321,16 +321,19 @@ script = ExtResource("6_egcd1")
 layout_mode = 2
 size_flags_horizontal = 6
 show_local_sprite = true
+do_setup = true
 
 [node name="unit1" parent="units" instance=ExtResource("6_phubt")]
 layout_mode = 2
 size_flags_horizontal = 6
 show_local_sprite = true
+do_setup = true
 
 [node name="unit2" parent="units" instance=ExtResource("6_phubt")]
 layout_mode = 2
 size_flags_horizontal = 6
 show_local_sprite = true
+do_setup = true
 
 [node name="r" type="HSeparator" parent="."]
 layout_mode = 2

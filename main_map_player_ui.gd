@@ -17,7 +17,7 @@ func gain_points(val:int):
 func start_round():
 	actions.reset_actions()
 	end_turn_node._reset()
-	for obj:Map_Object in obj_ctrl.get_all_local_roller_objs():
+	for obj:Map_Object in obj_ctrl.get_all_roller_objs():
 		obj._start_turn()
 func end_action_phase():
 	end_turn_node._set_butt_mouse_off()

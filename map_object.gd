@@ -13,6 +13,7 @@ func glo_pos_from_cube(cube:Vector3i)->Vector2:
 
 func _start_turn():
 	turn_over = false
+	unit.stats._start_turn()
 
 
 var turn_over : bool = false:

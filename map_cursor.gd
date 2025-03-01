@@ -1,6 +1,7 @@
 extends Sprite2D
 class_name Map_Cursor
 
+signal new_top_hover(obj:Map_Object)
 signal moved()
 
 var local_ui : Player_UI = null
@@ -24,8 +25,6 @@ var map_pos : Vector2i:
 		map_pos = pos
 		do_highlight(true)
 		moved.emit()
-		if !get_can_act():
-			return
 		hover()
 var cubic : Vector3i:
 	get: return map.oddq_to_cubic(map_pos)
@@ -99,6 +98,8 @@ func hover():
 			new_hovers.append(obj)
 			obj.cursor.cursor_hover(true)
 	hovering_objs = new_hovers
+	if new_hovers.size():
+		new_top_hover.emit(new_hovers.front())
 
 
 var highlighting_tiles : Array[Vector3i] = []

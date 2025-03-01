@@ -1,121 +1,617 @@
-[gd_scene load_steps=8 format=3 uid="uid://coukqm0vo3xxs"]
+[gd_scene load_steps=10 format=3 uid="uid://coukqm0vo3xxs"]
 
 [ext_resource type="Script" path="res://ui_stats.gd" id="1_0exrl"]
-[ext_resource type="Texture2D" uid="uid://bvwrdwi01cys0" path="res://assets/hp.png" id="2_1wdwy"]
-[ext_resource type="Texture2D" uid="uid://3ia5kk14bm56" path="res://assets/bolt-shield.png" id="3_2otxn"]
+[ext_resource type="Script" path="res://stats_armor.gd" id="4_eqs3k"]
 [ext_resource type="Texture2D" uid="uid://daajittfhy2md" path="res://assets/shoulder-armor.png" id="4_gxtlw"]
-[ext_resource type="Texture2D" uid="uid://cgnnrtdscueqt" path="res://assets/spd.png" id="5_xbdpc"]
-[ext_resource type="PackedScene" uid="uid://cgwynd74pvifa" path="res://tiny_num_disp.tscn" id="6_02d6n"]
-[ext_resource type="PackedScene" uid="uid://b2vo0conepdtn" path="res://assets/movement_display.tscn" id="6_cihl1"]
+[ext_resource type="Script" path="res://stats_shield.gd" id="6_l1gf4"]
+[ext_resource type="Texture2D" uid="uid://cn4rshspf2yy6" path="res://assets/shield_4_16.png" id="7_d1etx"]
+[ext_resource type="Texture2D" uid="uid://cmhrwsq2tj1cq" path="res://assets/shield_all_16.png" id="8_5pnq1"]
+[ext_resource type="Script" path="res://stats_hp.gd" id="8_pceif"]
+[ext_resource type="Texture2D" uid="uid://d2xaqv02kpvao" path="res://assets/heart.png" id="9_5g78m"]
+[ext_resource type="Texture2D" uid="uid://dlc173opy3pbh" path="res://assets/shield_regen_16.png" id="9_e0wmn"]
 
-[node name="stats" type="GridContainer"]
+[node name="stats" type="HBoxContainer"]
 custom_minimum_size = Vector2(70, 0)
 offset_right = 70.0
 offset_bottom = 33.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 mouse_filter = 2
-theme_override_constants/h_separation = 0
-theme_override_constants/v_separation = 1
-columns = 4
+theme_override_constants/separation = 0
 script = ExtResource("1_0exrl")
 
-[node name="hp" type="PanelContainer" parent="."]
-custom_minimum_size = Vector2(17, 17)
+[node name="hp" type="MarginContainer" parent="."]
+custom_minimum_size = Vector2(18, 18)
 layout_mode = 2
-mouse_filter = 2
+size_flags_horizontal = 0
+script = ExtResource("8_pceif")
 
-[node name="m" type="MarginContainer" parent="hp"]
+[node name="bg" type="VBoxContainer" parent="hp"]
+modulate = Color(0.0846899, 0.0846899, 0.0846899, 1)
 layout_mode = 2
-mouse_filter = 2
-theme_override_constants/margin_left = 2
-theme_override_constants/margin_top = 2
-theme_override_constants/margin_right = 2
-theme_override_constants/margin_bottom = 2
+theme_override_constants/separation = -1
 
-[node name="tex" type="TextureRect" parent="hp/m"]
-modulate = Color(1, 0.286275, 0.313726, 1)
+[node name="hp0" type="Control" parent="hp/bg"]
+custom_minimum_size = Vector2(0, 18)
 layout_mode = 2
-mouse_filter = 2
-texture = ExtResource("2_1wdwy")
-expand_mode = 3
-stretch_mode = 4
 
-[node name="armor" type="PanelContainer" parent="."]
-custom_minimum_size = Vector2(17, 0)
+[node name="spr" type="Sprite2D" parent="hp/bg/hp0"]
+position = Vector2(1, 1)
+texture = ExtResource("9_5g78m")
+centered = false
+hframes = 2
+vframes = 2
+
+[node name="hp1" type="Control" parent="hp/bg"]
+custom_minimum_size = Vector2(0, 18)
 layout_mode = 2
-mouse_filter = 2
 
-[node name="m" type="MarginContainer" parent="armor"]
+[node name="spr" type="Sprite2D" parent="hp/bg/hp1"]
+position = Vector2(1, 1)
+texture = ExtResource("9_5g78m")
+centered = false
+hframes = 2
+vframes = 2
+
+[node name="hp2" type="Control" parent="hp/bg"]
+custom_minimum_size = Vector2(0, 18)
 layout_mode = 2
-mouse_filter = 2
-theme_override_constants/margin_left = 2
-theme_override_constants/margin_top = 2
-theme_override_constants/margin_right = 2
-theme_override_constants/margin_bottom = 2
 
-[node name="tex" type="TextureRect" parent="armor/m"]
-modulate = Color(0.34902, 0.615686, 0.792157, 1)
+[node name="spr" type="Sprite2D" parent="hp/bg/hp2"]
+position = Vector2(1, 1)
+texture = ExtResource("9_5g78m")
+centered = false
+hframes = 2
+vframes = 2
+
+[node name="hp3" type="Control" parent="hp/bg"]
+custom_minimum_size = Vector2(0, 18)
 layout_mode = 2
-mouse_filter = 2
-texture = ExtResource("4_gxtlw")
-expand_mode = 3
-stretch_mode = 5
 
-[node name="shield" type="PanelContainer" parent="."]
-custom_minimum_size = Vector2(17, 0)
+[node name="spr" type="Sprite2D" parent="hp/bg/hp3"]
+position = Vector2(1, 1)
+texture = ExtResource("9_5g78m")
+centered = false
+hframes = 2
+vframes = 2
+
+[node name="hp0" type="VBoxContainer" parent="hp"]
+modulate = Color(1, 0.2, 0.305882, 1)
+layout_mode = 2
+theme_override_constants/separation = -1
+
+[node name="1_4" type="Control" parent="hp/hp0"]
+custom_minimum_size = Vector2(0, 18)
+layout_mode = 2
+
+[node name="spr" type="Sprite2D" parent="hp/hp0/1_4"]
+position = Vector2(1, 1)
+texture = ExtResource("9_5g78m")
+centered = false
+hframes = 2
+vframes = 2
+
+[node name="5_8" type="Control" parent="hp/hp0"]
+custom_minimum_size = Vector2(0, 18)
+layout_mode = 2
+
+[node name="spr" type="Sprite2D" parent="hp/hp0/5_8"]
+position = Vector2(1, 1)
+texture = ExtResource("9_5g78m")
+centered = false
+hframes = 2
+vframes = 2
+
+[node name="9_12" type="Control" parent="hp/hp0"]
+custom_minimum_size = Vector2(0, 18)
+layout_mode = 2
+
+[node name="spr" type="Sprite2D" parent="hp/hp0/9_12"]
+position = Vector2(1, 1)
+texture = ExtResource("9_5g78m")
+centered = false
+hframes = 2
+vframes = 2
+
+[node name="13_16" type="Control" parent="hp/hp0"]
+custom_minimum_size = Vector2(0, 18)
+layout_mode = 2
+
+[node name="spr" type="Sprite2D" parent="hp/hp0/13_16"]
+position = Vector2(1, 1)
+texture = ExtResource("9_5g78m")
+centered = false
+hframes = 2
+vframes = 2
+
+[node name="hp1" type="VBoxContainer" parent="hp"]
+modulate = Color(1, 0.909804, 0.54902, 0.784314)
+layout_mode = 2
+theme_override_constants/separation = -1
+
+[node name="17_20" type="Control" parent="hp/hp1"]
+custom_minimum_size = Vector2(0, 18)
+layout_mode = 2
+
+[node name="spr" type="Sprite2D" parent="hp/hp1/17_20"]
+position = Vector2(1, 1)
+texture = ExtResource("9_5g78m")
+centered = false
+hframes = 2
+vframes = 2
+
+[node name="21_24" type="Control" parent="hp/hp1"]
+custom_minimum_size = Vector2(0, 18)
+layout_mode = 2
+
+[node name="spr" type="Sprite2D" parent="hp/hp1/21_24"]
+position = Vector2(1, 1)
+texture = ExtResource("9_5g78m")
+centered = false
+hframes = 2
+vframes = 2
+
+[node name="25_28" type="Control" parent="hp/hp1"]
+custom_minimum_size = Vector2(0, 18)
+layout_mode = 2
+
+[node name="spr" type="Sprite2D" parent="hp/hp1/25_28"]
+position = Vector2(1, 1)
+texture = ExtResource("9_5g78m")
+centered = false
+hframes = 2
+vframes = 2
+
+[node name="29_32" type="Control" parent="hp/hp1"]
+custom_minimum_size = Vector2(0, 18)
+layout_mode = 2
+
+[node name="spr" type="Sprite2D" parent="hp/hp1/29_32"]
+position = Vector2(1, 1)
+texture = ExtResource("9_5g78m")
+centered = false
+hframes = 2
+vframes = 2
+
+[node name="armor" type="MarginContainer" parent="."]
 layout_mode = 2
 size_flags_horizontal = 3
-mouse_filter = 2
+size_flags_vertical = 8
+script = ExtResource("4_eqs3k")
 
-[node name="m" type="MarginContainer" parent="shield"]
+[node name="bg" type="HBoxContainer" parent="armor"]
+modulate = Color(0.498039, 0.768627, 0.831373, 1)
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
-mouse_filter = 2
-theme_override_constants/margin_left = 2
-theme_override_constants/margin_top = 2
-theme_override_constants/margin_right = 2
-theme_override_constants/margin_bottom = 2
+size_flags_horizontal = 9
+theme_override_constants/separation = -7
+alignment = 1
 
-[node name="tex" type="TextureRect" parent="shield/m"]
-modulate = Color(0.760784, 0.764706, 0.156863, 1)
-layout_mode = 2
-mouse_filter = 2
-texture = ExtResource("3_2otxn")
-expand_mode = 3
-stretch_mode = 5
-
-[node name="speed" type="PanelContainer" parent="."]
-custom_minimum_size = Vector2(17, 0)
-layout_mode = 2
-mouse_filter = 2
-
-[node name="m" type="MarginContainer" parent="speed"]
-layout_mode = 2
-mouse_filter = 2
-theme_override_constants/margin_left = 2
-theme_override_constants/margin_top = 2
-theme_override_constants/margin_right = 2
-theme_override_constants/margin_bottom = 2
-
-[node name="tex" type="TextureRect" parent="speed/m"]
-modulate = Color(0, 0.870588, 0.435294, 1)
-layout_mode = 2
-mouse_filter = 2
-texture = ExtResource("5_xbdpc")
-expand_mode = 3
-stretch_mode = 5
-
-[node name="hp_num" parent="." instance=ExtResource("6_02d6n")]
+[node name="m0" type="MarginContainer" parent="armor/bg"]
+custom_minimum_size = Vector2(16, 0)
 layout_mode = 2
 
-[node name="armor_num" parent="." instance=ExtResource("6_02d6n")]
-layout_mode = 2
-
-[node name="shield_num" parent="." instance=ExtResource("6_02d6n")]
-layout_mode = 2
-size_flags_horizontal = 6
-
-[node name="movement_display" parent="." instance=ExtResource("6_cihl1")]
+[node name="rect" type="TextureRect" parent="armor/bg/m0"]
+custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 size_flags_horizontal = 4
+size_flags_vertical = 0
+texture = ExtResource("4_gxtlw")
+expand_mode = 4
+stretch_mode = 4
+
+[node name="m1" type="MarginContainer" parent="armor/bg"]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
 size_flags_vertical = 8
+
+[node name="rect" type="TextureRect" parent="armor/bg/m1"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+texture = ExtResource("4_gxtlw")
+expand_mode = 4
+stretch_mode = 4
+
+[node name="m2" type="MarginContainer" parent="armor/bg"]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+
+[node name="rect" type="TextureRect" parent="armor/bg/m2"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+texture = ExtResource("4_gxtlw")
+expand_mode = 4
+stretch_mode = 4
+
+[node name="mg" type="HBoxContainer" parent="armor"]
+modulate = Color(1, 0.909804, 0.772549, 0.784314)
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+size_flags_horizontal = 9
+theme_override_constants/separation = -7
+alignment = 1
+
+[node name="m0" type="MarginContainer" parent="armor/mg"]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+
+[node name="rect" type="TextureRect" parent="armor/mg/m0"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+texture = ExtResource("4_gxtlw")
+expand_mode = 4
+stretch_mode = 4
+
+[node name="m1" type="MarginContainer" parent="armor/mg"]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="rect" type="TextureRect" parent="armor/mg/m1"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+texture = ExtResource("4_gxtlw")
+expand_mode = 4
+stretch_mode = 4
+
+[node name="m2" type="MarginContainer" parent="armor/mg"]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+
+[node name="rect" type="TextureRect" parent="armor/mg/m2"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+texture = ExtResource("4_gxtlw")
+expand_mode = 4
+stretch_mode = 4
+
+[node name="fg" type="HBoxContainer" parent="armor"]
+modulate = Color(1, 0.909804, 0.54902, 0.784314)
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+size_flags_horizontal = 9
+theme_override_constants/separation = -7
+alignment = 1
+
+[node name="m0" type="MarginContainer" parent="armor/fg"]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+
+[node name="rect" type="TextureRect" parent="armor/fg/m0"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+texture = ExtResource("4_gxtlw")
+expand_mode = 4
+stretch_mode = 4
+
+[node name="m1" type="MarginContainer" parent="armor/fg"]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="rect" type="TextureRect" parent="armor/fg/m1"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+texture = ExtResource("4_gxtlw")
+expand_mode = 4
+stretch_mode = 4
+
+[node name="m2" type="MarginContainer" parent="armor/fg"]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+
+[node name="rect" type="TextureRect" parent="armor/fg/m2"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+texture = ExtResource("4_gxtlw")
+expand_mode = 4
+stretch_mode = 4
+
+[node name="shield" type="MarginContainer" parent="."]
+custom_minimum_size = Vector2(18, 18)
+layout_mode = 2
+size_flags_horizontal = 0
+script = ExtResource("6_l1gf4")
+
+[node name="bg0" type="VBoxContainer" parent="shield"]
+modulate = Color(0.47, 0.47, 0.47, 1)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = -2
+
+[node name="a0" type="TextureRect" parent="shield/bg0"]
+custom_minimum_size = Vector2(16, 18)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("7_d1etx")
+expand_mode = 4
+stretch_mode = 5
+
+[node name="a1" type="TextureRect" parent="shield/bg0"]
+custom_minimum_size = Vector2(16, 18)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("7_d1etx")
+expand_mode = 4
+stretch_mode = 5
+
+[node name="a2" type="TextureRect" parent="shield/bg0"]
+custom_minimum_size = Vector2(16, 18)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("7_d1etx")
+expand_mode = 4
+stretch_mode = 5
+
+[node name="a3" type="TextureRect" parent="shield/bg0"]
+custom_minimum_size = Vector2(16, 18)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("7_d1etx")
+expand_mode = 4
+stretch_mode = 5
+
+[node name="bg1" type="VBoxContainer" parent="shield"]
+modulate = Color(0.144063, 0.144063, 0.144063, 1)
+layout_mode = 2
+theme_override_constants/separation = -2
+
+[node name="a" type="Control" parent="shield/bg1"]
+custom_minimum_size = Vector2(0, 18)
+layout_mode = 2
+
+[node name="spr" type="Sprite2D" parent="shield/bg1/a"]
+position = Vector2(1, 1)
+texture = ExtResource("8_5pnq1")
+centered = false
+hframes = 2
+vframes = 2
+
+[node name="b" type="Control" parent="shield/bg1"]
+custom_minimum_size = Vector2(0, 18)
+layout_mode = 2
+
+[node name="spr" type="Sprite2D" parent="shield/bg1/b"]
+position = Vector2(1, 1)
+texture = ExtResource("8_5pnq1")
+centered = false
+hframes = 2
+vframes = 2
+
+[node name="c" type="Control" parent="shield/bg1"]
+custom_minimum_size = Vector2(0, 18)
+layout_mode = 2
+
+[node name="spr" type="Sprite2D" parent="shield/bg1/c"]
+position = Vector2(1, 1)
+texture = ExtResource("8_5pnq1")
+centered = false
+hframes = 2
+vframes = 2
+
+[node name="d" type="Control" parent="shield/bg1"]
+custom_minimum_size = Vector2(0, 18)
+layout_mode = 2
+
+[node name="spr" type="Sprite2D" parent="shield/bg1/d"]
+position = Vector2(1, 1)
+texture = ExtResource("8_5pnq1")
+centered = false
+hframes = 2
+vframes = 2
+
+[node name="regen0" type="VBoxContainer" parent="shield"]
+modulate = Color(0.30705, 0.9, 0.297, 0.705882)
+layout_mode = 2
+theme_override_constants/separation = -2
+
+[node name="a" type="Control" parent="shield/regen0"]
+custom_minimum_size = Vector2(0, 18)
+layout_mode = 2
+
+[node name="spr" type="Sprite2D" parent="shield/regen0/a"]
+position = Vector2(1, 1)
+texture = ExtResource("9_e0wmn")
+centered = false
+hframes = 2
+vframes = 2
+
+[node name="b" type="Control" parent="shield/regen0"]
+custom_minimum_size = Vector2(0, 18)
+layout_mode = 2
+
+[node name="spr" type="Sprite2D" parent="shield/regen0/b"]
+position = Vector2(1, 1)
+texture = ExtResource("9_e0wmn")
+centered = false
+hframes = 2
+vframes = 2
+
+[node name="c" type="Control" parent="shield/regen0"]
+custom_minimum_size = Vector2(0, 18)
+layout_mode = 2
+
+[node name="spr" type="Sprite2D" parent="shield/regen0/c"]
+position = Vector2(1, 1)
+texture = ExtResource("9_e0wmn")
+centered = false
+hframes = 2
+vframes = 2
+
+[node name="d" type="Control" parent="shield/regen0"]
+custom_minimum_size = Vector2(0, 18)
+layout_mode = 2
+
+[node name="spr" type="Sprite2D" parent="shield/regen0/d"]
+position = Vector2(1, 1)
+texture = ExtResource("9_e0wmn")
+centered = false
+hframes = 2
+vframes = 2
+
+[node name="fg0" type="VBoxContainer" parent="shield"]
+modulate = Color(0.2, 1, 0.773333, 1)
+layout_mode = 2
+theme_override_constants/separation = -2
+
+[node name="1_4" type="Control" parent="shield/fg0"]
+custom_minimum_size = Vector2(0, 18)
+layout_mode = 2
+
+[node name="spr" type="Sprite2D" parent="shield/fg0/1_4"]
+position = Vector2(1, 1)
+texture = ExtResource("8_5pnq1")
+centered = false
+hframes = 2
+vframes = 2
+
+[node name="5_8" type="Control" parent="shield/fg0"]
+custom_minimum_size = Vector2(0, 18)
+layout_mode = 2
+
+[node name="spr" type="Sprite2D" parent="shield/fg0/5_8"]
+position = Vector2(1, 1)
+texture = ExtResource("8_5pnq1")
+centered = false
+hframes = 2
+vframes = 2
+
+[node name="9_12" type="Control" parent="shield/fg0"]
+custom_minimum_size = Vector2(0, 18)
+layout_mode = 2
+
+[node name="spr" type="Sprite2D" parent="shield/fg0/9_12"]
+position = Vector2(1, 1)
+texture = ExtResource("8_5pnq1")
+centered = false
+hframes = 2
+vframes = 2
+
+[node name="13_16" type="Control" parent="shield/fg0"]
+custom_minimum_size = Vector2(0, 18)
+layout_mode = 2
+
+[node name="spr" type="Sprite2D" parent="shield/fg0/13_16"]
+position = Vector2(1, 1)
+texture = ExtResource("8_5pnq1")
+centered = false
+hframes = 2
+vframes = 2
+
+[node name="fg1" type="VBoxContainer" parent="shield"]
+modulate = Color(1, 0.909804, 0.54902, 0.784314)
+layout_mode = 2
+theme_override_constants/separation = -2
+
+[node name="17_20" type="Control" parent="shield/fg1"]
+custom_minimum_size = Vector2(0, 18)
+layout_mode = 2
+
+[node name="spr" type="Sprite2D" parent="shield/fg1/17_20"]
+position = Vector2(1, 1)
+texture = ExtResource("8_5pnq1")
+centered = false
+hframes = 2
+vframes = 2
+
+[node name="21_24" type="Control" parent="shield/fg1"]
+custom_minimum_size = Vector2(0, 18)
+layout_mode = 2
+
+[node name="spr" type="Sprite2D" parent="shield/fg1/21_24"]
+position = Vector2(1, 1)
+texture = ExtResource("8_5pnq1")
+centered = false
+hframes = 2
+vframes = 2
+
+[node name="25_28" type="Control" parent="shield/fg1"]
+custom_minimum_size = Vector2(0, 18)
+layout_mode = 2
+
+[node name="spr" type="Sprite2D" parent="shield/fg1/25_28"]
+position = Vector2(1, 1)
+texture = ExtResource("8_5pnq1")
+centered = false
+hframes = 2
+vframes = 2
+
+[node name="29_32" type="Control" parent="shield/fg1"]
+custom_minimum_size = Vector2(0, 18)
+layout_mode = 2
+
+[node name="spr" type="Sprite2D" parent="shield/fg1/29_32"]
+position = Vector2(1, 1)
+texture = ExtResource("8_5pnq1")
+centered = false
+hframes = 2
+vframes = 2
+
+[node name="regen1" type="VBoxContainer" parent="shield"]
+modulate = Color(0.305882, 0.901961, 0.298039, 0.705882)
+layout_mode = 2
+theme_override_constants/separation = -2
+
+[node name="a" type="Control" parent="shield/regen1"]
+custom_minimum_size = Vector2(0, 18)
+layout_mode = 2
+
+[node name="spr" type="Sprite2D" parent="shield/regen1/a"]
+position = Vector2(1, 1)
+texture = ExtResource("9_e0wmn")
+centered = false
+hframes = 2
+vframes = 2
+
+[node name="b" type="Control" parent="shield/regen1"]
+custom_minimum_size = Vector2(0, 18)
+layout_mode = 2
+
+[node name="spr" type="Sprite2D" parent="shield/regen1/b"]
+position = Vector2(1, 1)
+texture = ExtResource("9_e0wmn")
+centered = false
+hframes = 2
+vframes = 2
+
+[node name="c" type="Control" parent="shield/regen1"]
+custom_minimum_size = Vector2(0, 18)
+layout_mode = 2
+
+[node name="spr" type="Sprite2D" parent="shield/regen1/c"]
+position = Vector2(1, 1)
+texture = ExtResource("9_e0wmn")
+centered = false
+hframes = 2
+vframes = 2
+
+[node name="d" type="Control" parent="shield/regen1"]
+custom_minimum_size = Vector2(0, 18)
+layout_mode = 2
+
+[node name="spr" type="Sprite2D" parent="shield/regen1/d"]
+position = Vector2(1, 1)
+texture = ExtResource("9_e0wmn")
+centered = false
+hframes = 2
+vframes = 2

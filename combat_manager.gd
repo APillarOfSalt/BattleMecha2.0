@@ -10,7 +10,7 @@ var player_num : int:
 @export var map : TileMap = null
 @export var obj_ctrl : Object_Controller = null
 #@export var sniffer : Combat_Sniffer = null
-@onready var queue : Combat_Display = $v/m/combat_queue
+@onready var queue : Combat_Display = $v/m/atks/combat_queue
 @onready var turn_tracker : Turn_Tracker = $turn_tracker
 var phase : bool: #false:melee ; true:ranged
 	get: return turn_tracker.phase == turn_tracker.PHASES.ranged

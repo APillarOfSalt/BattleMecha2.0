@@ -18,6 +18,7 @@ func _duplicate(sn:bool=show_name, sc:bool=show_cost, sls:bool=show_local_sprite
 			return
 		cost.visible = toggle
 @export var show_local_sprite : bool = false
+@export var do_setup : bool = false
 var unit_node : Unit_Node = null
 
 var unit : Unit_Data:
@@ -45,8 +46,8 @@ var unit : Unit_Data:
 				s1sprite.frame_coords = unit.atlas
 			else:
 				s2sprite.frame_coords = unit.atlas
-		s1sprite.position = spr_cont.size * 0.5
-		s2sprite.position = spr_cont.size * 0.5
+		if do_setup:
+			stats._start_turn()
 
 func _ready():
 	cost.visible = show_cost
@@ -64,13 +65,13 @@ var unit_size : bool = false:
 		if unit_node != null:
 			spr_cont.custom_minimum_size = sprite_sizes[int(toggle)] * unit_node.spr_scale
 const sprite_sizes : Array = [Vector2(70,50), Vector2(80,60)]
-@onready var title_cont : Container = $v/title
-@onready var name_l : Label = $v/title/m/name
-@onready var spr_cont : Container = $v/sprite
-@onready var s1sprite : Sprite2D = $v/sprite/sprite1
-@onready var s2sprite : Sprite2D = $v/sprite/sprite2
-@onready var stats : Unit_UI_Stats = $v/stats
-@onready var cost : Container = $v/cost
+@onready var title_cont : Container = $title
+@onready var name_l : Label = $title/m/name
+@onready var spr_cont : Container = $m/sprites
+@onready var s1sprite : Sprite2D = $m/sprites/anchor/sprite1
+@onready var s2sprite : Sprite2D = $m/sprites/anchor/sprite2
+@onready var stats : Unit_UI_Stats = $m/content/stats
+@onready var cost : Container = $m/content/cost
 
 var offset : Vector2:
 	get: return (sprite_sizes[int(unit_size)] * 0.5) + Vector2(0, title_cont.size.y)
@@ -80,7 +81,5 @@ func popup():
 	we_hate_godot.call_deferred()
 func we_hate_godot():
 	position = -offset
-	s1sprite.position = spr_cont.size * 0.5
-	s2sprite.position = spr_cont.size * 0.5
 
 

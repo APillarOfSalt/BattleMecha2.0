@@ -8,7 +8,7 @@ const ui_scene : PackedScene = preload("res://main_map_player_ui.tscn")
 @onready var player_ui_cont = $combat_manager/v/players
 @onready var turn_tracker = $combat_manager/turn_tracker
 @onready var combat_manager = $combat_manager
-@onready var combat_queue = $combat_manager/v/m/combat_queue
+@onready var combat_queue = $combat_manager/v/m/atks/combat_queue
 
 
 func is_host()->bool:

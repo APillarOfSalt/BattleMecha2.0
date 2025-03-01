@@ -12,9 +12,9 @@
 script = ExtResource("1_iu7dp")
 
 [node name="anchor" type="Node2D" parent="."]
+z_index = 2
 
 [node name="s1" type="Sprite2D" parent="anchor"]
-z_index = 2
 material = ExtResource("2_54gxa")
 texture = ExtResource("2_36tew")
 hframes = 7
@@ -22,16 +22,15 @@ vframes = 3
 
 [node name="s2" type="Sprite2D" parent="anchor"]
 visible = false
-z_index = 2
 texture = ExtResource("3_2lgta")
 hframes = 3
 vframes = 2
 
 [node name="def_anim" parent="anchor" instance=ExtResource("5_i7suh")]
-z_index = 3
+z_index = 1
 
 [node name="atk_anim" parent="anchor" instance=ExtResource("6_cd80x")]
-z_index = 4
+z_index = 2
 
 [node name="unit_ui" parent="anchor" instance=ExtResource("2_iaqrp")]
 visible = false
