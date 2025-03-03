@@ -38,7 +38,9 @@ var to_pos : Vector3i:
 		to_pos = vec
 		visible = vec != cubic
 		bg_spr.visible = vec != cubic
+		atk_highlight.highlight_attack(atk_highlight.is_highlighting)
 		global_position = glo_pos_from_cube(vec)
+		unit.show_sell( global_map.is_trash(vec) )
 var push_cube := Vector3i(0,0,0):
 	set(vec):
 		push_cube = vec
@@ -52,18 +54,7 @@ func cursor_hover(is_hovered:bool):
 		return #if the hover state isn't being changed
 	move_highlight.highlight_movement(is_hovered or held != null)
 	hovered = is_hovered
-	if unit.outline_size <= unit.outline_width:
-		unit.outline_size = int(is_hovered)*unit.outline_width
-	unit.spr1.z_index = 2
-	unit.spr2.z_index = 2
-	unit.ui.z_index = 1
-	if is_hovered:
-		unit.spr1.z_index = 3
-		unit.spr2.z_index = 3
-		unit.ui.z_index = 2
-		unit.ui.popup()
-	elif unit.state > unit.STATES.held:
-		unit.ui.hide()
+	unit.hovered = is_hovered
 func cursor_accept(cursor:Map_Cursor):
 	if !obj.locally_owned:
 		return

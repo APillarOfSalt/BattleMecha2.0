@@ -1,1 +1,1 @@
-{"abilities":[],"ap":false,"hex_shape":["(0, -2)","(-1, -2)","(1, -2)"],"id":1404,"name":"Drum Shotgun","push":-1,"radius":0,"shape":"1110010000000000","size":4,"sp":false,"subtype":"Cannon","type":"Weapon"}
+{"abilities":[],"hex_shape":["(0, -2)","(-1, -2)","(1, -2)"],"id":1404,"name":"Drum Shotgun","priority":7,"push":-1,"shape":"1110010000000000","size":4,"subtype":"Cannon","type":"Weapon"}

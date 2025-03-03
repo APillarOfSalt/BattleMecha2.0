@@ -205,7 +205,7 @@ var sale : Dictionary:
 	get:
 		var d : Dictionary = {}
 		for key in cost.keys():
-			d[key] = clamp(cost[key]-1,0,1)
+			d[key] = 2 - cost[key]
 		return d
 
 func get_module(mod_id:int)->Module_Data:

@@ -5,30 +5,37 @@
 [ext_resource type="PackedScene" uid="uid://cwofqjj3naay8" path="res://cursor_disp.tscn" id="3_jppu4"]
 
 [node name="dev_tools" type="VBoxContainer"]
-offset_right = 1123.0
-offset_bottom = 675.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="title" type="PanelContainer" parent="."]
+[node name="tools" type="HBoxContainer" parent="."]
 layout_mode = 2
 
-[node name="m" type="MarginContainer" parent="title"]
+[node name="v" type="VBoxContainer" parent="tools"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="title2" type="PanelContainer" parent="tools/v"]
+layout_mode = 2
+
+[node name="m" type="MarginContainer" parent="tools/v/title2"]
 layout_mode = 2
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="Label" type="Label" parent="title/m"]
+[node name="Label" type="Label" parent="tools/v/title2/m"]
 layout_mode = 2
 text = "Developer Tools"
 horizontal_alignment = 1
 
-[node name="tools" type="HBoxContainer" parent="."]
+[node name="module_customizer" parent="tools/v" instance=ExtResource("2_lm8d0")]
 layout_mode = 2
-
-[node name="module_customizer" parent="tools" instance=ExtResource("2_lm8d0")]
-layout_mode = 2
-size_flags_horizontal = 2
+size_flags_vertical = 3
 
 [node name="unit_edit" parent="tools" instance=ExtResource("1_e70m3")]
 layout_mode = 2

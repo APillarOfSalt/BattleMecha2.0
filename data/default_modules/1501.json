@@ -1,1 +1,1 @@
-{"abilities":[],"ap":false,"hex_shape":["(0, -1)","(-1, -1)","(-1, 0)","(1, -1)"],"id":1501,"name":"Greatsword","push":0,"radius":0,"shape":"1000100010001100","size":5,"sp":false,"subtype":"Melee","type":"Weapon"}
+{"abilities":["sp"],"hex_shape":["(0, -1)","(-1, -1)","(-1, 0)","(1, -1)"],"id":1501,"name":"Greatsword","priority":15,"push":0,"shape":"1000100010001100","size":5,"subtype":"Melee","type":"Weapon"}

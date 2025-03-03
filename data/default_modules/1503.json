@@ -1,1 +1,1 @@
-{"abilities":[],"ap":true,"hex_shape":[],"id":1503,"name":"Marksman Rifle","push":-1,"radius":0,"shape":"1100011001000000","size":5,"sp":false,"subtype":"Rifle","type":"Weapon"}
+{"abilities":["ap"],"hex_shape":[],"id":1503,"name":"Marksman Rifle","priority":0,"push":-1,"shape":"1100011001000000","size":5,"subtype":"Rifle","type":"Weapon"}

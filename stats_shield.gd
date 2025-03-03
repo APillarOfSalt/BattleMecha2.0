@@ -51,19 +51,16 @@ func normalize_current():
 		current -= 1
 		if regen - set_regen > current:
 			regen -= 1
-		var diff : float = current - set_cur
-		await get_tree().create_timer(1.0/diff).timeout
 	elif current < set_cur:
 		current += 1
 		if regen < current:
 			regen += 1
-		await get_tree().create_timer(0.0625).timeout
 	elif regen != min(set_max, set_cur + set_regen):
 		regen += sign(min(set_max, set_cur + set_regen) - regen)
-		await get_tree().create_timer(0.1).timeout
 	else:
 		finished.emit()
 		return 
+	await get_tree().create_timer(0.0625).timeout
 	normalize_current()
 
 

@@ -55,16 +55,12 @@ class Weapon_Data:
 	extends Module_Data
 	var abilities : Array
 	var push : int = -1
-	var radius : int = 0
-	var ap : bool = false
-	var sp : bool = false
+	var priority : int = 0
 	func _init(data:Dictionary):
-		variables.append_array(["abilities", "push", "radius", "ap", "sp"])
+		variables.append_array(["abilities", "push", "priority"])
 		_from_dict(data)
 		push = data.push
-		radius = data.radius
-		ap = data.ap
-		sp = data.sp
+		priority = data.priority
 		if !"abilities" in data:
 			return
 		elif data.abilities == null:

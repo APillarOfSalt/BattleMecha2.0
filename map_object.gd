@@ -120,11 +120,32 @@ var push_cube : Vector3i:
 	set(vec): cursor.push_cube = vec
 	get: return cursor.push_cube
 
+func get_highest_wep_prio()->int:
+	var highest : int = 0
+	for wep_id:int in unit.cubic_weapons.keys():
+		highest = max( highest, unit.unit_data.get_module(wep_id).priority )
+	return highest
 
-func get_movement(use_cubic:bool=false):
+const exceptions : Array[String] = [""]
+func get_weapon_tiles(use_cubic:bool=false)->Dictionary:
+	var wep_tiles : Dictionary = {}
+	for wep_id:int in unit.cubic_weapons.keys():
+		wep_tiles[wep_id] = []
+		if "ref" in DataLoader.modules_by_id[wep_id].abilities and to_pos != Vector3i(0,0,0):
+			for i in 2:
+				var cube : Vector3i = map.get_equal_cube(to_pos,bool(i))
+				wep_tiles[wep_id].append( cube-to_pos )
+		else:
+			for cube:Vector3i in unit.cubic_weapons[wep_id]:
+				wep_tiles[wep_id].append(cube)
+				if use_cubic:
+					wep_tiles[wep_id][-1] += to_pos
+	return wep_tiles
+
+func get_movement(use_cubic:bool=false)->Array[Vector3i]:
 	var affordable : bool = check_afforable() or bought
 	var movement : Array[Vector3i] = []
-	for cube in unit.cubic_movement.duplicate(true):
+	for cube in unit.cubic_movement:
 		if affordable or map.is_trash(cube + cubic):
 			movement.append(cube)
 			if use_cubic:

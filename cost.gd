@@ -23,6 +23,7 @@ enum vis_flags{ti=1,ga=2,al=4,co=8}
 		if !is_inside_tree():
 			return
 		refresh_vis.call_deferred()
+#true: Positive, false: Negative
 @export var flip_colors : bool = false:
 	set(toggle):
 		flip_colors = toggle

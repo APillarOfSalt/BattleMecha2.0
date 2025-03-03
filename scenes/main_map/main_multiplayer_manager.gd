@@ -5,11 +5,13 @@ const ui_scene : PackedScene = preload("res://main_map_player_ui.tscn")
 @onready var map = $map
 @onready var map_cursor = $map/map_cursor
 @onready var obj_ctrl = $map/obj_controller
-@onready var player_ui_cont = $combat_manager/v/players
-@onready var turn_tracker = $combat_manager/turn_tracker
 @onready var combat_manager = $combat_manager
-@onready var combat_queue = $combat_manager/v/m/atks/combat_queue
+@onready var player_ui_cont = $combat_manager/h/right/players
+@onready var turn_tracker = $combat_manager/h/left/turn_tracker
+@onready var combat_queue = $combat_manager/h/right/m/atks/combat_queue
 
+@onready var turn_l : Label = $combat_manager/h/left/title/m/turns
+@onready var points_l : Label = $combat_manager/h/left/title/m/points
 
 func is_host()->bool:
 	return get_iid() == 1
@@ -33,6 +35,8 @@ func give_score(num,val):
 	printerr(local_ui.victory_points,":",Global.points_to_win)
 
 func _ready():
+	turn_l.text = str(" Turn Limit: ",Global.turn_limit)
+	points_l.text = str("Points to Win : ",Global.points_to_win," ")
 	map._refresh()
 	map.recolor()
 	await Global.create_wait_timer(1)
@@ -225,7 +229,7 @@ func _on_combat_complete(p_num:int=-1):
 	combat_complete_count %= 3
 	if combat_complete_count:
 		return
-	if combat_manager.last_was_overlap:
+	if combat_manager.prio_step:
 		combat_manager._setup()
 		return
 	print("advance @_on_combat_complete(",p_num,")",combat_complete_count)

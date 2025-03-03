@@ -5,7 +5,9 @@ func _on_folder_pressed():
 	OS.shell_show_in_file_manager(path, true)
 
 @onready var op_sel : OptionButton = $title/sizing/sel_op
+@onready var op_scroll : ScrollContainer = $title/sizing/sel_op.get_popup().get_child(0, true).get_child(0, true)
 func _ready():
+	op_sel.get_popup().visibility_changed.connect(_on_popup_vis_changed)
 	refresh_from_dataloader()
 	module = null
 func refresh_from_dataloader():
@@ -136,8 +138,8 @@ var mode : int = MODES.mod:
 			id = DataLoader.get_next_mod_id(mode, shape.count("1"))
 		refresh()
 
-@onready var super_butt : Container = $h/l/h/super
-@onready var sub_butt : Container = $h/l/h/sub
+@onready var super_butt : Container = $h/types/super
+@onready var sub_butt : Container = $h/types/sub
 @onready var name_edit : LineEdit = $h/r/name
 
 func _on_name_text_changed(new_text):
@@ -159,9 +161,9 @@ func _on_save_pressed():
 			op_sel.selected = i
 			break
 			#_on_option_button_item_selected(i)
-@onready var save_butt : Button = $title/m/anchor/title/save
+@onready var save_butt : Button = $title/save
 var save_icon_new : Texture = preload("res://assets/new.png")
-var save_icon_old : Texture = preload("res://assets/sav.png")
+var save_icon_old : Texture = preload("res://assets/save.png")
 func refresh_save_butt():
 	if !"1" in shape:
 		save_butt.disabled = true
@@ -184,4 +186,11 @@ func _on_shape_edit_shape_changed():
 
 func _on_batch_save_pressed():
 	DataLoader.modules_to_memory()
+
+var scroll_sav : int = 0
+func _on_popup_vis_changed():
+	if !op_sel.get_popup().visible:
+		scroll_sav = op_scroll.scroll_vertical
+	else:
+		op_scroll.scroll_vertical = scroll_sav
 

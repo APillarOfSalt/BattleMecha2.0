@@ -1,1 +1,1 @@
-{"abilities":[],"ap":false,"hex_shape":["(0, 1)","(1, -1)","(-1, -1)"],"id":1405,"name":"Energy Blade","push":1,"radius":0,"shape":"1000111000000000","size":4,"sp":false,"subtype":"Melee","type":"Weapon"}
+{"abilities":[],"hex_shape":["(0, 1)","(1, -1)","(-1, -1)"],"id":1405,"name":"Energy Blade","priority":4,"push":1,"shape":"1000111000000000","size":4,"subtype":"Melee","type":"Weapon"}

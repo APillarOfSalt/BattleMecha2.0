@@ -1,6 +1,6 @@
-extends HBoxContainer
+extends Container
 
-@onready var area_l : Label = $v/area
+@onready var area_l : Label = $h/p/m/area
 
 signal shape_changed()
 
@@ -38,7 +38,7 @@ func _on_toggle(index:int, toggled_on:bool):
 			return
 	shape = get_updated_shape()
 	shape_changed.emit()
-	area_l.text = str("Module Size:\n", shape.count("1"))
+	area_l.text = str("Size : ", shape.count("1"))
 
 func get_check_dirs(index:int)->Vector4:
 	var check := Vector4(1,1,1,1)

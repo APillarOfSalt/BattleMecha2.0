@@ -1,6 +1,11 @@
 extends Node2D
 class_name Defensive_Animation_Controller
 
+var unit_atlas := Vector2i(0,0):
+	set(vec):
+		unit_atlas = vec
+		$mask.frame_coords = vec
+
 signal finished()
 signal started(end_time_msec:int)
 
@@ -13,12 +18,12 @@ var weapon_size : int = 1
 var subtype : String = "None"
 var defenders : Array = []
 
-func _setup_defense(type:Module_Data.DMG_TYPES, wep_size:int)->int:
+func _setup_defense(type:Module_Data.DMG_TYPES, wep_size:int, ap:bool=false, sp:bool=false)->int:
 	#true==shield break ; false==either still has shield or never had
 	dmg_type = type
 	weapon_size = wep_size
-	var sheild_break : bool = stats._setup_next_damage(wep_size, type)
-	if sheild_break:
+	var shield_break : bool = stats._setup_next_damage(type, wep_size, ap, sp)
+	if shield_break:
 		active_anim = ANIM.shield_break
 	elif unit.stats.shield:
 		active_anim = ANIM.shield_hit
@@ -61,7 +66,7 @@ func _on_animation_player_animation_finished(anim_name:String):
 	play_msec = -1
 	if active_anim == ANIM.death:
 		unit.map_obj.do_free(-1)
-	stats._on_hit()
+	var fuck_godot = await stats._on_hit()
 	finished.emit()
 
 @rpc("any_peer", "call_remote", "reliable")

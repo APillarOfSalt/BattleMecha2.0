@@ -66,16 +66,23 @@ func save_module(mod:Module_Data, overwrite:bool=false):
 	return false
 func modules_to_memory():
 	for id:int in modules_by_id.keys():
-		var file_name : String = str(default_module_dir,"/",id,".json")
-		var file := FileAccess.open(file_name, FileAccess.WRITE)
-		var json : String = JSON.stringify( modules_by_id[id]._to_dictionary() )
-		file.store_line(json)
-		file.close()
+		var dict : Dictionary = modules_by_id[id]._to_dictionary()
+		if !dict.size():
+			return
+		var json : String = JSON.stringify( dict )
+		if json == "":
+			print("how?")
+		else:
+			var file_name : String = str(default_module_dir,"/",id,".json")
+			var file := FileAccess.open(file_name, FileAccess.WRITE)
+			file.store_line(json)
+			file.close()
 func modules_from_memory():
 	for file_s:String in DirAccess.get_files_at(default_module_dir):
 		var file_name : String = str(default_module_dir,"/",file_s)
 		var file := FileAccess.open(file_name, FileAccess.READ)
-		var data : Dictionary = JSON.parse_string(file.get_line())
+		var line : String = file.get_line()
+		var data : Dictionary = JSON.parse_string(line)
 		if data.type == "Shield":
 			save_shield(data)
 		elif data.type == "Weapon":

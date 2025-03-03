@@ -67,11 +67,11 @@ var unit_size : bool = false:
 const sprite_sizes : Array = [Vector2(70,50), Vector2(80,60)]
 @onready var title_cont : Container = $title
 @onready var name_l : Label = $title/m/name
-@onready var spr_cont : Container = $m/sprites
-@onready var s1sprite : Sprite2D = $m/sprites/anchor/sprite1
-@onready var s2sprite : Sprite2D = $m/sprites/anchor/sprite2
-@onready var stats : Unit_UI_Stats = $m/content/stats
-@onready var cost : Container = $m/content/cost
+@onready var spr_cont : Container = $content/sprites
+@onready var s1sprite : Sprite2D = $content/sprites/anchor/size1
+@onready var s2sprite : Sprite2D = $content/sprites/anchor/size2
+@onready var stats : Unit_UI_Stats = $content/stats
+@onready var cost : Cost_Data = $cost
 
 var offset : Vector2:
 	get: return (sprite_sizes[int(unit_size)] * 0.5) + Vector2(0, title_cont.size.y)
@@ -82,4 +82,13 @@ func popup():
 func we_hate_godot():
 	position = -offset
 
+enum COST_VIS{cost=-1,hidden=0,sale=1}
+func set_cost_vis(vis:COST_VIS):
+	show_cost = bool(vis)
+	cost.flip_colors = false
+	if vis < 0:
+		cost.set_cost(unit.cost)
+	elif vis > 0:
+		cost.flip_colors = true
+		cost.set_cost(unit.sale)
 

@@ -24,14 +24,8 @@ var unit_data : Unit_Data = null:
 	set(data):
 		unit_data = data
 		if spr1 != null:
-			#$anchor/defense_anim.unit_atlas = unit_data.atlas
-			hp = unit_data.hp
-			armor = unit_data.armor
-			shield = unit_data.shield_start
+			def_anim_ctrl.unit_atlas = unit_data.atlas
 			refresh()
-var hp : int = 0
-var armor : int = 0
-var shield : int = 0
 
 
 @rpc("any_peer", "call_remote", "reliable")
@@ -42,7 +36,8 @@ enum STATES{roller=-1,held=0,deploy=1,ready=2}
 @export_enum("Display:-2","Roller:-1","Held:0","Deployed:1","Ready:2") var state : int = STATES.roller:
 	set(val):
 		state = val
-		$anchor/unit_ui.show_cost = val == STATES.roller
+		if state > STATES.held:
+			show_sell()
 		state_changed.emit(val)
 		if locally_owned:
 			_remote_state_set.rpc(val)
@@ -147,6 +142,28 @@ func calc_cubic():
 			cubic_weapons[mod.id].append( map.oddq_to_cubic(oddq, player_num) )
 		if mod.push in range(6):
 			cubic_weapons_push[mod.id] = map.oddq_to_cubic( Global.directions_evenx[mod.push], player_num)
+
+var hovered : bool = false:
+	set(toggle):
+		if hovered == toggle:
+			return
+		hovered = toggle
+		var is_hovered := int(toggle)
+		if outline_size <= outline_width:
+			outline_size = is_hovered * outline_width
+		spr1.z_index = 2 + is_hovered
+		spr2.z_index = 2 + is_hovered
+		ui.z_index = 1 + is_hovered
+		unit_hovered.emit(self, toggle)
+
+func show_sell(is_sale:bool=false):
+	if is_sale:
+		ui.set_cost_vis(ui.COST_VIS.sale)
+	elif !map_obj.bought:
+		ui.set_cost_vis(ui.COST_VIS.cost)
+	else:
+		ui.set_cost_vis(ui.COST_VIS.hidden)
+
 
 #func _start_turn():
 	#turn_over = false

@@ -10,8 +10,8 @@ var player_num : int:
 @export var map : TileMap = null
 @export var obj_ctrl : Object_Controller = null
 #@export var sniffer : Combat_Sniffer = null
-@onready var queue : Combat_Display = $v/m/atks/combat_queue
-@onready var turn_tracker : Turn_Tracker = $turn_tracker
+@onready var queue : Combat_Display = $h/right/m/atks/combat_queue
+@onready var turn_tracker : Turn_Tracker = $h/left/turn_tracker
 var phase : bool: #false:melee ; true:ranged
 	get: return turn_tracker.phase == turn_tracker.PHASES.ranged
 var last_was_overlap : bool = false
@@ -22,6 +22,7 @@ func rpc_clear(do4:bool=false):
 	if do4:
 		map.clear_layer(4)
 
+var prio_step : int = 0
 func _on_combat_queue_attacks_complete():
 	print("attack_queue finished playing : ", player_num)
 	obj_ctrl.do_move()
@@ -29,17 +30,23 @@ func _on_combat_queue_attacks_complete():
 func _setup():
 	if !is_host:
 		return
+	prio_step += 1
+	if prio_step > obj_ctrl.get_highest_wep_prio():
+		prio_step = 0
+		get_parent()._advance.rpc()
+		return
 	rpc_clear.rpc()
-	print("gathering overlaps")
+	print("gathering overlaps, step:", prio_step)
 	var overlaps : Array[Array] = obj_ctrl.gather_all_overlaps() #[ [obj:Map_Object,etc...], [overlap2]... ]
 	last_was_overlap = overlaps.size()
-	for combat:Array in overlaps:
-		queue.create_combat_with(combat)
-		await Global.create_wait_timer()
-	if !last_was_overlap:
+	if last_was_overlap:
+		for combat:Array in overlaps:
+			queue.create_combat_with(combat)
+			await Global.create_wait_timer()
+	else:
 		print("no overlaps found")
-		var attackers : Dictionary = obj_ctrl.gather_attacks(phase) #atk_obj_id:int : { weapon_module_id:int : [def_obj_id:int, etc...] }
-		printerr("number of attacks found :",attackers.size())
+		var attackers : Dictionary = obj_ctrl.gather_attacks(phase, prio_step) #atk_obj_id:int : { weapon_module_id:int : [def_obj_id:int, etc...] }
+		print("number of attacks found :",attackers.size())
 		for atk_id:int in attackers.keys():
 			for wep_id:int in attackers[atk_id].keys():
 				var def_ids : Array = attackers[atk_id][wep_id]
@@ -47,7 +54,10 @@ func _setup():
 					"\n to:",def_ids)
 				queue.create_atk_node.rpc(atk_id, wep_id, def_ids)
 				await Global.create_wait_timer()
-	queue._play.rpc()
+	if queue.attacks.size():
+		queue._play.rpc()
+	elif prio_step:
+		_setup()
 
 
 

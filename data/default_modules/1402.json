@@ -1,1 +1,1 @@
-{"abilities":[],"ap":false,"hex_shape":["(0, -1)","(0, -2)","(0, -3)","(0, -4)"],"id":1402,"name":"Beam Rifle","push":-1,"radius":0,"shape":"0100111000000000","size":4,"sp":false,"subtype":"Laser","type":"Weapon"}
+{"abilities":[],"hex_shape":["(0, -2)","(0, -1)","(0, -3)","(0, -4)"],"id":1402,"name":"Beam Rifle","priority":8,"push":-1,"shape":"0100111000000000","size":4,"subtype":"Laser","type":"Weapon"}

@@ -12,10 +12,14 @@ var dmg_type : int = Module_Data.DMG_TYPES.untyped
 var weapon_size : int = 1
 var subtype : String = "None"
 var weapon : Module_Data.Weapon_Data = null
+var ap : bool = false
+var sp : bool = false
 var defenders : Array = []
 func setup_atk(wep:Module_Data.Weapon_Data, defs:Array):
 	defenders = defs
 	weapon = wep
+	ap = "ap" in wep.abilities
+	sp = "sp" in wep.abilities
 	dmg_type = Module_Data.DMG_TYPES.untyped
 	weapon_size = 1
 	subtype = "None"
@@ -55,7 +59,7 @@ func _play_all():
 		if active_anim < 0:
 			print("how??")
 		var def : Unit_Node = defenders.pop_front()
-		var def_hit_msec : int = def.def_anim_ctrl._setup_defense(dmg_type, weapon_size)
+		var def_hit_msec : int = def.def_anim_ctrl._setup_defense(dmg_type, weapon_size, ap, sp)
 		var atk_hit_msec : int = ANIMS[active_anim].hit
 		#if def == 10 and atk == 20 ; then atk.play() ...wait(20-10=10)... def.play()
 		var def_wait : int = min(0,atk_hit_msec - def_hit_msec) #20-10=10def
@@ -77,7 +81,7 @@ func _play_next():
 	$early.progress_ratio = 0.2
 	$midpoint.progress_ratio = 0.35
 	$to.progress_ratio = 1.0
-	var def_hit_msec : int = def.def_anim_ctrl._setup_defense(dmg_type, weapon_size)
+	var def_hit_msec : int = def.def_anim_ctrl._setup_defense(dmg_type, weapon_size, ap, sp)
 	var atk_hit_msec : int = ANIMS[active_anim].hit
 	#if def == 10 and atk == 20 ; then atk.play() ...wait(20-10=10)... def.play()
 	var def_wait : int = min(0,atk_hit_msec - def_hit_msec) #20-10=10def

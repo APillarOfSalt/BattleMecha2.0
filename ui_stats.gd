@@ -1,30 +1,74 @@
 extends Container
 class_name Unit_UI_Stats
 
+signal finished()
+
+var first : bool = false
+func _start_turn():
+	if !first:
+		setup_disp()
+		first = true
+	else:
+		shield_nd.do_regen()
+
 var is_alive : bool:
 	get: return hp > 0
 var unit_name : String = ""
-func _on_hit()->bool: #false:dead ; true:Still alive
-	print(unit_name, ": HP:",hp,",",next_hp,"; SH:",shield,",",next_shield)
-	hp = next_hp
-	shield = next_shield
-	await shield_nd.set_current(shield)
-	hp_nd.set_current(hp)
-	print(unit_name, ": HP:",hp,"; SH:",shield," @:",Time.get_ticks_msec())
-	return is_alive
 
-func _setup_next_damage(val:int, type:int)->bool: #true if shield broke
+func _on_hit():
+	print(unit_name, ": HP:",hp,"; SH:",shield," @:",Time.get_ticks_msec())
+	if shield != shield_nd.set_cur:
+		await shield_nd.set_current(shield)
+	if hp != hp_nd.set_cur:
+		await hp_nd.set_current(hp)
+	return null
+
+
+func _on_push_untyped(_v:int=0):
+	if !shield and !armor:
+		hp -= 1
+
+const MULTIS : Dictionary = { 		#armor against *,  * vs shield,  *'s vs hp
+	#[0] == shield & armor; [1] == no_shield & armor ; [2] == no_shield & no_armor
+	#Vector2i(x,y) == ratio:x/y ;e.g. 1/2=0.5,  3/2=1.5
+	Module_Data.DMG_TYPES.untyped :
+		{"armor":1.0, "shield":Vector2i(0,1), "hp":[Vector2i(0,1),Vector2i(0,1),Vector2i(1,1)]},
+	Module_Data.DMG_TYPES.percussive :
+		{"armor":1.5, "shield":Vector2i(2,3), "hp":[Vector2i(1,1),Vector2i(3,2),Vector2i(2,1)]},
+	Module_Data.DMG_TYPES.concussive :
+		{"armor":2.0, "shield":Vector2i(1,1), "hp":[Vector2i(1,1),Vector2i(3,2),Vector2i(2,1)]},
+	Module_Data.DMG_TYPES.voltaic :
+		{"armor":1.0, "shield":Vector2i(3,2), "hp":[Vector2i(3,2),Vector2i(1,2),Vector2i(1,1)]}
+}
+func _setup_next_damage(type:int=Module_Data.DMG_TYPES.untyped,val:int=1,ap:bool=false,sp:bool=false)->bool: #true if shield broke
 	print("dmg setup on peer:",multiplayer.get_unique_id(),":",unit_name,":",val,":",type)
-	var has_shield : bool = shield >= 1
-	next_hp = hp
-	next_shield = shield
-	hit_logic[type].call(val)
-	if next_shield <= 0 and has_shield:
+	if type == Module_Data.DMG_TYPES.untyped:
+		_on_push_untyped()
+		return false
+	val *= 2
+	var hp_index : int = 2
+	if shield:
+		hp_index = 0
+	elif armor:
+		hp_index = 1
+	if !sp:
+		var re : Vector2i = do_calc( shield*2, val, MULTIS[type].shield )
+		shield = ceil(re.x * 0.5)
+		val = re.y 
+	if !ap:
+		val = max(0, val - ceil(armor * MULTIS[type].armor) )
+	hp = ceil( do_calc( hp*2, val, MULTIS[type].hp[hp_index] ).x * 0.5)
+	if shield <= 0 and hp_index == 0:
 		return true #shield break
 	return false #either still has shield or never had
 
-var next_hp : int = -1
-var next_shield : int = -1
+func do_calc(current:int, value:int, steps:Vector2i)->Vector2i:
+	while current and value:
+		for i in steps.x:
+			current = max(0, current-1)
+		for i in steps.y:
+			value = max(0, value-1)
+	return Vector2i(current, value)
 
 var hp : int = 0
 var hp_max : int = 0
@@ -81,53 +125,7 @@ func duplicate_from(stats:Unit_UI_Stats):
 	setup_disp()
 
 
-var first : bool = false
-func _start_turn():
-	if !first:
-		setup_disp()
-		first = true
-	else:
-		shield_nd.do_regen()
 
 
-var hit_logic : Dictionary = {
-	Module_Data.DMG_TYPES.untyped : _on_push_untyped,
-	Module_Data.DMG_TYPES.percussive : _on_hit_p,
-	Module_Data.DMG_TYPES.voltaic : _on_hit_v,
-	Module_Data.DMG_TYPES.concussive : _on_hit_c,
-}
 
-func _on_push_untyped(_v:int=0):
-	if !next_shield and !armor:
-		next_hp -= 1
-
-#1/2dmg to shields;-full armor; full remainder to hp
-func _on_hit_p(dmg:int):
-	while dmg and next_shield:
-		next_shield -= 1
-		dmg = max( 0, dmg - 2 )
-	dmg = max( 0, dmg - armor )
-	next_hp -= dmg
-
-#full damage to shields ;-full armor; 1/2 of remainder to hp
-func _on_hit_c(dmg:int):
-	var diff : int = next_shield - dmg
-	dmg = min( diff , 0 ) #-diff == -dmg remaining
-	next_shield = max( 0, diff ) #+diff == +shield remaining
-	dmg = min( dmg + armor, 0 )
-	while dmg <= -1:
-		next_hp -= 1
-		dmg += 2
-
-#starts with sheilds: 1/2armor; else: 0
-#full dmg to shields ;^armor; 1/2 of remainder to hp 
-func _on_hit_v(dmg:int):
-	var gets_half : int = half_armor * int( next_shield >= 1 )
-	var diff : int = next_shield - dmg
-	dmg = min( 0, diff ) #-diff == -dmg remaining
-	next_shield = max( 0, diff ) #+diff == +shield remaining
-	dmg = min( dmg + gets_half, 0 )
-	while dmg <= -1:
-		next_hp -= 1
-		dmg += 2
 

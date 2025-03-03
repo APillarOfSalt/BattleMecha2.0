@@ -1,6 +1,7 @@
 extends Sprite2D
 class_name Map_Cursor
 
+signal hover_trash(is_trash:bool)
 signal new_top_hover(obj:Map_Object)
 signal moved()
 
@@ -24,6 +25,7 @@ var map_pos : Vector2i:
 		do_highlight(false)
 		map_pos = pos
 		do_highlight(true)
+		hover_trash.emit( map.is_trash(cubic) )
 		moved.emit()
 		hover()
 var cubic : Vector3i:
@@ -133,6 +135,8 @@ func request_purchase(obj:Map_Object)->bool:
 	if !map.is_trash(cubic):
 		if !obj.do_purchase():
 			return false
+	local_ui.cost_disp.clear()
+	local_ui.cost_disp.modulate.a = 0.0
 	return do_move(obj)
 func request_move(obj:Map_Object)->bool:
 	if !get_can_act() or obj != held_object or obj == null:

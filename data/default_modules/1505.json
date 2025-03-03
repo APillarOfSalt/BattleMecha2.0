@@ -1,1 +1,1 @@
-{"abilities":[],"ap":false,"hex_shape":[],"id":1505,"name":"Rocket Launcher","push":-1,"radius":1,"shape":"1000111100000000","size":5,"sp":false,"subtype":"Launcher","type":"Weapon"}
+{"abilities":["ref"],"hex_shape":[],"id":1505,"name":"Rocket Launcher","priority":17,"push":-1,"shape":"1000111100000000","size":5,"subtype":"Launcher","type":"Weapon"}

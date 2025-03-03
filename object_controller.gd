@@ -230,21 +230,31 @@ func gather_all_overlaps()->Array[Array]: #[ [obj:Map_Object,etc...], [overlap2]
 			overlaps.append(tile_objs[tile])
 	return overlaps
 
+func get_highest_wep_prio()->int:
+	var highest : int = 0
+	for obj in all_objects.values():
+		if !obj.get_state_is_roller():
+			highest = max( highest, obj.get_highest_wep_prio() )
+	return highest
+
 #false:melee, true:ranged
-func gather_attacks(melee_ranged:bool)->Dictionary:
+func gather_attacks(melee_ranged:bool, prio_step:int)->Dictionary:
 	var attacks : Dictionary = {} #atk_obj_id:int : { weapon_module_id:int : [def_obj_id:int, etc...] }
 	var obj_tiles : Dictionary = get_obj_tiles()
 	for obj:Map_Object in all_objects.values():
 		if obj.unit.state == Unit_Node.STATES.roller:
 			continue
-		for wep_id:int in obj.unit.cubic_weapons.keys():
-			var subtype : String = obj.unit.unit_data.get_module(wep_id).subtype
+		var wep_tiles : Dictionary = obj.get_weapon_tiles(true)
+		for wep_id:int in wep_tiles.keys():
+			var weapon : Module_Data.Weapon_Data = obj.unit.unit_data.get_module(wep_id)
+			if weapon.priority != prio_step:
+				continue
+			var subtype : String = weapon.subtype
 			if subtype != "Melee" and !melee_ranged:
 				continue
 			elif subtype == "Melee" and melee_ranged:
 				continue
-			for cube:Vector3i in obj.unit.cubic_weapons[wep_id]:
-				cube += obj.to_pos
+			for cube:Vector3i in wep_tiles[wep_id]:
 				if cube in obj_tiles.keys():
 					for def_id:int in obj_tiles[cube]:
 						if all_objects[def_id].player_num != obj.player_num:

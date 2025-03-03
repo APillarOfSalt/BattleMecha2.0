@@ -1,0 +1,66 @@
+[gd_scene format=3 uid="uid://gw08imvcdyca"]
+
+[node name="action_editor" type="VBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = -4
+alignment = 1
+
+[node name="Label" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+text = "Has Action :"
+
+[node name="CheckButton" type="CheckButton" parent="HBoxContainer"]
+layout_mode = 2
+
+[node name="props" type="GridContainer" parent="."]
+layout_mode = 2
+columns = 2
+
+[node name="rad_in" type="Label" parent="props"]
+layout_mode = 2
+text = "Cutoff :"
+horizontal_alignment = 2
+
+[node name="r_i_val" type="SpinBox" parent="props"]
+layout_mode = 2
+min_value = -1.0
+value = -1.0
+
+[node name="rad_out" type="Label" parent="props"]
+layout_mode = 2
+text = "Range :"
+horizontal_alignment = 2
+
+[node name="r_o_val" type="SpinBox" parent="props"]
+layout_mode = 2
+min_value = -1.0
+value = -1.0
+
+[node name="Label2" type="Label" parent="props"]
+layout_mode = 2
+text = "Charges :"
+horizontal_alignment = 2
+
+[node name="SpinBox2" type="SpinBox" parent="props"]
+layout_mode = 2
+min_value = 1.0
+value = 1.0
+
+[node name="Label" type="Label" parent="props"]
+layout_mode = 2
+text = "Recharge :"
+
+[node name="SpinBox" type="SpinBox" parent="props"]
+layout_mode = 2
+
+[node name="weapon" type="GridContainer" parent="."]
+layout_mode = 2
+
+[node name="module" type="OptionButton" parent="."]
+layout_mode = 2
+item_count = 1
+popup/item_0/text = ""
+popup/item_0/id = 0
