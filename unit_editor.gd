@@ -19,7 +19,7 @@ var unit : Unit_Data = null:
 			return
 		name_l.text = data.name
 		mod_back.unit = data
-		move_edit.tiles = data.movement
+		move_edit.set_data( data.movement )
 		if data.size == 1:
 			s1_spr.show()
 			s1_spr.frame_coords = data.atlas
@@ -37,9 +37,8 @@ func _ready():
 	mod_back.is_dev = is_dev
 	$unit_disp/sel/save_batch.visible = is_dev
 	debug_sel.clear()
-	var keys : Array = DataLoader.units_by_id.keys().duplicate(true)
-	keys.sort()
-	for id:int in keys:
+	for i:int in 19:
+		var id : int = i+1
 		var unit : Unit_Data = DataLoader.units_by_id[id]
 		var text : String = str(id,":",unit.name)
 		debug_sel.add_item(text, id)

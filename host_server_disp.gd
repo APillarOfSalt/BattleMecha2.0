@@ -30,14 +30,19 @@ func _on_spin_box_value_changed(val:int):
 var connected : int = -1:
 	set(val):
 		connected = val
-		$open.disabled = val == 1
+		$open.disabled = val == 0
 		$password.editable = val == -1
 		port_edit.editable = val == -1
 func _on_open_pressed():
-	connected = 0
-	$open.text = "Starting" #wait a frame so the button can update
-	var server : Server_Controller = Global.server_controller
-	server.current_port = port
+	if connected == -1:
+		connected = 0
+		$open.text = "Starting" #wait a frame so the button can update
+		Global.server_controller.current_port = port
+	elif connected == 1:
+		connected = -1
+		$open.text = "> Run <"
+		Global.server_controller.host.close_server()
+		server_status.emit(-2)
 
 func _process(_delta):
 	if $open.text == "Starting...":

@@ -16,10 +16,10 @@ var unit : Unit_Data = null:
 var selected : bool = false
 func _ready():
 	material = outline_shader.duplicate(true)
-	for id in 20:
+	for id in 19:
 		var disp = unit_sel_disp.instantiate()
 		$s/h.add_child(disp)
-		disp.id = id
+		disp.id = id+1
 		disp.pressed.connect(_on_id_pressed)
 
 func _process(delta):

@@ -8,6 +8,8 @@ func get_dict()->Dictionary:
 		dict.abilities.append("sp")
 	if reflect:
 		dict.abilities.append("ref")
+	if heal:
+		dict.abilities.append("heal")
 	return dict
 
 var module : Module_Data = null
@@ -20,6 +22,7 @@ func setup(mod:Module_Data):
 		ap = "ap" in mod.abilities
 		sp = "sp" in mod.abilities
 		reflect = "ref" in mod.abilities
+		heal = "heal" in mod.abilities
 
 var push_dir : int = -1:
 	set(val):
@@ -51,3 +54,9 @@ var reflect : bool = false:
 		reflect_butt.button_pressed = toggle
 	get: return reflect_butt.button_pressed
 @onready var reflect_butt : CheckButton = $use_reflect/m/toggle
+var heal : bool = false:
+	set(toggle):
+		heal = toggle
+		heal_butt.button_pressed = toggle
+	get: return heal_butt.button_pressed
+@onready var heal_butt : CheckButton = $heal/toggle

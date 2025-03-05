@@ -1,0 +1,185 @@
+[gd_scene load_steps=5 format=3 uid="uid://bgv5kxab4emir"]
+
+[ext_resource type="Texture2D" uid="uid://cn4rshspf2yy6" path="res://assets/shield_4_16.png" id="1_kvm18"]
+[ext_resource type="Script" path="res://unit_loadout_one_shield.gd" id="1_m3p34"]
+[ext_resource type="Texture2D" uid="uid://cmhrwsq2tj1cq" path="res://assets/shield_all_16.png" id="2_mqx6u"]
+[ext_resource type="Texture2D" uid="uid://dlc173opy3pbh" path="res://assets/shield_regen_16.png" id="3_dxsr3"]
+
+[node name="one_shield" type="PanelContainer"]
+custom_minimum_size = Vector2(168, 0)
+script = ExtResource("1_m3p34")
+
+[node name="content" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="title" type="PanelContainer" parent="content"]
+layout_mode = 2
+
+[node name="m" type="MarginContainer" parent="content/title"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 2
+
+[node name="Label" type="Label" parent="content/title/m"]
+layout_mode = 2
+text = "Ultrasonic Projector"
+
+[node name="subtype" type="MarginContainer" parent="content"]
+clip_contents = true
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/margin_top = -3
+
+[node name="p" type="PanelContainer" parent="content/subtype"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+
+[node name="m" type="MarginContainer" parent="content/subtype/p"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_right = 4
+
+[node name="Label" type="Label" parent="content/subtype/p/m"]
+layout_mode = 2
+text = "Harmonic"
+horizontal_alignment = 1
+
+[node name="stats" type="HBoxContainer" parent="content"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="max" type="PanelContainer" parent="content/stats"]
+layout_mode = 2
+
+[node name="m" type="MarginContainer" parent="content/stats/max"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_right = 4
+
+[node name="h" type="HBoxContainer" parent="content/stats/max/m"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="anchor" type="Control" parent="content/stats/max/m/h"]
+custom_minimum_size = Vector2(18, 18)
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="spr" type="Sprite2D" parent="content/stats/max/m/h/anchor"]
+modulate = Color(0.145098, 0.172549, 0.145098, 1)
+position = Vector2(1, 1)
+texture = ExtResource("2_mqx6u")
+centered = false
+hframes = 2
+vframes = 2
+frame = 2
+
+[node name="bg" type="TextureRect" parent="content/stats/max/m/h/anchor"]
+modulate = Color(0.470588, 0.470588, 0.470588, 1)
+custom_minimum_size = Vector2(16, 18)
+layout_mode = 0
+offset_left = 1.0
+offset_right = 17.0
+offset_bottom = 18.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("1_kvm18")
+expand_mode = 4
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="content/stats/max/m/h"]
+layout_mode = 2
+text = ":0"
+
+[node name="start" type="PanelContainer" parent="content/stats"]
+layout_mode = 2
+
+[node name="m" type="MarginContainer" parent="content/stats/start"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_right = 4
+
+[node name="h" type="HBoxContainer" parent="content/stats/start/m"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="anchor" type="Control" parent="content/stats/start/m/h"]
+custom_minimum_size = Vector2(18, 18)
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="spr" type="Sprite2D" parent="content/stats/start/m/h/anchor"]
+modulate = Color(0.2, 1, 0.772549, 1)
+position = Vector2(1, 1)
+texture = ExtResource("2_mqx6u")
+centered = false
+hframes = 2
+vframes = 2
+frame = 2
+
+[node name="bg" type="TextureRect" parent="content/stats/start/m/h/anchor"]
+modulate = Color(0.470588, 0.470588, 0.470588, 1)
+custom_minimum_size = Vector2(16, 18)
+layout_mode = 0
+offset_left = 1.0
+offset_right = 17.0
+offset_bottom = 18.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("1_kvm18")
+expand_mode = 4
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="content/stats/start/m/h"]
+layout_mode = 2
+text = ":0"
+
+[node name="regen" type="PanelContainer" parent="content/stats"]
+layout_mode = 2
+
+[node name="m" type="MarginContainer" parent="content/stats/regen"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_right = 4
+
+[node name="h" type="HBoxContainer" parent="content/stats/regen/m"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="anchor" type="Control" parent="content/stats/regen/m/h"]
+custom_minimum_size = Vector2(18, 18)
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="spr" type="Sprite2D" parent="content/stats/regen/m/h/anchor"]
+modulate = Color(0.305882, 0.901961, 0.298039, 1)
+position = Vector2(1, 1)
+texture = ExtResource("3_dxsr3")
+centered = false
+hframes = 2
+vframes = 2
+frame = 2
+
+[node name="bg" type="TextureRect" parent="content/stats/regen/m/h/anchor"]
+modulate = Color(0.470588, 0.470588, 0.470588, 1)
+custom_minimum_size = Vector2(16, 18)
+layout_mode = 0
+offset_left = 1.0
+offset_right = 17.0
+offset_bottom = 18.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("1_kvm18")
+expand_mode = 4
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="content/stats/regen/m/h"]
+layout_mode = 2
+text = ":0"

@@ -1,1 +1,1 @@
-{"aluminum":1,"armor":0,"atlas":"(5, 2)","atlas_x":5,"atlas_y":2,"cobalt":2,"gallium":1,"hp":3,"id":19,"modules":"[]","movement":["(0, 1)","(0, -1)"],"name":"Phantom","set_modules":"[[\"(0, 0)\",2]]","shield":0,"size":1,"titanium":0,"type":"Module"}
+{"aluminum":1,"armor":0,"atlas":"(5, 2)","atlas_x":5,"atlas_y":2,"cobalt":2,"gallium":1,"hp":5,"id":19,"modules":"[]","movement":["(0, -1)","(1, 0)","(-1, 0)"],"name":"Phantom","set_modules":"[[\"(1, 0)\",2],[\"(0, 1)\",1603],[\"(0, 0)\",1],[\"(2, 0)\",141]]","shield":5,"size":1,"titanium":0,"type":"Module"}

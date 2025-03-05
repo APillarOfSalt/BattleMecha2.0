@@ -42,7 +42,14 @@ const MULTIS : Dictionary = { 		#armor against *,  * vs shield,  *'s vs hp
 }
 func _setup_next_damage(type:int=Module_Data.DMG_TYPES.untyped,val:int=1,ap:bool=false,sp:bool=false)->bool: #true if shield broke
 	print("dmg setup on peer:",multiplayer.get_unique_id(),":",unit_name,":",val,":",type)
-	if type == Module_Data.DMG_TYPES.untyped:
+	if type == Module_Data.DMG_TYPES.healing:
+		hp = min(hp+val, hp_max)
+		return false
+	elif type == Module_Data.DMG_TYPES.shielding:
+		var has := bool(shield)
+		shield += val
+		return !has and val #-shield break(shield back)
+	elif type == Module_Data.DMG_TYPES.untyped:
 		_on_push_untyped()
 		return false
 	val *= 2

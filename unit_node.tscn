@@ -36,3 +36,4 @@ z_index = 2
 visible = false
 z_index = 2
 offset_bottom = 132.0
+show_cost = false

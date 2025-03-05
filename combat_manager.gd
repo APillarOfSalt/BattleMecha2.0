@@ -47,18 +47,23 @@ func _setup():
 		print("no overlaps found")
 		var attackers : Dictionary = obj_ctrl.gather_attacks(phase, prio_step) #atk_obj_id:int : { weapon_module_id:int : [def_obj_id:int, etc...] }
 		print("number of attacks found :",attackers.size())
-		for atk_id:int in attackers.keys():
-			for wep_id:int in attackers[atk_id].keys():
-				var def_ids : Array = attackers[atk_id][wep_id]
-				print("creating combat-> from:",atk_id,"with:",wep_id,
-					"\n to:",def_ids)
-				queue.create_atk_node.rpc(atk_id, wep_id, def_ids)
-				await Global.create_wait_timer()
+		queue_from_data(attackers)
+		var healers : Dictionary = obj_ctrl.gather_heals(phase, prio_step)
+		print("number of heals found :",healers.size())
+		queue_from_data(healers)
 	if queue.attacks.size():
 		queue._play.rpc()
 	elif prio_step:
 		_setup()
 
+func queue_from_data(data:Dictionary):
+	for atk_id:int in data.keys():
+		for wep_id:int in data[atk_id].keys():
+			var def_ids : Array = data[atk_id][wep_id]
+			print("creating combat-> from:",atk_id,"with:",wep_id,
+				"\n to:",def_ids)
+			queue.create_atk_node.rpc(atk_id, wep_id, def_ids)
+			await Global.create_wait_timer()
 
 
 #var overlap_tiles : Array[Vector3i]

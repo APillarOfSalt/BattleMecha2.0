@@ -237,6 +237,32 @@ func get_highest_wep_prio()->int:
 			highest = max( highest, obj.get_highest_wep_prio() )
 	return highest
 
+func gather_heals(melee_ranged:bool, prio_step:int)->Dictionary:
+	var heals : Dictionary = {} #atk_obj_id:int : { weapon_module_id:int : [def_obj_id:int, etc...] }
+	var obj_tiles : Dictionary = get_obj_tiles()
+	for obj:Map_Object in all_objects.values():
+		if obj.unit.state == Unit_Node.STATES.roller:
+			continue
+		var wep_dict : Dictionary = obj.get_heal_tiles(true)
+		for wep_id:int in wep_dict.keys():
+			var weapon : Module_Data.Weapon_Data = obj.unit.unit_data.get_module(wep_id)
+			if weapon.priority != prio_step or !"heal" in weapon.abilities:
+				continue
+			if weapon.subtype != "Melee" and !melee_ranged:
+				continue
+			elif weapon.subtype == "Melee" and melee_ranged:
+				continue
+			for cube:Vector3i in wep_dict[wep_id]:
+				if cube in obj_tiles.keys():
+					for def_id:int in obj_tiles[cube]:
+						if all_objects[def_id].player_num == obj.player_num:
+							if !obj.id in heals.keys():
+								heals[obj.id] = {}
+							if !wep_id in heals[obj.id].keys():
+								heals[obj.id][wep_id] = []
+							heals[obj.id][wep_id].append(def_id)
+	return heals
+
 #false:melee, true:ranged
 func gather_attacks(melee_ranged:bool, prio_step:int)->Dictionary:
 	var attacks : Dictionary = {} #atk_obj_id:int : { weapon_module_id:int : [def_obj_id:int, etc...] }
@@ -244,17 +270,16 @@ func gather_attacks(melee_ranged:bool, prio_step:int)->Dictionary:
 	for obj:Map_Object in all_objects.values():
 		if obj.unit.state == Unit_Node.STATES.roller:
 			continue
-		var wep_tiles : Dictionary = obj.get_weapon_tiles(true)
-		for wep_id:int in wep_tiles.keys():
+		var wep_dict : Dictionary = obj.get_weapon_tiles(true)
+		for wep_id:int in wep_dict.keys():
 			var weapon : Module_Data.Weapon_Data = obj.unit.unit_data.get_module(wep_id)
-			if weapon.priority != prio_step:
+			if weapon.priority != prio_step or "heal" in weapon.abilities:
 				continue
-			var subtype : String = weapon.subtype
-			if subtype != "Melee" and !melee_ranged:
+			if weapon.subtype != "Melee" and !melee_ranged:
 				continue
-			elif subtype == "Melee" and melee_ranged:
+			elif weapon.subtype == "Melee" and melee_ranged:
 				continue
-			for cube:Vector3i in wep_tiles[wep_id]:
+			for cube:Vector3i in wep_dict[wep_id]:
 				if cube in obj_tiles.keys():
 					for def_id:int in obj_tiles[cube]:
 						if all_objects[def_id].player_num != obj.player_num:

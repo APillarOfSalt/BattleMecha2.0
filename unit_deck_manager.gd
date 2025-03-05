@@ -43,9 +43,19 @@ func get_unit(id:int)->Unit_Node:
 	for i in 20:
 		var cont = deck_cont.get_child(i)
 		var toggle : bool = cont.unit.id == id
-		if toggle and !cont.get_is_dead() and cont.linked_node == null:
+		var has_deployed : bool = cont.get_is_dead() or cont.linked_node != null
+		if toggle and !has_deployed:
 			return cont.take_node()
 	return null
+
+func refresh():
+	var total_deployed : int = 0
+	for i in 20:
+		var cont = deck_cont.get_child(i)
+		if cont.get_is_dead() or cont.linked_node != null:
+			total_deployed += 1
+	$left/cur/m/Label.text = str(total_deployed)
+	$left/re/m/Label.text = str(20 - total_deployed)
 
 func has_ran_out()->bool:
 	return rand_unit_id() == -1

@@ -68,7 +68,7 @@ var server_running : bool:
 			client.instance_id = 1
 			server_started.emit()
 		elif server_running and !val:
-			client.instance_id = 0
+			client.instance_id = -1
 			server_stopped.emit()
 const max_players : int = 3
 var iid_counter : int = 1
@@ -113,6 +113,7 @@ func open_server(port)->int:
 	return OK
 
 func _on_peer_disconnect(uid:int):
+	print("peer_id:",uid," disconnected")
 	for iid:int in iid_uid.keys():
 		if iid_uid[iid] == uid:
 			iid_uid.erase(iid)
@@ -120,10 +121,12 @@ func _on_peer_disconnect(uid:int):
 			return
 
 func close_server():
+	client.leave_server.rpc()
+	await get_tree().create_timer(0.5).timeout
+	client.leave_server()
 	server_running = false ## SIGNAL EMIT
 	iid_uid.clear()
 	iid_counter = 0
-	client.left_server.emit(instance_id)
 	instance_id = -1
 	if connect_ip != "localhost":
 		upnp.delete_port_mapping(current_port, "UDP")

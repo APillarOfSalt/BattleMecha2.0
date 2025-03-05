@@ -64,6 +64,7 @@ func _on_wrong_password():
 	connection_status.emit(-ERR_INVALID_DATA)
 	connected = -1
 func _on_server_leave():
+	printerr("left server")
 	connection_status.emit(OK)
 	connected = -1
 

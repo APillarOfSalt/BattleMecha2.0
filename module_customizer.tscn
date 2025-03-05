@@ -134,9 +134,6 @@ horizontal_alignment = 1
 layout_mode = 2
 placeholder_text = "Module Name"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="h/r"]
-layout_mode = 2
-
 [node name="shield" type="GridContainer" parent="h/r"]
 visible = false
 layout_mode = 2
@@ -221,6 +218,18 @@ theme_override_constants/margin_left = -7
 theme_override_constants/margin_right = -7
 
 [node name="toggle" type="CheckButton" parent="h/r/weapon/use_reflect/m"]
+layout_mode = 2
+size_flags_horizontal = 2
+
+[node name="heal" type="HBoxContainer" parent="h/r/weapon"]
+layout_mode = 2
+
+[node name="l" type="Label" parent="h/r/weapon/heal"]
+layout_mode = 2
+text = "Heal : "
+horizontal_alignment = 2
+
+[node name="toggle" type="CheckButton" parent="h/r/weapon/heal"]
 layout_mode = 2
 size_flags_horizontal = 2
 

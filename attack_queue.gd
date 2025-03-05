@@ -66,11 +66,17 @@ func create_atk_node(atk_id:int,mod_id:int,def_ids:Array):
 	var obj:Map_Object = obj_ctrl.all_objects[atk_id]
 	var attacker:Unit_Node = obj.unit
 	var weapon:Module_Data.Weapon_Data = attacker.unit_data.get_module(mod_id)
+	var is_heal : bool = "heal" in weapon.abilities
 	var defense:Array[Unit_Node] = []
 	for id in def_ids:
 		var defender : Unit_Node = obj_ctrl.all_objects[id].unit
-		if attacker.player_num != defender.player_num: #dont attack friendly mechs
+		var def_is_friend : bool = attacker.player_num == defender.player_num
+		#dont attack friendly mechs
+		#dont heal enemy mechs
+		if is_heal == def_is_friend:
 			defense.append(defender)
+	if !defense.size():
+		return
 	var atk_node = one_atk_scene.instantiate()
 	atk_node.animation_finished.connect(_on_anim_finished)
 	atk_node.obj_ctrl = obj_ctrl

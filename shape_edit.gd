@@ -143,3 +143,4 @@ func _on_normalize_pressed():
 		shape = Global.translate_binary_string_bitwise(shape, Vector2i(-1,0))
 	load_shape( shape )
 	
+

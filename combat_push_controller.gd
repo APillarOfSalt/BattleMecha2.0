@@ -35,7 +35,7 @@ func resolve_overlap(data:Dictionary):
 			obj.push_cube = oid_cube[oid]
 		else: #getting bumped
 			print(obj.id,":",obj.push_cube)
-			obj.push_cube = (obj.cubic - obj.to_pos).sign()
+			obj.push_cube = obj.cubic - obj.to_pos
 			print(obj.id,":",obj.push_cube)
 
 class Cube_Option_Handler:

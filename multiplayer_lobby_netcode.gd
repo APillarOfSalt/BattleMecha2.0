@@ -17,7 +17,7 @@ signal server_left() #procs on the CLIENT when leaving or closing the server
 func _on_join_server(iid:int):
 	status = STATUS.connected
 	server_joined.emit()
-func _on_left_server():
+func _on_left_server(_iid:int):
 	status = STATUS.offline
 	server_left.emit()
 
@@ -34,6 +34,7 @@ func _on_server_closed():
 	server_stopped.emit()
 func _on_host_client_joined(iid:int):
 	set_err_l(str("Client#",iid," has joined the server."))
+	
 	client_joined.emit(iid)
 func _on_client_leave(iid:int):
 	client_left.emit(iid)
@@ -47,12 +48,15 @@ func _on_toggle_toggled(toggled_on:bool):
 	$join.visible = !toggled_on
 	$title/h/v/join.visible = !toggled_on
 
+@onready var menu_butt : Button = $"../../../../title/bg/main_menu"
+
 enum STATUS{disconnected=-1,offline=0,connected=1,hosting=2}
 var status : STATUS = STATUS.disconnected:
 	set(val):
 		if status == val:
 			return
 		status = val
+		menu_butt.disabled = val > 0
 		$title.visible = $title.visible and val != STATUS.disconnected
 		$join.visible = $join.visible and val != STATUS.disconnected
 		$host.visible = $host.visible and val != STATUS.disconnected
@@ -87,7 +91,8 @@ func _on_join_connection_status(err:int):
 const host_err_strings : Dictionary = {
 	ERR_ALREADY_IN_USE: "Server Creation Failed: Port Already In Use",
 	ERR_CANT_CREATE: "Server Creation Failed: Invalid Configuration",
-	-1: "Server Creation Failed: Unhandled Error #"
+	-1: "Server Creation Failed: Unhandled Error #",
+	-2: "Server stopped"
 }
 const join_err_strings : Dictionary = {
 	-ERR_TIMEOUT: "Connection Failed: Timeout was reached",

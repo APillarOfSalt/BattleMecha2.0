@@ -55,11 +55,16 @@ func join_server()->int:
 			leave_server()
 			join_timeout.emit()
 	return err
+@rpc("authority","call_remote","reliable")
 func leave_server():
 	if multiplayer.connected_to_server.is_connected(_on_connected_to_a_server):
 		multiplayer.connected_to_server.disconnect(_on_connected_to_a_server)
-	multiplayer.multiplayer_peer.close()
-	left_server.emit()
+	var uid : int = multiplayer.get_unique_id()
+	if uid == 1:
+		multiplayer.multiplayer_peer.close()
+	else:
+		multiplayer.multiplayer_peer.disconnect_peer(uid)
+	left_server.emit(-2)
 
 func _on_connected_to_a_server():
 	print("connected ",multiplayer.get_unique_id()," : ",Time.get_ticks_msec())

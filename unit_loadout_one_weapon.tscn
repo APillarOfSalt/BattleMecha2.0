@@ -1,0 +1,193 @@
+[gd_scene load_steps=6 format=3 uid="uid://cw1se2g016055"]
+
+[ext_resource type="Script" path="res://unit_loadout_one_weapon.gd" id="1_4is73"]
+[ext_resource type="Texture2D" uid="uid://ioldw74qi7oq" path="res://assets/damage_icons/duration.png" id="1_qme4n"]
+[ext_resource type="Texture2D" uid="uid://cm4lnsfohw12e" path="res://assets/damage_icons/c.png" id="2_ipbq3"]
+[ext_resource type="Texture2D" uid="uid://coo5w5i2g81bj" path="res://assets/damage_icons/p.png" id="3_wrsv1"]
+[ext_resource type="Texture2D" uid="uid://cuw73ekd0vkxc" path="res://assets/damage_icons/v.png" id="4_1f4si"]
+
+[node name="one_wep" type="PanelContainer"]
+custom_minimum_size = Vector2(216, 0)
+script = ExtResource("1_4is73")
+
+[node name="content" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="title" type="PanelContainer" parent="content"]
+layout_mode = 2
+
+[node name="m" type="MarginContainer" parent="content/title"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 2
+
+[node name="Label" type="Label" parent="content/title/m"]
+layout_mode = 2
+text = "Nanobot Energy Discharge"
+
+[node name="subtitle" type="MarginContainer" parent="content"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+
+[node name="prio" type="PanelContainer" parent="content/subtitle"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+size_flags_horizontal = 0
+mouse_filter = 2
+
+[node name="m" type="MarginContainer" parent="content/subtitle/prio"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_right = 4
+
+[node name="h" type="HBoxContainer" parent="content/subtitle/prio/m"]
+layout_mode = 2
+theme_override_constants/separation = 1
+
+[node name="Label" type="Label" parent="content/subtitle/prio/m/h"]
+layout_mode = 2
+text = "0"
+horizontal_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="content/subtitle/prio/m/h"]
+layout_mode = 2
+texture = ExtResource("1_qme4n")
+
+[node name="subtype" type="MarginContainer" parent="content/subtitle"]
+clip_contents = true
+layout_mode = 2
+theme_override_constants/margin_top = -3
+
+[node name="p" type="PanelContainer" parent="content/subtitle/subtype"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+
+[node name="m" type="MarginContainer" parent="content/subtitle/subtype/p"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_right = 4
+
+[node name="Label" type="Label" parent="content/subtitle/subtype/p/m"]
+layout_mode = 2
+text = "Subtype"
+horizontal_alignment = 1
+
+[node name="dmg" type="PanelContainer" parent="content/subtitle"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+size_flags_horizontal = 10
+mouse_filter = 2
+
+[node name="m" type="MarginContainer" parent="content/subtitle/dmg"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_right = 2
+
+[node name="h" type="HBoxContainer" parent="content/subtitle/dmg/m"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Label" type="Label" parent="content/subtitle/dmg/m/h"]
+layout_mode = 2
+text = "0"
+horizontal_alignment = 1
+
+[node name="p" type="TextureRect" parent="content/subtitle/dmg/m/h"]
+layout_mode = 2
+texture = ExtResource("3_wrsv1")
+
+[node name="v" type="TextureRect" parent="content/subtitle/dmg/m/h"]
+visible = false
+layout_mode = 2
+texture = ExtResource("4_1f4si")
+
+[node name="c" type="TextureRect" parent="content/subtitle/dmg/m/h"]
+visible = false
+layout_mode = 2
+texture = ExtResource("2_ipbq3")
+
+[node name="abilites" type="HBoxContainer" parent="content"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 2
+alignment = 2
+
+[node name="ap" type="PanelContainer" parent="content/abilites"]
+layout_mode = 2
+
+[node name="m" type="MarginContainer" parent="content/abilites/ap"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 2
+
+[node name="Label" type="Label" parent="content/abilites/ap/m"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "AP"
+
+[node name="sp" type="PanelContainer" parent="content/abilites"]
+layout_mode = 2
+
+[node name="m" type="MarginContainer" parent="content/abilites/sp"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 2
+
+[node name="Label" type="Label" parent="content/abilites/sp/m"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "SP"
+
+[node name="ref" type="PanelContainer" parent="content/abilites"]
+layout_mode = 2
+
+[node name="m" type="MarginContainer" parent="content/abilites/ref"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 2
+
+[node name="Label" type="Label" parent="content/abilites/ref/m"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "Reflect"
+
+[node name="push" type="PanelContainer" parent="content/abilites"]
+layout_mode = 2
+
+[node name="m" type="MarginContainer" parent="content/abilites/push"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 2
+
+[node name="Label" type="Label" parent="content/abilites/push/m"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "Push"
+
+[node name="heal" type="PanelContainer" parent="content/abilites"]
+layout_mode = 2
+
+[node name="m" type="MarginContainer" parent="content/abilites/heal"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 2
+
+[node name="Label" type="Label" parent="content/abilites/heal/m"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "Heal"

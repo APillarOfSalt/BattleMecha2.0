@@ -1,4 +1,4 @@
-extends MarginContainer
+extends Container
 
 @onready var u_spr : Sprite2D = $m/unit
 @onready var w_spr : Sprite2D = $m/wreck
@@ -7,6 +7,7 @@ extends MarginContainer
 const unit_outline_width : int = 4
 
 const unit_node_scene : PackedScene  = preload("res://unit_node.tscn")
+const detailed_unit_scene : PackedScene = preload("res://unit_detailed_display.tscn")
 
 func get_is_in_deck()->bool:
 	return linked_node == null and !get_is_dead()
@@ -44,6 +45,7 @@ var unit : Unit_Data = null:
 	set(data):
 		unit = data
 		u_spr.frame_coords = data.atlas
+		create_detailed_display()
 var base_color : Color = Color.WHITE:
 	set(color):
 		base_color = color
@@ -61,12 +63,31 @@ func _on_unit_hovered(unit:Unit_Node, is_hovered:bool):
 	linked_node.map_obj.cursor.cursor_hover(is_hovered)
 	is_emitting = false
 
-func _on_empty_mouse_entered():
+func _on_button_mouse_entered():
 	if linked_node != null:
 		if linked_node.is_inside_tree():
 			_on_unit_hovered(linked_node, true)
-	
-func _on_empty_mouse_exited():
+
+func _on_button_mouse_exited():
 	if linked_node != null:
 		if linked_node.is_inside_tree():
 			_on_unit_hovered(linked_node, false)
+
+var detailed_display : Detailed_Unit_Display = null
+func create_detailed_display():
+	detailed_display = detailed_unit_scene.instantiate()
+	$PopupPanel.transient = false
+	$PopupPanel.add_child(detailed_display)
+	detailed_display.unit = unit
+
+func _on_button_toggled(toggled_on:bool):
+	if toggled_on:
+		var rect : Rect2
+		rect.size = detailed_display.size
+		rect.position = Vector2( $PopupPanel.position )
+		$PopupPanel.popup(rect)
+	elif $PopupPanel.visible:
+		$PopupPanel.hide()
+
+func _on_popup_panel_popup_hide():
+	$Button.button_pressed = false

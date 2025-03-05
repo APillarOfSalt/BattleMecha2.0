@@ -19,7 +19,8 @@ func setup(atk:Unit_Node, wep:Module_Data, def:Array):
 	attacker = atk
 	atk_spr.frame_coords = atk.unit_data.atlas
 	weapon = wep
-	if wep.push >= 0:
+	var has_push : bool = wep.push >= 0
+	if has_push:
 		push = atk.cubic_weapons_push[wep.id]
 	all_nodes.append(attacker)
 	for defender : Unit_Node in def:
@@ -29,9 +30,8 @@ func setup(atk:Unit_Node, wep:Module_Data, def:Array):
 		def_node.show_local_sprite = true
 		$h/def.add_child(def_node)
 		defenders_uis.append(def_node)
-		if push == Vector3i(0,0,0):
-			break
-		defender.map_obj.push_cube = push
+		if has_push:
+			defender.map_obj.push_cube = push
 
 var num_anims : int = 0
 func play():

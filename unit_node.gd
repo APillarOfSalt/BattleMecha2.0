@@ -36,8 +36,6 @@ enum STATES{roller=-1,held=0,deploy=1,ready=2}
 @export_enum("Display:-2","Roller:-1","Held:0","Deployed:1","Ready:2") var state : int = STATES.roller:
 	set(val):
 		state = val
-		if state > STATES.held:
-			show_sell()
 		state_changed.emit(val)
 		if locally_owned:
 			_remote_state_set.rpc(val)
@@ -75,7 +73,6 @@ func refresh_afford(has_actions:bool=true):
 
 func refresh():
 	ui.unit = unit_data
-	false
 	if unit_data == null:
 		spr1.visible = true
 		spr1.frame_coords = Vector2i(6,2)
@@ -156,13 +153,6 @@ var hovered : bool = false:
 		ui.z_index = 1 + is_hovered
 		unit_hovered.emit(self, toggle)
 
-func show_sell(is_sale:bool=false):
-	if is_sale:
-		ui.set_cost_vis(ui.COST_VIS.sale)
-	elif !map_obj.bought:
-		ui.set_cost_vis(ui.COST_VIS.cost)
-	else:
-		ui.set_cost_vis(ui.COST_VIS.hidden)
 
 
 #func _start_turn():

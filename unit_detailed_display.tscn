@@ -1,0 +1,452 @@
+[gd_scene load_steps=13 format=3 uid="uid://dv6oaclrhyqy1"]
+
+[ext_resource type="Script" path="res://unit_detailed_display.gd" id="1_ktts6"]
+[ext_resource type="Texture2D" uid="uid://nb7t8xgq5g1s" path="res://assets/s1spritesheet.png" id="1_vivld"]
+[ext_resource type="Texture2D" uid="uid://bht6ck5fmq3n" path="res://assets/s2spritesheet.png" id="2_m5sc0"]
+[ext_resource type="Texture2D" uid="uid://d2xaqv02kpvao" path="res://assets/heart.png" id="3_nyj12"]
+[ext_resource type="Script" path="res://unit_detailed_display_cost.gd" id="4_8hhws"]
+[ext_resource type="Texture2D" uid="uid://daajittfhy2md" path="res://assets/shoulder-armor.png" id="4_m5dit"]
+[ext_resource type="Texture2D" uid="uid://cn4rshspf2yy6" path="res://assets/shield_4_16.png" id="5_1sijb"]
+[ext_resource type="Texture2D" uid="uid://cmhrwsq2tj1cq" path="res://assets/shield_all_16.png" id="6_8hbjl"]
+[ext_resource type="Texture2D" uid="uid://dlc173opy3pbh" path="res://assets/shield_regen_16.png" id="7_m3hpy"]
+[ext_resource type="PackedScene" uid="uid://c5j6yc30a0sip" path="res://cost.tscn" id="8_3bj8i"]
+[ext_resource type="Script" path="res://unit_detailed_display_loadout.gd" id="11_a24w5"]
+
+[sub_resource type="SystemFont" id="SystemFont_qi5j0"]
+font_names = PackedStringArray("Cambria")
+subpixel_positioning = 0
+
+[node name="detailed_unit_display" type="HBoxContainer"]
+offset_right = 141.0
+offset_bottom = 262.0
+theme_override_constants/separation = 2
+script = ExtResource("1_ktts6")
+
+[node name="v" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="title" type="PanelContainer" parent="v"]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="m" type="Control" parent="v/title"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 2
+
+[node name="name" type="Label" parent="v/title/m"]
+layout_mode = 0
+offset_left = -130.0
+offset_top = -18.0
+offset_right = 2.0
+offset_bottom = -3.0
+scale = Vector2(2, 2)
+theme_override_fonts/font = SubResource("SystemFont_qi5j0")
+theme_override_font_sizes/font_size = 12
+text = "Legionnaire"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="sprites" type="MarginContainer" parent="v"]
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 2
+size_flags_vertical = 0
+mouse_filter = 2
+theme_override_constants/margin_top = -2
+
+[node name="anchor" type="Control" parent="v/sprites"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="size1" type="Sprite2D" parent="v/sprites/anchor"]
+scale = Vector2(2, 2)
+texture = ExtResource("1_vivld")
+hframes = 7
+vframes = 3
+
+[node name="size2" type="Sprite2D" parent="v/sprites/anchor"]
+visible = false
+scale = Vector2(2, 2)
+texture = ExtResource("2_m5sc0")
+hframes = 3
+vframes = 2
+frame = 1
+
+[node name="cost" type="HBoxContainer" parent="v"]
+layout_mode = 2
+theme_override_constants/separation = 0
+alignment = 1
+script = ExtResource("4_8hhws")
+
+[node name="v" type="VBoxContainer" parent="v/cost"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = -1
+
+[node name="buy" type="MarginContainer" parent="v/cost/v"]
+layout_mode = 2
+theme_override_constants/margin_top = -7
+
+[node name="Label" type="Label" parent="v/cost/v/buy"]
+layout_mode = 2
+size_flags_vertical = 8
+text = "Buy"
+horizontal_alignment = 1
+
+[node name="m" type="MarginContainer" parent="v/cost/v"]
+custom_minimum_size = Vector2(0, 27)
+layout_mode = 2
+
+[node name="anchor" type="Control" parent="v/cost/v/m"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="rotation" type="Control" parent="v/cost/v/m/anchor"]
+anchors_preset = 0
+rotation = 1.5708
+
+[node name="CheckButton" type="CheckButton" parent="v/cost/v/m/anchor/rotation"]
+layout_mode = 0
+offset_left = -22.0
+offset_top = -12.0
+offset_right = 22.0
+offset_bottom = 12.0
+
+[node name="sell" type="MarginContainer" parent="v/cost/v"]
+layout_mode = 2
+theme_override_constants/margin_top = -5
+theme_override_constants/margin_bottom = -4
+
+[node name="Label" type="Label" parent="v/cost/v/sell"]
+layout_mode = 2
+size_flags_vertical = 8
+text = "Sell"
+horizontal_alignment = 1
+
+[node name="cost" parent="v/cost" instance=ExtResource("8_3bj8i")]
+layout_mode = 2
+theme_override_constants/v_separation = 3
+columns = 6
+override_visible = 15
+font_size_override = 22
+
+[node name="hp_armor" type="HBoxContainer" parent="v"]
+layout_mode = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="hp" type="PanelContainer" parent="v/hp_armor"]
+layout_mode = 2
+
+[node name="m" type="MarginContainer" parent="v/hp_armor/hp"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_right = 4
+
+[node name="h" type="HBoxContainer" parent="v/hp_armor/hp/m"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="anchor" type="Control" parent="v/hp_armor/hp/m/h"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="spr" type="Sprite2D" parent="v/hp_armor/hp/m/h/anchor"]
+modulate = Color(1, 0.2, 0.305882, 1)
+position = Vector2(1, 2)
+scale = Vector2(1.1, 1.1)
+texture = ExtResource("3_nyj12")
+centered = false
+hframes = 2
+vframes = 2
+frame = 3
+
+[node name="Label" type="Label" parent="v/hp_armor/hp/m/h"]
+layout_mode = 2
+text = ":0"
+
+[node name="armor" type="PanelContainer" parent="v/hp_armor"]
+layout_mode = 2
+
+[node name="m" type="MarginContainer" parent="v/hp_armor/armor"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_right = 4
+
+[node name="h" type="HBoxContainer" parent="v/hp_armor/armor/m"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="rect" type="TextureRect" parent="v/hp_armor/armor/m/h"]
+modulate = Color(0.498039, 0.768627, 0.831373, 1)
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+texture = ExtResource("4_m5dit")
+expand_mode = 4
+stretch_mode = 4
+
+[node name="Label" type="Label" parent="v/hp_armor/armor/m/h"]
+layout_mode = 2
+text = ":0"
+
+[node name="shields" type="HBoxContainer" parent="v"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="max" type="PanelContainer" parent="v/shields"]
+layout_mode = 2
+
+[node name="m" type="MarginContainer" parent="v/shields/max"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_right = 4
+
+[node name="h" type="HBoxContainer" parent="v/shields/max/m"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="anchor" type="Control" parent="v/shields/max/m/h"]
+custom_minimum_size = Vector2(18, 18)
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="spr" type="Sprite2D" parent="v/shields/max/m/h/anchor"]
+modulate = Color(0.145098, 0.172549, 0.145098, 1)
+position = Vector2(1, 1)
+texture = ExtResource("6_8hbjl")
+centered = false
+hframes = 2
+vframes = 2
+frame = 2
+
+[node name="bg" type="TextureRect" parent="v/shields/max/m/h/anchor"]
+modulate = Color(0.470588, 0.470588, 0.470588, 1)
+custom_minimum_size = Vector2(16, 18)
+layout_mode = 0
+offset_left = 1.0
+offset_right = 17.0
+offset_bottom = 18.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("5_1sijb")
+expand_mode = 4
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="v/shields/max/m/h"]
+layout_mode = 2
+text = ":0"
+
+[node name="start" type="PanelContainer" parent="v/shields"]
+layout_mode = 2
+
+[node name="m" type="MarginContainer" parent="v/shields/start"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_right = 4
+
+[node name="h" type="HBoxContainer" parent="v/shields/start/m"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="anchor" type="Control" parent="v/shields/start/m/h"]
+custom_minimum_size = Vector2(18, 18)
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="spr" type="Sprite2D" parent="v/shields/start/m/h/anchor"]
+modulate = Color(0.2, 1, 0.772549, 1)
+position = Vector2(1, 1)
+texture = ExtResource("6_8hbjl")
+centered = false
+hframes = 2
+vframes = 2
+frame = 2
+
+[node name="bg" type="TextureRect" parent="v/shields/start/m/h/anchor"]
+modulate = Color(0.470588, 0.470588, 0.470588, 1)
+custom_minimum_size = Vector2(16, 18)
+layout_mode = 0
+offset_left = 1.0
+offset_right = 17.0
+offset_bottom = 18.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("5_1sijb")
+expand_mode = 4
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="v/shields/start/m/h"]
+layout_mode = 2
+text = ":0"
+
+[node name="regen" type="PanelContainer" parent="v/shields"]
+layout_mode = 2
+
+[node name="m" type="MarginContainer" parent="v/shields/regen"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_right = 4
+
+[node name="h" type="HBoxContainer" parent="v/shields/regen/m"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="anchor" type="Control" parent="v/shields/regen/m/h"]
+custom_minimum_size = Vector2(18, 18)
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="spr" type="Sprite2D" parent="v/shields/regen/m/h/anchor"]
+modulate = Color(0.305882, 0.901961, 0.298039, 1)
+position = Vector2(1, 1)
+texture = ExtResource("7_m3hpy")
+centered = false
+hframes = 2
+vframes = 2
+frame = 2
+
+[node name="bg" type="TextureRect" parent="v/shields/regen/m/h/anchor"]
+modulate = Color(0.470588, 0.470588, 0.470588, 1)
+custom_minimum_size = Vector2(16, 18)
+layout_mode = 0
+offset_left = 1.0
+offset_right = 17.0
+offset_bottom = 18.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("5_1sijb")
+expand_mode = 4
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="v/shields/regen/m/h"]
+layout_mode = 2
+text = ":+0"
+
+[node name="loadout" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="p" type="PanelContainer" parent="loadout"]
+clip_contents = true
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="m" type="Control" parent="loadout/p"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 2
+
+[node name="name" type="Label" parent="loadout/p/m"]
+layout_mode = 0
+offset_left = -45.0
+offset_top = -16.0
+offset_right = -2.0
+offset_bottom = -1.0
+scale = Vector2(2.125, 2.125)
+theme_override_fonts/font = SubResource("SystemFont_qi5j0")
+theme_override_font_sizes/font_size = 12
+text = "Loadout"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="content" type="HBoxContainer" parent="loadout"]
+layout_mode = 2
+theme_override_constants/separation = 0
+script = ExtResource("11_a24w5")
+
+[node name="weps" type="VBoxContainer" parent="loadout/content"]
+layout_mode = 2
+
+[node name="subtitle" type="PanelContainer" parent="loadout/content/weps"]
+clip_contents = true
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="m" type="Control" parent="loadout/content/weps/subtitle"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 2
+
+[node name="name" type="Label" parent="loadout/content/weps/subtitle/m"]
+layout_mode = 0
+offset_left = -42.0
+offset_top = -14.0
+offset_right = 5.0
+offset_bottom = 1.0
+scale = Vector2(1.75, 1.75)
+theme_override_fonts/font = SubResource("SystemFont_qi5j0")
+theme_override_font_sizes/font_size = 12
+text = "Weapons"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="shields" type="VBoxContainer" parent="loadout/content"]
+layout_mode = 2
+
+[node name="subtitle" type="PanelContainer" parent="loadout/content/shields"]
+clip_contents = true
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="m" type="Control" parent="loadout/content/shields/subtitle"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 2
+
+[node name="name" type="Label" parent="loadout/content/shields/subtitle/m"]
+layout_mode = 0
+offset_left = -42.0
+offset_top = -14.0
+offset_right = 5.0
+offset_bottom = 1.0
+scale = Vector2(1.75, 1.75)
+theme_override_fonts/font = SubResource("SystemFont_qi5j0")
+theme_override_font_sizes/font_size = 12
+text = "Shields"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="mods" type="VBoxContainer" parent="loadout/content"]
+layout_mode = 2
+
+[node name="subtitle" type="PanelContainer" parent="loadout/content/mods"]
+clip_contents = true
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="m" type="Control" parent="loadout/content/mods/subtitle"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 2
+
+[node name="name" type="Label" parent="loadout/content/mods/subtitle/m"]
+layout_mode = 0
+offset_left = -44.0
+offset_top = -14.0
+offset_bottom = 1.0
+scale = Vector2(1.75, 1.75)
+theme_override_fonts/font = SubResource("SystemFont_qi5j0")
+theme_override_font_sizes/font_size = 12
+text = "Modules"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="toggled" from="v/cost/v/m/anchor/rotation/CheckButton" to="v/cost" method="_on_check_button_toggled"]

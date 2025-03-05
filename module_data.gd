@@ -1,7 +1,7 @@
 extends Resource
 class_name Module_Data
 
-enum DMG_TYPES{untyped=-1, percussive=0, voltaic=1, concussive=2}
+enum DMG_TYPES{shielding=-3,healing=-2,untyped=-1, percussive=0, voltaic=1, concussive=2}
 
 var id : int
 var size : int
@@ -79,6 +79,11 @@ class Weapon_Data:
 			dmg_type = DMG_TYPES.voltaic
 		elif subtype == "Cannon" or subtype == "Launcher":
 			dmg_type = DMG_TYPES.concussive
+		if "heal" in abilities:
+			if subtype == "Laser" or subtype == "Coil":
+				dmg_type = DMG_TYPES.shielding
+			else:
+				dmg_type = DMG_TYPES.healing
 		return dmg_type
 class Shield_Data:
 	extends Module_Data

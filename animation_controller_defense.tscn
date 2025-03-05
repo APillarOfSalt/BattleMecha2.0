@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://doxg561wf43a4"]
+[gd_scene load_steps=15 format=3 uid="uid://doxg561wf43a4"]
 
 [ext_resource type="Script" path="res://animation_controller_defense.gd" id="1_lapkh"]
 [ext_resource type="AnimationLibrary" uid="uid://crri5mft4ecjr" path="res://animations/defense_lib.res" id="2_ilbp7"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://ctmkk2g2avfyt" path="res://assets/texture_lib/shield_break_start.png" id="10_hcyqw"]
 [ext_resource type="Texture2D" uid="uid://bh35r23qxfma6" path="res://assets/texture_lib/shield.png" id="11_7sxd1"]
 [ext_resource type="Texture2D" uid="uid://qaxd3ogv72gu" path="res://assets/texture_lib/shield_break_end.png" id="12_icwp2"]
+[ext_resource type="Texture2D" uid="uid://d2xaqv02kpvao" path="res://assets/heart.png" id="12_my3b0"]
 [ext_resource type="Texture2D" uid="uid://drrx5sk37x60c" path="res://assets/texture_lib/v_hit_2.png" id="13_cgq4l"]
 [ext_resource type="Texture2D" uid="uid://cpbh17wlk88u3" path="res://assets/texture_lib/melee_hit.png" id="14_w88ca"]
 [ext_resource type="Texture2D" uid="uid://b0d665ajmdk08" path="res://assets/texture_lib/c_hit.png" id="15_emw40"]
@@ -48,7 +49,7 @@ modulate = Color(1, 1, 1, 0)
 texture = ExtResource("11_7sxd1")
 hframes = 18
 vframes = 9
-frame = 53
+frame = 43
 
 [node name="shield_break_end" type="Sprite2D" parent="."]
 visible = false
@@ -69,20 +70,18 @@ frame = 56
 
 [node name="p_hit" type="Sprite2D" parent="."]
 visible = false
-modulate = Color(1, 1, 1, 0)
 texture = ExtResource("14_w88ca")
 hframes = 17
 vframes = 9
-frame = 16
+frame = 1
 
 [node name="c_hit" type="Sprite2D" parent="."]
 visible = false
-modulate = Color(1, 1, 1, 0)
 texture = ExtResource("15_emw40")
 flip_h = true
 hframes = 14
 vframes = 9
-frame = 13
+frame = 111
 
 [node name="mask" type="Sprite2D" parent="."]
 clip_children = 1
@@ -92,11 +91,17 @@ vframes = 3
 
 [node name="v_hit" type="Sprite2D" parent="mask"]
 visible = false
-modulate = Color(1, 1, 1, 0)
 texture = ExtResource("16_qbmdm")
 hframes = 17
 vframes = 9
-frame = 50
+frame = 34
+
+[node name="heart" type="Sprite2D" parent="."]
+visible = false
+modulate = Color(1, 0.2, 0.305882, 0)
+texture = ExtResource("12_my3b0")
+hframes = 2
+vframes = 2
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="animation_started" from="AnimationPlayer" to="." method="_on_animation_player_animation_started"]

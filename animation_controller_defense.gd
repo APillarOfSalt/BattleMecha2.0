@@ -23,7 +23,11 @@ func _setup_defense(type:Module_Data.DMG_TYPES, wep_size:int, ap:bool=false, sp:
 	dmg_type = type
 	weapon_size = wep_size
 	var shield_break : bool = stats._setup_next_damage(type, wep_size, ap, sp)
-	if shield_break:
+	if type == Module_Data.DMG_TYPES.healing:
+		active_anim = ANIM.heal
+	elif type == Module_Data.DMG_TYPES.shielding and shield_break:
+		active_anim = ANIM.shield_hit
+	elif shield_break:
 		active_anim = ANIM.shield_break
 	elif unit.stats.shield:
 		active_anim = ANIM.shield_hit
@@ -79,12 +83,14 @@ func _play_death(local:bool=true):
 
 
 const STRS : Dictionary = {
+	Module_Data.DMG_TYPES.shielding : "u",
+	Module_Data.DMG_TYPES.healing : "u",
 	Module_Data.DMG_TYPES.untyped : "u",
 	Module_Data.DMG_TYPES.percussive : "p",
 	Module_Data.DMG_TYPES.concussive : "c",
 	Module_Data.DMG_TYPES.voltaic : "v",
 }
-enum ANIM{death=4, hit=3, shield_break=2, shield_hit=1, none=0}
+enum ANIM{death=4, hit=3, shield_break=2, shield_hit=1, none=0, heal=-1}
 var active_anim_name : String = ""
 var active_anim : int = 0
 const ANIMS : Dictionary = {
@@ -117,6 +123,11 @@ const ANIMS : Dictionary = {
 		"c" : 210,
 		"v" : 280,
 	},
+	ANIM.heal: {
+		"anim" : "defense_lib/heal",
+		"msec" : 500,
+		"u" : 250,
+	}
 }
 
 

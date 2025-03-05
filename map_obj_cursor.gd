@@ -2,7 +2,7 @@ extends Sprite2D
 
 @onready var bg_spr : Sprite2D = $"../bg"
 @onready var move_highlight : TileMap = $"../movement_highlight"
-@onready var atk_highlight = $combat_highlight
+@onready var atk_highlight : TileMap = $"../combat_highlight"
 @onready var obj : Map_Object = get_parent()
 var global_map : TileMap:
 	get: return obj.map
@@ -40,19 +40,31 @@ var to_pos : Vector3i:
 		bg_spr.visible = vec != cubic
 		atk_highlight.highlight_attack(atk_highlight.is_highlighting)
 		global_position = glo_pos_from_cube(vec)
-		unit.show_sell( global_map.is_trash(vec) )
+		atk_highlight.position = position - Vector2(32,32)
+		if !obj.locally_owned:
+			unit.ui.set_cost_vis(0)
+		elif global_map.is_trash(vec):
+			unit.ui.set_cost_vis(1)
+		elif obj.bought:
+			unit.ui.set_cost_vis(0)
+		else:
+			unit.ui.set_cost_vis(-1)
 var push_cube := Vector3i(0,0,0):
 	set(vec):
 		push_cube = vec
 		visible = vec != Vector3i(0,0,0)
 		global_position = glo_pos_from_cube(vec)
+		atk_highlight.position = position - Vector2(32,32)
 
 
 var hovered : bool = false
 func cursor_hover(is_hovered:bool):
 	if hovered == is_hovered:
 		return #if the hover state isn't being changed
-	move_highlight.highlight_movement(is_hovered or held != null)
+	if !obj.locally_owned:
+		atk_highlight.highlight_attack(is_hovered)
+	else:
+		move_highlight.highlight_movement(is_hovered or held != null)
 	hovered = is_hovered
 	unit.hovered = is_hovered
 func cursor_accept(cursor:Map_Cursor):

@@ -1,0 +1,25 @@
+[gd_scene load_steps=2 format=3 uid="uid://4vx8xrcp7ecn"]
+
+[ext_resource type="Script" path="res://unit_loadout_one_module.gd" id="1_nehlx"]
+
+[node name="one_mod" type="PanelContainer"]
+custom_minimum_size = Vector2(170, 0)
+script = ExtResource("1_nehlx")
+
+[node name="content" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="title" type="PanelContainer" parent="content"]
+layout_mode = 2
+
+[node name="m" type="MarginContainer" parent="content/title"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 2
+
+[node name="Label" type="Label" parent="content/title/m"]
+layout_mode = 2
+text = "Self Destruct System"

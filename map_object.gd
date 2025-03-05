@@ -9,11 +9,12 @@ func glo_pos_from_cube(cube:Vector3i)->Vector2:
 
 @onready var cursor : Sprite2D = $cursor_manager
 @onready var move_highlight : TileMap = $movement_highlight
-@onready var atk_highlight : TileMap = $cursor_manager/combat_highlight
+@onready var atk_highlight : TileMap = $combat_highlight
 
 func _start_turn():
 	turn_over = false
 	unit.stats._start_turn()
+	unit.ui.show_cost = locally_owned and !bought
 
 
 var turn_over : bool = false:
@@ -23,6 +24,7 @@ var turn_over : bool = false:
 var bought : bool = false
 func do_purchase()->bool:
 	if check_afforable():
+		unit.ui.show_cost = false
 		ui.apply_cost_to_res()
 		bought = true
 	return bought
@@ -131,16 +133,34 @@ func get_weapon_tiles(use_cubic:bool=false)->Dictionary:
 	var wep_tiles : Dictionary = {}
 	for wep_id:int in unit.cubic_weapons.keys():
 		wep_tiles[wep_id] = []
+		if "heal" in DataLoader.modules_by_id[wep_id].abilities:
+			continue
 		if "ref" in DataLoader.modules_by_id[wep_id].abilities and to_pos != Vector3i(0,0,0):
 			for i in 2:
 				var cube : Vector3i = map.get_equal_cube(to_pos,bool(i))
-				wep_tiles[wep_id].append( cube-to_pos )
+				if !use_cubic:
+					wep_tiles[wep_id].append(cube-to_pos)
+				else:
+					wep_tiles[wep_id].append(cube)
 		else:
 			for cube:Vector3i in unit.cubic_weapons[wep_id]:
-				wep_tiles[wep_id].append(cube)
 				if use_cubic:
-					wep_tiles[wep_id][-1] += to_pos
+					wep_tiles[wep_id].append(cube+to_pos)
+				else:
+					wep_tiles[wep_id].append(cube)
 	return wep_tiles
+func get_heal_tiles(use_cubic:bool=false)->Dictionary:
+	var heal_tiles : Dictionary = {}
+	for heal_id:int in unit.cubic_weapons.keys():
+		heal_tiles[heal_id] = []
+		if !"heal" in DataLoader.modules_by_id[heal_id].abilities:
+			continue
+		for cube:Vector3i in unit.cubic_weapons[heal_id]:
+			heal_tiles[heal_id].append(cube)
+			if use_cubic:
+				heal_tiles[heal_id][-1] += to_pos
+	return heal_tiles
+
 
 func get_movement(use_cubic:bool=false)->Array[Vector3i]:
 	var affordable : bool = check_afforable() or bought

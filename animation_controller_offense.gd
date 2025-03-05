@@ -27,14 +27,24 @@ func setup_atk(wep:Module_Data.Weapon_Data, defs:Array):
 		dmg_type = wep.get_dmg_type()
 		weapon_size = wep.size
 		subtype = wep.subtype
-	active_anim = STRS[subtype]
-	active_anim_name = ANIMS[active_anim].anim
+	if dmg_type == Module_Data.DMG_TYPES.healing or dmg_type == Module_Data.DMG_TYPES.shielding:
+		active_anim = -1
+		active_anim_name = ""
+	else:
+		active_anim = STRS[subtype]
+		active_anim_name = ANIMS[active_anim].anim
 func _play():
 	if active_anim == 0:
 		print("oop")
 		return
 	printerr(active_anim)
-	if subtype == "Rifle" or subtype == "Cannon" or subtype == "Launcher":
+	if dmg_type == Module_Data.DMG_TYPES.healing or dmg_type == Module_Data.DMG_TYPES.shielding:
+		while defenders.size():
+			var def : Unit_Node = defenders.pop_front()
+			def.def_anim_ctrl._setup_defense(dmg_type, weapon_size)
+			def.def_anim_ctrl._do_anim(0)
+		_on_animation_player_animation_finished("Healing")
+	elif subtype == "Rifle" or subtype == "Cannon" or subtype == "Launcher":
 		_play_next()
 	else:
 		_play_all()

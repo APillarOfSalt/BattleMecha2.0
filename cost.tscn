@@ -87,7 +87,7 @@ script = ExtResource("1_1nrns")
 [node name="ti_l" type="MarginContainer" parent="."]
 layout_mode = 2
 size_flags_horizontal = 4
-size_flags_vertical = 4
+size_flags_vertical = 6
 theme_override_constants/margin_left = 0
 theme_override_constants/margin_top = -6
 theme_override_constants/margin_right = -1
@@ -106,6 +106,7 @@ horizontal_alignment = 2
 visible = false
 custom_minimum_size = Vector2(4, 0)
 layout_mode = 2
+size_flags_vertical = 6
 theme_override_font_sizes/font_size = 14
 text = ":"
 
@@ -113,7 +114,7 @@ text = ":"
 visible = false
 custom_minimum_size = Vector2(26, 26)
 layout_mode = 2
-size_flags_vertical = 4
+size_flags_vertical = 6
 theme_override_styles/panel = SubResource("StyleBoxFlat_ogh0h")
 
 [node name="s" type="MarginContainer" parent="ti"]
@@ -156,7 +157,7 @@ vertical_alignment = 2
 visible = false
 layout_mode = 2
 size_flags_horizontal = 0
-size_flags_vertical = 4
+size_flags_vertical = 6
 theme_override_styles/panel = SubResource("StyleBoxFlat_ogh0h")
 
 [node name="s" type="MarginContainer" parent="ti_s"]
@@ -183,7 +184,7 @@ vertical_alignment = 2
 [node name="ga_l" type="MarginContainer" parent="."]
 layout_mode = 2
 size_flags_horizontal = 4
-size_flags_vertical = 4
+size_flags_vertical = 6
 theme_override_constants/margin_left = 0
 theme_override_constants/margin_top = -6
 theme_override_constants/margin_right = -1
@@ -202,6 +203,7 @@ horizontal_alignment = 2
 visible = false
 custom_minimum_size = Vector2(4, 0)
 layout_mode = 2
+size_flags_vertical = 6
 theme_override_font_sizes/font_size = 14
 text = ":"
 
@@ -209,7 +211,7 @@ text = ":"
 visible = false
 custom_minimum_size = Vector2(26, 26)
 layout_mode = 2
-size_flags_vertical = 4
+size_flags_vertical = 6
 theme_override_styles/panel = SubResource("StyleBoxFlat_hxost")
 
 [node name="s" type="MarginContainer" parent="ga"]
@@ -252,7 +254,7 @@ vertical_alignment = 2
 visible = false
 layout_mode = 2
 size_flags_horizontal = 0
-size_flags_vertical = 4
+size_flags_vertical = 6
 theme_override_styles/panel = SubResource("StyleBoxFlat_hxost")
 
 [node name="s" type="MarginContainer" parent="ga_s"]
@@ -279,7 +281,7 @@ vertical_alignment = 2
 [node name="al_l" type="MarginContainer" parent="."]
 layout_mode = 2
 size_flags_horizontal = 4
-size_flags_vertical = 4
+size_flags_vertical = 6
 theme_override_constants/margin_left = 0
 theme_override_constants/margin_top = -6
 theme_override_constants/margin_right = -1
@@ -298,6 +300,7 @@ horizontal_alignment = 2
 visible = false
 custom_minimum_size = Vector2(4, 0)
 layout_mode = 2
+size_flags_vertical = 6
 theme_override_font_sizes/font_size = 14
 text = ":"
 
@@ -305,7 +308,7 @@ text = ":"
 visible = false
 custom_minimum_size = Vector2(26, 26)
 layout_mode = 2
-size_flags_vertical = 4
+size_flags_vertical = 6
 theme_override_styles/panel = SubResource("StyleBoxFlat_thi23")
 
 [node name="s" type="MarginContainer" parent="al"]
@@ -348,7 +351,7 @@ vertical_alignment = 2
 visible = false
 layout_mode = 2
 size_flags_horizontal = 0
-size_flags_vertical = 4
+size_flags_vertical = 6
 theme_override_styles/panel = SubResource("StyleBoxFlat_thi23")
 
 [node name="s" type="MarginContainer" parent="al_s"]
@@ -375,7 +378,7 @@ vertical_alignment = 2
 [node name="co_l" type="MarginContainer" parent="."]
 layout_mode = 2
 size_flags_horizontal = 4
-size_flags_vertical = 4
+size_flags_vertical = 6
 theme_override_constants/margin_left = 0
 theme_override_constants/margin_top = -6
 theme_override_constants/margin_right = -1
@@ -394,6 +397,7 @@ horizontal_alignment = 2
 visible = false
 custom_minimum_size = Vector2(4, 0)
 layout_mode = 2
+size_flags_vertical = 6
 theme_override_font_sizes/font_size = 14
 text = ":"
 
@@ -401,7 +405,7 @@ text = ":"
 visible = false
 custom_minimum_size = Vector2(26, 26)
 layout_mode = 2
-size_flags_vertical = 4
+size_flags_vertical = 6
 theme_override_styles/panel = SubResource("StyleBoxFlat_uuf23")
 
 [node name="s" type="MarginContainer" parent="co"]
@@ -444,7 +448,7 @@ vertical_alignment = 2
 visible = false
 layout_mode = 2
 size_flags_horizontal = 0
-size_flags_vertical = 4
+size_flags_vertical = 6
 theme_override_styles/panel = SubResource("StyleBoxFlat_uuf23")
 
 [node name="s" type="MarginContainer" parent="co_s"]
