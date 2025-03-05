@@ -10,10 +10,12 @@ config_version=5
 
 [application]
 
-config/name="BattleMecha2.0"
+config/name="BattleMechaAlpha"
 run/main_scene="res://initialize.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://icon.svg"
+config/macos_native_icon="res://Icon.icns"
+config/windows_native_icon="res://assets/Icon.ico"
 
 [autoload]
 
@@ -28,6 +30,8 @@ BBcode="*res://helper_modules/bbcode_helper.gd"
 window/size/viewport_width=1250
 window/size/viewport_height=650
 window/size/initial_position_type=2
+window/subwindows/embed_subwindows=false
+window/stretch/mode="viewport"
 
 [input]
 
