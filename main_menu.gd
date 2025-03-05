@@ -11,5 +11,5 @@ func _on_edit_pressed():
 	get_tree().change_scene_to_file("res://unit_customizer.tscn")
 
 
-func _on_dev_pressed():
-	get_tree().change_scene_to_file("res://dev_tools.tscn")
+#func _on_dev_pressed():
+	#get_tree().change_scene_to_file("res://dev_tools.tscn")

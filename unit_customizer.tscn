@@ -96,6 +96,7 @@ icon = ExtResource("4_8pkot")
 expand_icon = true
 
 [node name="Button" type="Button" parent="team_save/title"]
+visible = false
 layout_mode = 2
 text = "Open Folder"
 

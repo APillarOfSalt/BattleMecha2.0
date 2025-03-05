@@ -32,6 +32,7 @@ theme_override_font_sizes/font_size = 42
 text = "Customizer"
 
 [node name="dev" type="Button" parent="l"]
+visible = false
 layout_mode = 2
 theme_override_font_sizes/font_size = 42
 text = "Developer Tools"
